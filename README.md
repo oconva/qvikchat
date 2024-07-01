@@ -1,9 +1,11 @@
-# Genko - Genkit Starter Kit
+# Genko
 
-Develop a production-ready AI-powered app or service at a rapid pace with this [Firebase Genkit](https://github.com/firebase/genkit) based project starter kit. **Genko** is a starter kit that provides you with a solid foundation to build powerful AI-powered chat agents quickly and efficiently. It includes support for chat agents, chat history, caching, authentication, and information retrieval using Retrieval Augmented Generation (RAG).
+Firebase Genkit + LangChain Starter Kit
+
+Develop a self-hosted production-ready AI-powered app or service at a rapid pace with this [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) based project starter kit. **Genko** is a starter kit that provides you with a solid foundation to build powerful AI-powered chat agents quickly and efficiently. It includes support for chat agents, chat history, caching, authentication, and information retrieval using Retrieval Augmented Generation (RAG).
 
 > [!NOTE]
-> This is not an official Firebase Genkit starter kit. This is a community-supported project. Firebase Genkit is currently in beta, this means that the public API and framework design may change in backward-incompatible ways.
+> This is not an official Firebase Genkit or LangChain starter kit. This is a community-driven project. Firebase Genkit is currently in beta, this means that the public API and framework design may change in backward-incompatible ways.
 
 If you find value from this project, please consider contributing or sponsoring the project to help maintain and improve it. All contributions and support are greatly appreciated!
 
@@ -17,7 +19,8 @@ If you find value from this project, please consider contributing or sponsoring 
 -   **API key protected endpoints**: API Key Store to easily manage API keys and ensure that only authorized users can access your app endpoints.
 -   **Response Caching**: Cache responses to user queries to improve response times and reduce the number of API calls to LLM.
 -   **RAG Agents**: Create chat agents that can use Retrieval Augmented Generation (RAG) to answer user queries by retrieving additional context information (e.g. from a text or JSON file).
--   **RAG Data Loading**: Built-in support for loading text, JSON or code files. Easily add new knowledge bases to create new RAG agents.
+-   **RAG Data Loading**: Built-in support for loading text, JSON, PDF, or code files. Easily add new knowledge bases to create new RAG agents.
+-   **LangChain**: Uses [LangChain](https://js.langchain.com/v0.2/docs/introduction/) under the hood for processing data for RAG and information retrieval, which means, you can easily extend this starter kit to support more complex data processing tasks or easily switch to using a different vector store or embedding model.
 -   **System Prompts**: Use system prompts to ensure safety, accuracy, and reliability. Mitigate LLM hallucination and deter prompt injection attacks.
 -   **Dotprompt**: Using Dotprompt for well-structured prompts with all relevant metadata and input-output data validation.
 -   **Fast Build Time**: [SWC](https://swc.rs/) for ultra-fast TypeScript compilation.
@@ -32,28 +35,28 @@ By default, the starter kit uses in-memory data stores for API Key Store, Cache 
 
 ## Table of Contents
 
-- [Genko - Genkit Starter Kit](#genko---genkit-starter-kit)
-  - [Features](#features)
-  - [Notes](#notes)
-  - [Table of Contents](#table-of-contents)
-  - [Getting Started](#getting-started)
-  - [Genkit Developer UI](#genkit-developer-ui)
-  - [Usage](#usage)
-    - [Open Chat](#open-chat)
-    - [Open Chat with History](#open-chat-with-history)
-    - [Open Chat with Chat History, Caching, and Authentication](#open-chat-with-chat-history-caching-and-authentication)
-    - [Close Chat](#close-chat)
-    - [Close Chat with History](#close-chat-with-history)
-    - [Close Chat with Chat History, Caching, and Authentication](#close-chat-with-chat-history-caching-and-authentication)
-    - [RAG (Retrieval Augmented Generation) Chat](#rag-retrieval-augmented-generation-chat)
-  - [Chat Agents](#chat-agents)
-  - [Chat History Storage](#chat-history-storage)
-  - [API Key Store](#api-key-store)
-  - [Cache Store](#cache-store)
-  - [Prompts](#prompts)
-  - [Contributions](#contributions)
-  - [License](#license)
-  - [Issues](#issues)
+-   [Genko](#genko)
+    -   [Features](#features)
+    -   [Notes](#notes)
+    -   [Table of Contents](#table-of-contents)
+    -   [Getting Started](#getting-started)
+    -   [Genkit Developer UI](#genkit-developer-ui)
+    -   [Usage](#usage)
+        -   [Open Chat](#open-chat)
+        -   [Open Chat with History](#open-chat-with-history)
+        -   [Open Chat with Chat History, Caching, and Authentication](#open-chat-with-chat-history-caching-and-authentication)
+        -   [Close Chat](#close-chat)
+        -   [Close Chat with History](#close-chat-with-history)
+        -   [Close Chat with Chat History, Caching, and Authentication](#close-chat-with-chat-history-caching-and-authentication)
+        -   [RAG (Retrieval Augmented Generation) Chat](#rag-retrieval-augmented-generation-chat)
+    -   [Chat Agents](#chat-agents)
+    -   [Chat History Storage](#chat-history-storage)
+    -   [API Key Store](#api-key-store)
+    -   [Cache Store](#cache-store)
+    -   [Prompts](#prompts)
+    -   [Contributions](#contributions)
+    -   [License](#license)
+    -   [Issues](#issues)
 
 ## Getting Started
 
@@ -146,21 +149,21 @@ For successful requests, the response will contain:
 
 -   `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 
-        ```json
-        {
-            "result": "string"
-        }
-        ```
+    ```json
+    {
+    	"result": "string"
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -212,24 +215,24 @@ For successful requests, the response will contain:
 -   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 -   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-        ```json
-        {
-            "result": {
-                "response": "string",
-                "chatId": "string"
-            }
-        }
-        ```
+    ```json
+    {
+    	"result": {
+    		"response": "string",
+    		"chatId": "string"
+    	}
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -291,24 +294,24 @@ For successful requests, the response will contain:
 -   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 -   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-        ```json
-        {
-            "result": {
-                "response": "string",
-                "chatId": "string"
-            }
-        }
-        ```
+    ```json
+    {
+    	"result": {
+    		"response": "string",
+    		"chatId": "string"
+    	}
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -362,21 +365,21 @@ For successful requests, the response will contain:
 
 -   `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 
-        ```json
-        {
-            "result": "string"
-        }
-        ```
+    ```json
+    {
+    	"result": "string"
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -434,24 +437,24 @@ For successful requests, the response will contain:
 -   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 -   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-            ```json
-            {
-                "result": {
-                    "response": "string",
-                    "chatId": "string"
-                }
-            }
-            ```
+    ```json
+    {
+    	"result": {
+    		"response": "string",
+    		"chatId": "string"
+    	}
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -513,24 +516,24 @@ For successful requests, the response will contain:
 -   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 -   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-            ```json
-            {
-                "result": {
-                    "response": "string",
-                    "chatId": "string"
-                }
-            }
-            ```
+    ```json
+    {
+    	"result": {
+    		"response": "string",
+    		"chatId": "string"
+    	}
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
@@ -601,24 +604,24 @@ For successful requests, the response will contain:
 -   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 -   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-            ```json
-            {
-                "result": {
-                    "response": "string",
-                    "chatId": "string"
-                }
-            }
-            ```
+    ```json
+    {
+    	"result": {
+    		"response": "string",
+    		"chatId": "string"
+    	}
+    }
+    ```
 
 For failed requests, the response will contain:
 
 -   `error`: Error message returned by the server.
 
-        ```json
-        {
-            "error": "string"
-        }
-        ```
+    ```json
+    {
+    	"error": "string"
+    }
+    ```
 
 **Example**
 
