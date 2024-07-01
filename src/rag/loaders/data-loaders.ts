@@ -1,23 +1,38 @@
 import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { JSONLoader } from 'langchain/document_loaders/fs/json';
 import { CSVLoader } from '@langchain/community/document_loaders/fs/csv';
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 
 /**
  * Supported data loader types.
  */
-export type SupportedDataLoaderTypes = 'text' | 'json' | 'csv';
+export type SupportedDataLoaderTypes = 'text' | 'json' | 'csv' | 'code' | 'pdf';
 
 /**
  * Keys to include when loading JSON data.
  */
-type JSONLoaderKeysToInclude = string | string[];
+export type JSONLoaderKeysToInclude = string | string[];
 
 /**
  * Options for loading CSV data.
  */
-type CSVLoaderOptions = {
+export type CSVLoaderOptions = {
 	column?: string;
 	separator?: string;
+};
+
+/**
+ * Options for loading PDF data.
+ */
+export type PDFLoaderOptions = {
+	splitPages?: boolean | undefined;
+	pdfjs?:
+		| (() => Promise<{
+				getDocument: any;
+				version: string;
+		  }>)
+		| undefined;
+	parsedItemSeparator?: string | undefined;
 };
 
 /**
@@ -31,14 +46,13 @@ type CSVLoaderOptions = {
  *
  * For more data loaders, see:
  * @link https://js.langchain.com/v0.1/docs/integrations/document_loaders/
- * For JSON Loader
- * @link https://js.langchain.com/v0.1/docs/modules/data_connection/document_loaders/json/#using-json-pointer-example
  */
 export const getDocs = async (
 	dataLoaderType: SupportedDataLoaderTypes,
 	path: string,
 	jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude,
-	csvLoaderOptions?: CSVLoaderOptions
+	csvLoaderOptions?: CSVLoaderOptions,
+	pdfLoaderOptions?: PDFLoaderOptions
 ) => {
 	// store loader
 	let loader;
@@ -52,6 +66,9 @@ export const getDocs = async (
 			break;
 		case 'csv':
 			loader = new CSVLoader(path, csvLoaderOptions);
+			break;
+		case 'pdf':
+			loader = new PDFLoader(path, pdfLoaderOptions);
 			break;
 		default:
 			throw new Error(`Unsupported data loader type: ${dataLoaderType}`);

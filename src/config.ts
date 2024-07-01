@@ -63,9 +63,10 @@ export const GLOBAL_CONFIG: GlobalConfigInterface = {
 	primaryLLM: 'googleai/gemini-1.5-flash-latest',
 	genkitConfig: {
 		logLevel: 'warn',
+		enableTracingAndMetrics: true,
 	},
 	startFlowsServerParams: {
-		port: 8883,
+		port: 8884,
 	},
 	enableAPIKeyAuth: true,
 	cacheStoreConfig: cacheStoreConfig,

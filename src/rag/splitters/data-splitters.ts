@@ -46,6 +46,16 @@ export interface DataSplitterConfig {
 }
 
 /**
+ * Represents the parameters for the data splitter.
+ */
+export type DataSplitterParams = {
+	docs: any;
+	dataSplitterType: SupportedDataSplitterTypes;
+	chunkingConfig?: ChunkingConfig;
+	splitterConfig?: DataSplitterConfig;
+};
+
+/**
  * Runs the data splitter on the provided documents.
  * @param docs The documents to be split.
  * @param dataSplitterType The type of data splitter to be used.
@@ -53,12 +63,12 @@ export interface DataSplitterConfig {
  * @param splitterConfig The configuration for the data splitter.
  * @returns array containing splits of the given documents.
  */
-export const runDataSplitter = async (
-	docs: any,
-	dataSplitterType: SupportedDataSplitterTypes,
-	chunkingConfig?: ChunkingConfig,
-	splitterConfig?: DataSplitterConfig
-) => {
+export const runDataSplitter = async ({
+	docs,
+	dataSplitterType,
+	chunkingConfig,
+	splitterConfig,
+}: DataSplitterParams) => {
 	let splitter;
 
 	switch (dataSplitterType) {
