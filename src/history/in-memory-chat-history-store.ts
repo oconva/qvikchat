@@ -1,5 +1,5 @@
 import { MessageData } from '@genkit-ai/ai/model';
-import { generateAlphaNumericString } from '../../utils/utils';
+import { generateAlphaNumericString } from '../utils/utils';
 import { ChatHistoryCollection, ChatHistoryStore } from './chat-history-store';
 
 /**

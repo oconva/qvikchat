@@ -7,7 +7,7 @@ import { getDataRetriever } from './src/rag/retrievers/data-retriever';
 import { generateAlphaNumericString } from './src/utils/utils';
 
 // Function to define test flows
-export const defineTestFlows = () => {
+export const defineTestFlows = async () => {
 	// Open-ended chat flow
 	defineChatFlow({
 		chatAgent: new ChatAgent(),
@@ -16,7 +16,7 @@ export const defineTestFlows = () => {
 	// Open-ended chat flow with support for chat history
 	defineChatFlow({
 		chatAgent: new ChatAgent({
-			useChatHistory: true,
+			enableChatHistory: true,
 		}),
 		endpoint: ENDPOINTS.CHAT.OPEN_ENDED_WITH_HISTORY,
 	});
@@ -24,21 +24,17 @@ export const defineTestFlows = () => {
 	// Close-ended chat flow (will only answer queries related to specified topic, in this case, 'Firebase')
 	defineChatFlow({
 		chatAgent: new ChatAgent({
-			agentTypeConfig: {
-				agentType: 'close-ended',
-				topic: 'Firebase',
-			},
+			agentType: 'close-ended',
+			topic: 'Firebase',
 		}),
 		endpoint: ENDPOINTS.CHAT.CLOSE_ENDED,
 	});
 	// Close-ended chat flow with support for chat history
 	defineChatFlow({
 		chatAgent: new ChatAgent({
-			agentTypeConfig: {
-				agentType: 'close-ended',
-				topic: 'Firebase',
-			},
-			useChatHistory: true,
+			agentType: 'close-ended',
+			topic: 'Firebase',
+			enableChatHistory: true,
 		}),
 		endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_WITH_HISTORY,
 	});
@@ -63,73 +59,53 @@ export const defineTestFlows = () => {
 	// Open-ended chat flow with support for chat history, authentication, and caching
 	defineChatFlow({
 		chatAgent: new ChatAgent({
-			useChatHistory: true,
+			enableChatHistory: true,
 		}),
 		endpoint: ENDPOINTS.CHAT.OPEN_ENDED_HISTORY_AUTH_CACHED,
-		config: {
-			enableChatHistory: true,
-			enableAuth: true,
-			apiKeyStore,
-			enableCache: true,
-			cacheStore,
-			enableRAG: false,
-		},
+		enableChatHistory: true,
+		enableAuth: true,
+		apiKeyStore,
+		enableCache: true,
+		cacheStore,
 	});
 
 	// Close-ended chat flow with support for chat history, authentication, and caching
 	defineChatFlow({
 		chatAgent: new ChatAgent({
-			agentTypeConfig: {
-				agentType: 'close-ended',
-				topic: 'Firebase',
-			},
-			useChatHistory: true,
+			agentType: 'close-ended',
+			topic: 'Firebase',
+			enableChatHistory: true,
 		}),
 		endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_HISTORY_AUTH_CACHED,
-		config: {
-			enableChatHistory: true,
-			enableAuth: true,
-			apiKeyStore,
-			enableCache: true,
-			cacheStore,
-			enableRAG: false,
-		},
+		enableChatHistory: true,
+		enableAuth: true,
+		apiKeyStore,
+		enableCache: true,
+		cacheStore,
 	});
 
-	/**
-	 * Function to define RAG chat flow for inventory data
-	 * Uses the test data available at (`rag/knowledge-bases`)
-	 * to define RAG chat flows for inventory data and return policy
-	 */
-	const defineTestRAGFlows = async () => {
-		// Index inventory data and get retriever
-		const inventoryDataRetriever = await getDataRetriever({
-			dataType: 'csv',
-			filePath:
-				'lib/rag/knowledge-bases/test-retail-store-kb/inventory-data.csv',
-			generateEmbeddings: true,
-		});
+	// Index inventory data and get retriever
+	const inventoryDataRetriever = await getDataRetriever({
+		dataType: 'csv',
+		filePath:
+			'lib/rag/knowledge-bases/test-retail-store-kb/inventory-data.csv',
+		generateEmbeddings: true,
+	});
 
-		// Inventory Data chat flow with support for chat history, authentication, caching and RAG
-		defineChatFlow({
-			chatAgent: new ChatAgent({
-				agentTypeConfig: {
-					agentType: 'rag',
-					topic: 'Store Inventory Data',
-				},
-				useChatHistory: true,
-			}),
-			endpoint: ENDPOINTS.CHAT.RAG_HISTORY_AUTH_CACHED + '-inventory',
-			config: {
-				enableChatHistory: true,
-				enableAuth: true,
-				apiKeyStore,
-				enableCache: true,
-				cacheStore,
-				enableRAG: true,
-				retriever: inventoryDataRetriever,
-			},
-		});
-	};
-	defineTestRAGFlows();
+	// Inventory Data chat flow with support for chat history, authentication, caching and RAG
+	defineChatFlow({
+		chatAgent: new ChatAgent({
+			agentType: 'rag',
+			topic: 'Store Inventory Data',
+			enableChatHistory: true,
+		}),
+		endpoint: ENDPOINTS.CHAT.RAG_HISTORY_AUTH_CACHED + '-inventory',
+		enableChatHistory: true,
+		enableAuth: true,
+		apiKeyStore,
+		enableCache: true,
+		cacheStore,
+		enableRAG: true,
+		retriever: inventoryDataRetriever,
+	});
 };

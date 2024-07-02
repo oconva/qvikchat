@@ -20,11 +20,14 @@
 		"@genkit-ai/ai": "^0.5.4",
 		"@genkit-ai/core": "^0.5.4",
 		"@genkit-ai/dotprompt": "^0.5.4",
+		"@genkit-ai/firebase": "^0.5.4",
 		"@genkit-ai/flow": "^0.5.4",
+		"@genkit-ai/google-cloud": "^0.5.4",
 		"@genkit-ai/googleai": "^0.5.4",
 		"@langchain/community": "^0.2.15",
 		"@langchain/core": "^0.2.11",
 		"@langchain/google-genai": "^0.0.21",
+		"@langchain/openai": "^0.2.1",
 		"@swc/cli": "^0.3.14",
 		"@types/cors": "^2.8.17",
 		"d3-dsv": "^3.0.1",
@@ -32,6 +35,7 @@
 		"express": "^4.19.2",
 		"genkitx-chromadb": "^0.5.4",
 		"genkitx-langchain": "^0.5.4",
+		"genkitx-openai": "^0.10.0",
 		"langchain": "^0.2.8",
 		"zod": "^3.23.8"
 	}

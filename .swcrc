@@ -17,17 +17,6 @@
 		"baseUrl": "./src",
 		"paths": {
 			"/*": ["./*"]
-		},
-		"minify": {
-			"compress": {
-				"arguments": true,
-				"ecma": "2017",
-				"reduce_funcs": true
-			},
-			"mangle": {},
-			"format": {
-				"comments": false
-			}
 		}
 	},
 	"sourceMaps": true,

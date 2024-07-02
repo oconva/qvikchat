@@ -15,6 +15,15 @@ export type ChatHistoryCollection = Map<string, ChatHistoryRecord>;
 
 /**
  * Represents a store for managing chat history.
+ *
+ * @interface ChatHistoryStore
+ *
+ * @property {ChatHistoryCollection} history - The collection of chat history records.
+ * @property {(messages?: MessageData[]) => Promise<string>} addChatHistory - Adds a new chat history to the store.
+ * @property {(chatId: string, messages: MessageData[]) => Promise<boolean>} updateChatHistory - Updates an existing chat history in the store.
+ * @property {(chatId: string, messages: MessageData[]) => Promise<boolean>} addMessages - Adds messages to an existing chat history in the store.
+ * @property {(chatId: string) => Promise<MessageData[] | undefined>} getChatHistory - Retrieves the chat history for a given chat ID.
+ * @property {(chatId: string) => Promise<boolean>} deleteChatHistory - Deletes the chat history for a given chat ID.
  */
 export interface ChatHistoryStore {
 	history: ChatHistoryCollection;

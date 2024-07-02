@@ -1,6 +1,6 @@
 import { ConfigOptions } from '@genkit-ai/core';
 import { CorsOptions } from 'cors';
-import { SupportedModels } from './models/use-model';
+import { SupportedModels } from './models/model';
 
 /**
  * Type for the parameters of the startFlowsServer function
@@ -60,7 +60,7 @@ export interface GlobalConfigInterface {
  * @type {GlobalConfigInterface}
  */
 export const GLOBAL_CONFIG: GlobalConfigInterface = {
-	primaryLLM: 'googleai/gemini-1.5-flash-latest',
+	primaryLLM: 'gemini15Flash',
 	genkitConfig: {
 		logLevel: 'warn',
 		enableTracingAndMetrics: true,
