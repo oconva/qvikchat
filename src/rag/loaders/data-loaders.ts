@@ -28,6 +28,7 @@ export type PDFLoaderOptions = {
 	splitPages?: boolean | undefined;
 	pdfjs?:
 		| (() => Promise<{
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				getDocument: any;
 				version: string;
 		  }>)

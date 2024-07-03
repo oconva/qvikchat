@@ -1,3 +1,4 @@
+import { Document } from '@langchain/core/documents';
 import {
 	CharacterTextSplitter,
 	RecursiveCharacterTextSplitter,
@@ -49,7 +50,7 @@ export interface DataSplitterConfig {
  * Represents the parameters for the data splitter.
  */
 export type DataSplitterParams = {
-	docs: any;
+	docs: Document[];
 	dataSplitterType: SupportedDataSplitterTypes;
 	chunkingConfig?: ChunkingConfig;
 	splitterConfig?: DataSplitterConfig;

@@ -93,7 +93,7 @@ export interface ChatAgentAttributes {
  */
 export type GenerateResponseProps = {
 	query: string;
-	context?: any;
+	context?: string;
 	chatId?: string;
 	history?: MessageData[];
 	tools?: ToolArgument[];
@@ -225,7 +225,7 @@ export class ChatAgent implements ChatAgentInterface {
 		agentType?: ChatAgentType,
 		query?: string,
 		topic?: string,
-		context?: any
+		context?: string
 	) {
 		switch (agentType) {
 			case 'open-ended':
@@ -306,7 +306,6 @@ export class ChatAgent implements ChatAgentInterface {
 		model,
 		modelConfig,
 		systemPrompt,
-		chatPrompt,
 	}: GenerateResponseProps): Promise<GenerateResponseReturnObj> {
 		// System prompt to use
 		// In order of priority: systemPrompt provided as argument to generateResponse, this.systemPrompt, default system prompt

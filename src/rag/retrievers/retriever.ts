@@ -17,11 +17,6 @@ import {
 } from '../splitters/data-splitters';
 
 /**
- * RetrieveDocs is a function that retrieves documents from a database.
- */
-export type RetrieveDocs = (query: string, options?: any) => Promise<any>;
-
-/**
  * Type denoting a retriever that retrieves text data.
  */
 export type TextDataRetriever = Runnable<string, string, RunnableConfig>;
@@ -31,6 +26,7 @@ export type TextDataRetriever = Runnable<string, string, RunnableConfig>;
  */
 export type RetrievalOptions =
 	| number
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	| Partial<VectorStoreRetrieverInput<any>>
 	| undefined;
 

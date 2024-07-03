@@ -1,7 +1,7 @@
 {
 	"main": "lib/index.js",
 	"scripts": {
-		"start": "node lib/index.js",
+		"start": "nodemon -x tsx src/index.js",
 		"dev": "npm run build && npm run start",
 		"build": "swc --strip-leading-paths --delete-dir-on-start -d lib src && cp -r src/prompts lib/ && cp -r src/rag/knowledge-bases lib/rag/",
 		"build:watch": "tsc --watch",
@@ -14,7 +14,16 @@
 	"license": "ISC",
 	"description": "",
 	"devDependencies": {
-		"typescript": "^5.5.2"
+		"@eslint/js": "^9.6.0",
+		"@swc/cli": "^0.3.14",
+		"@types/cors": "^2.8.17",
+		"@types/eslint__js": "^8.42.3",
+		"eslint": "^9.6.0",
+		"eslint-config-prettier": "^9.1.0",
+		"nodemon": "^3.1.4",
+		"tsx": "^4.16.2",
+		"typescript": "^5.5.2",
+		"typescript-eslint": "^7.15.0"
 	},
 	"dependencies": {
 		"@genkit-ai/ai": "^0.5.4",
@@ -28,8 +37,6 @@
 		"@langchain/core": "^0.2.11",
 		"@langchain/google-genai": "^0.0.21",
 		"@langchain/openai": "^0.2.1",
-		"@swc/cli": "^0.3.14",
-		"@types/cors": "^2.8.17",
 		"d3-dsv": "^3.0.1",
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
