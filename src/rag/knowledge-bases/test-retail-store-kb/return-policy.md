@@ -6,17 +6,17 @@ We want you to be completely satisfied with your purchase. If you are not satisf
 
 #### 2. **Return Eligibility**
 
--   **Condition**: All items must be in new, unused condition with all original packaging, accessories, and manuals.
--   **Proof of Purchase**: A valid receipt or proof of purchase is required for all returns and exchanges.
+- **Condition**: All items must be in new, unused condition with all original packaging, accessories, and manuals.
+- **Proof of Purchase**: A valid receipt or proof of purchase is required for all returns and exchanges.
 
 #### 3. **Non-Returnable Items**
 
 The following items are non-returnable:
 
--   Opened software, games, and digital downloads
--   Clearance or final sale items
--   Custom-built or special order items
--   Gift cards
+- Opened software, games, and digital downloads
+- Clearance or final sale items
+- Custom-built or special order items
+- Gift cards
 
 #### 4. **Return Process**
 
@@ -25,8 +25,8 @@ The following items are non-returnable:
 
 #### 5. **Refunds**
 
--   **Original Method of Payment**: Refunds will be issued to the original method of payment within 5-7 business days after we receive and inspect the returned item(s).
--   **Store Credit**: For returns without a receipt or proof of purchase, a store credit will be issued at the current selling price.
+- **Original Method of Payment**: Refunds will be issued to the original method of payment within 5-7 business days after we receive and inspect the returned item(s).
+- **Store Credit**: For returns without a receipt or proof of purchase, a store credit will be issued at the current selling price.
 
 #### 6. **Exchanges**
 
@@ -42,8 +42,8 @@ A restocking fee of 15% may apply to certain items, particularly those that are 
 
 #### 9. **Shipping Costs**
 
--   **Original Shipping Costs**: Original shipping costs are non-refundable unless the return is due to an error on our part or a defective item.
--   **Return Shipping Costs**: Return shipping costs are the responsibility of the customer unless the return is due to an error on our part or a defective item.
+- **Original Shipping Costs**: Original shipping costs are non-refundable unless the return is due to an error on our part or a defective item.
+- **Return Shipping Costs**: Return shipping costs are the responsibility of the customer unless the return is due to an error on our part or a defective item.
 
 #### 10. **Contact Us**
 

@@ -1,32 +1,32 @@
-import { ConfigOptions } from '@genkit-ai/core';
-import { CorsOptions } from 'cors';
-import { SupportedModels } from './models/model';
+import { ConfigOptions } from "@genkit-ai/core";
+import { CorsOptions } from "cors";
+import { SupportedModels } from "./models/model";
 
 /**
  * Type for the parameters of the startFlowsServer function
  */
 export type StartFlowsServerParamsType = {
-	port?: number;
-	cors?: CorsOptions;
-	pathPrefix?: string;
+  port?: number;
+  cors?: CorsOptions;
+  pathPrefix?: string;
 };
 
 /**
  * Type for the cache store configuration
  */
 export type CacheStoreConfig = {
-	/** duration after which each record expires */
-	recordExpiryDuration: number;
-	/** threshold after which a query is cached, e.g., n=3 means a specific query will be cached if received more than 3 times */
-	cacheQueryAfterThreshold: number;
+  /** duration after which each record expires */
+  recordExpiryDuration: number;
+  /** threshold after which a query is cached, e.g., n=3 means a specific query will be cached if received more than 3 times */
+  cacheQueryAfterThreshold: number;
 };
 
 /**
  * Cache store configuration object
  */
 export const cacheStoreConfig = {
-	recordExpiryDuration: 1000 * 60 * 60 * 24, // 24 hours
-	cacheQueryAfterThreshold: 3, // cache query after 3 requests
+  recordExpiryDuration: 1000 * 60 * 60 * 24, // 24 hours
+  cacheQueryAfterThreshold: 3, // cache query after 3 requests
 };
 
 /**
@@ -43,16 +43,16 @@ export const cacheStoreConfig = {
  * You can add more LLMs if required. For example, you may add a selfQueryRagLLM for self-query tasks, or a contextCompressionLLM for context compression tasks. This will allow you to specify LLM models to use for various purposes at one place.
  */
 export interface GlobalConfigInterface {
-	/** Primary LLM to use */
-	primaryLLM?: SupportedModels;
-	/** Genkit configuration options */
-	genkitConfig?: ConfigOptions;
-	/** Parameters for the startFlowsServer function */
-	startFlowsServerParams?: StartFlowsServerParamsType;
-	/** Enable API key authentication */
-	enableAPIKeyAuth?: boolean;
-	/** Cache store configuration */
-	cacheStoreConfig?: CacheStoreConfig;
+  /** Primary LLM to use */
+  primaryLLM?: SupportedModels;
+  /** Genkit configuration options */
+  genkitConfig?: ConfigOptions;
+  /** Parameters for the startFlowsServer function */
+  startFlowsServerParams?: StartFlowsServerParamsType;
+  /** Enable API key authentication */
+  enableAPIKeyAuth?: boolean;
+  /** Cache store configuration */
+  cacheStoreConfig?: CacheStoreConfig;
 }
 
 /**
@@ -60,31 +60,31 @@ export interface GlobalConfigInterface {
  * @type {GlobalConfigInterface}
  */
 export const GLOBAL_CONFIG: GlobalConfigInterface = {
-	primaryLLM: 'gemini15Flash',
-	genkitConfig: {
-		logLevel: 'warn',
-		enableTracingAndMetrics: true,
-	},
-	startFlowsServerParams: {
-		port: 8884,
-	},
-	enableAPIKeyAuth: true,
-	cacheStoreConfig: cacheStoreConfig,
+  primaryLLM: "gemini15Flash",
+  genkitConfig: {
+    logLevel: "warn",
+    enableTracingAndMetrics: true,
+  },
+  startFlowsServerParams: {
+    port: 8884,
+  },
+  enableAPIKeyAuth: true,
+  cacheStoreConfig: cacheStoreConfig,
 };
 
 /**
  * Define all your endpoints in one place.
  */
 export const ENDPOINTS = {
-	CHAT: {
-		OPEN_ENDED: 'chat-open',
-		OPEN_ENDED_WITH_HISTORY: 'chat-open-history',
-		OPEN_ENDED_HISTORY_AUTH_CACHED: 'chat-open-history-auth-cached',
-		CLOSE_ENDED: 'chat-close',
-		CLOSE_ENDED_WITH_HISTORY: 'chat-close-history',
-		CLOSE_ENDED_HISTORY_AUTH_CACHED: 'chat-close-history-auth-cached',
-		RAG: 'chat-rag',
-		RAG_WITH_HISTORY: 'chat-rag-history',
-		RAG_HISTORY_AUTH_CACHED: 'chat-rag-history-auth-cached',
-	},
+  CHAT: {
+    OPEN_ENDED: "chat-open",
+    OPEN_ENDED_WITH_HISTORY: "chat-open-history",
+    OPEN_ENDED_HISTORY_AUTH_CACHED: "chat-open-history-auth-cached",
+    CLOSE_ENDED: "chat-close",
+    CLOSE_ENDED_WITH_HISTORY: "chat-close-history",
+    CLOSE_ENDED_HISTORY_AUTH_CACHED: "chat-close-history-auth-cached",
+    RAG: "chat-rag",
+    RAG_WITH_HISTORY: "chat-rag-history",
+    RAG_HISTORY_AUTH_CACHED: "chat-rag-history-auth-cached",
+  },
 };

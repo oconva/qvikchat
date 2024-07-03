@@ -1,13 +1,13 @@
-import { runFlowsServer, setupGenkit } from './genkit';
-import { defineTestFlows } from '/test-flows';
+import { runFlowsServer, setupGenkit } from "./genkit";
+import { defineTestFlows } from "/test-flows";
 
 // Setup Genkit
 setupGenkit();
 
 setupGenkit({
-	firebaseConfig: {
-		projectId: 'my-project-id',
-	},
+  firebaseConfig: {
+    projectId: "my-project-id",
+  },
 });
 
 // Define flows

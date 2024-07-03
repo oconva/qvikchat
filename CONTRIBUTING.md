@@ -17,10 +17,10 @@ To contribute to our project, please follow these steps:
 
 We follow a specific code style in our project to maintain consistency and readability. Please make sure to adhere to the following guidelines:
 
--   Use meaningful variable and function names.
--   Indent code using spaces, not tabs. Use prettier to format your code if possible.
--   Use proper commenting to explain complex logic or algorithms.
--   Follow the naming conventions for files, classes, functions, and variables.
+- Use meaningful variable and function names.
+- Indent code using spaces, not tabs. Use prettier to format your code if possible.
+- Use proper commenting to explain complex logic or algorithms.
+- Follow the naming conventions for files, classes, functions, and variables.
 
 ## Reporting Issues
 

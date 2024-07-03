@@ -1,12 +1,12 @@
-import { TextLoader } from 'langchain/document_loaders/fs/text';
-import { JSONLoader } from 'langchain/document_loaders/fs/json';
-import { CSVLoader } from '@langchain/community/document_loaders/fs/csv';
-import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+import { TextLoader } from "langchain/document_loaders/fs/text";
+import { JSONLoader } from "langchain/document_loaders/fs/json";
+import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
 /**
  * Supported data loader types.
  */
-export type SupportedDataLoaderTypes = 'text' | 'json' | 'csv' | 'code' | 'pdf';
+export type SupportedDataLoaderTypes = "text" | "json" | "csv" | "code" | "pdf";
 
 /**
  * Keys to include when loading JSON data.
@@ -17,23 +17,23 @@ export type JSONLoaderKeysToInclude = string | string[];
  * Options for loading CSV data.
  */
 export type CSVLoaderOptions = {
-	column?: string;
-	separator?: string;
+  column?: string;
+  separator?: string;
 };
 
 /**
  * Options for loading PDF data.
  */
 export type PDFLoaderOptions = {
-	splitPages?: boolean | undefined;
-	pdfjs?:
-		| (() => Promise<{
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				getDocument: any;
-				version: string;
-		  }>)
-		| undefined;
-	parsedItemSeparator?: string | undefined;
+  splitPages?: boolean | undefined;
+  pdfjs?:
+    | (() => Promise<{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getDocument: any;
+        version: string;
+      }>)
+    | undefined;
+  parsedItemSeparator?: string | undefined;
 };
 
 /**
@@ -49,31 +49,31 @@ export type PDFLoaderOptions = {
  * @link https://js.langchain.com/v0.1/docs/integrations/document_loaders/
  */
 export const getDocs = async (
-	dataLoaderType: SupportedDataLoaderTypes,
-	path: string,
-	jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude,
-	csvLoaderOptions?: CSVLoaderOptions,
-	pdfLoaderOptions?: PDFLoaderOptions
+  dataLoaderType: SupportedDataLoaderTypes,
+  path: string,
+  jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude,
+  csvLoaderOptions?: CSVLoaderOptions,
+  pdfLoaderOptions?: PDFLoaderOptions
 ) => {
-	// store loader
-	let loader;
-	// infer loader to use based on dataLoaderType
-	switch (dataLoaderType) {
-		case 'text':
-			loader = new TextLoader(path);
-			break;
-		case 'json':
-			loader = new JSONLoader(path, jsonLoaderKeysToInclude);
-			break;
-		case 'csv':
-			loader = new CSVLoader(path, csvLoaderOptions);
-			break;
-		case 'pdf':
-			loader = new PDFLoader(path, pdfLoaderOptions);
-			break;
-		default:
-			throw new Error(`Unsupported data loader type: ${dataLoaderType}`);
-	}
-	// load data and return documents
-	return await loader.load();
+  // store loader
+  let loader;
+  // infer loader to use based on dataLoaderType
+  switch (dataLoaderType) {
+    case "text":
+      loader = new TextLoader(path);
+      break;
+    case "json":
+      loader = new JSONLoader(path, jsonLoaderKeysToInclude);
+      break;
+    case "csv":
+      loader = new CSVLoader(path, csvLoaderOptions);
+      break;
+    case "pdf":
+      loader = new PDFLoader(path, pdfLoaderOptions);
+      break;
+    default:
+      throw new Error(`Unsupported data loader type: ${dataLoaderType}`);
+  }
+  // load data and return documents
+  return await loader.load();
 };

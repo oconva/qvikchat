@@ -1,11 +1,11 @@
-import { MessageData } from '@genkit-ai/ai/model';
+import { MessageData } from "@genkit-ai/ai/model";
 
 /**
  * Represents a record of chat history.
  */
 export type ChatHistoryRecord = {
-	messages: MessageData[];
-	lastUpdated?: Date;
+  messages: MessageData[];
+  lastUpdated?: Date;
 };
 
 /**
@@ -26,13 +26,13 @@ export type ChatHistoryCollection = Map<string, ChatHistoryRecord>;
  * @property {(chatId: string) => Promise<boolean>} deleteChatHistory - Deletes the chat history for a given chat ID.
  */
 export interface ChatHistoryStore {
-	history: ChatHistoryCollection;
-	addChatHistory: (messages?: MessageData[]) => Promise<string>;
-	updateChatHistory: (
-		chatId: string,
-		messages: MessageData[]
-	) => Promise<boolean>;
-	addMessages: (chatId: string, messages: MessageData[]) => Promise<boolean>;
-	getChatHistory: (chatId: string) => Promise<MessageData[] | undefined>;
-	deleteChatHistory: (chatId: string) => Promise<boolean>;
+  history: ChatHistoryCollection;
+  addChatHistory: (messages?: MessageData[]) => Promise<string>;
+  updateChatHistory: (
+    chatId: string,
+    messages: MessageData[]
+  ) => Promise<boolean>;
+  addMessages: (chatId: string, messages: MessageData[]) => Promise<boolean>;
+  getChatHistory: (chatId: string) => Promise<MessageData[] | undefined>;
+  deleteChatHistory: (chatId: string) => Promise<boolean>;
 }

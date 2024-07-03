@@ -1,8 +1,8 @@
-# Genko
+# QvikChat
 
 Firebase Genkit + LangChain Starter Kit
 
-Develop a self-hosted production-ready AI-powered app or service at a rapid pace with this [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) based project starter kit. **Genko** is a starter kit that provides you with a solid foundation to build powerful AI-powered chat agents quickly and efficiently. It includes support for chat agents, chat history, caching, authentication, and information retrieval using Retrieval Augmented Generation (RAG).
+Develop a self-hosted production-ready AI-powered app or service at a rapid pace with this [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) based project starter kit. **QvikChat** is a starter kit that provides you with a solid foundation to build powerful AI-powered chat agents quickly and efficiently. It includes support for chat agents, chat history, caching, authentication, and information retrieval using Retrieval Augmented Generation (RAG).
 
 > [!NOTE]
 > This is not an official Firebase Genkit or LangChain starter kit. This is a community-driven project. Firebase Genkit is currently in beta, this means that the public API and framework design may change in backward-incompatible ways.
@@ -13,17 +13,17 @@ If you find value from this project, please consider contributing or sponsoring 
 
 ## Features
 
--   **Firebase Genkit**: Built using the open source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered apps or services quickly and efficiently.
--   **Deploy to any NodeJS platform**: Deploy your app or service to any NodeJS platform, including Firebase, Google Cloud, AWS, Heroku, etc.
--   **Chat agents**: Create chat agents with support for chat history, caching, authentication and information retrieval, in a few lines of code.
--   **API key protected endpoints**: API Key Store to easily manage API keys and ensure that only authorized users can access your app endpoints.
--   **Response Caching**: Cache responses to user queries to improve response times and reduce the number of API calls to LLM.
--   **RAG Agents**: Create chat agents that can use Retrieval Augmented Generation (RAG) to answer user queries by retrieving additional context information (e.g. from a text or JSON file).
--   **RAG Data Loading**: Built-in support for loading text, JSON, PDF, or code files. Easily add new knowledge bases to create new RAG agents.
--   **LangChain**: Uses [LangChain](https://js.langchain.com/v0.2/docs/introduction/) under the hood for processing data for RAG and information retrieval, which means, you can easily extend this starter kit to support more complex data processing tasks or easily switch to using a different vector store or embedding model.
--   **System Prompts**: Use system prompts to ensure safety, accuracy, and reliability. Mitigate LLM hallucination and deter prompt injection attacks.
--   **Dotprompt**: Using Dotprompt for well-structured prompts with all relevant metadata and input-output data validation.
--   **Fast Build Time**: [SWC](https://swc.rs/) for ultra-fast TypeScript compilation.
+- **Firebase Genkit**: Built using the open source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered apps or services quickly and efficiently.
+- **Deploy to any NodeJS platform**: Deploy your app or service to any NodeJS platform, including Firebase, Google Cloud, AWS, Heroku, etc.
+- **Chat agents**: Create chat agents with support for chat history, caching, authentication and information retrieval, in a few lines of code.
+- **API key protected endpoints**: API Key Store to easily manage API keys and ensure that only authorized users can access your app endpoints.
+- **Response Caching**: Cache responses to user queries to improve response times and reduce the number of API calls to LLM.
+- **RAG Agents**: Create chat agents that can use Retrieval Augmented Generation (RAG) to answer user queries by retrieving additional context information (e.g. from a text or JSON file).
+- **RAG Data Loading**: Built-in support for loading text, JSON, PDF, or code files. Easily add new knowledge bases to create new RAG agents.
+- **LangChain**: Uses [LangChain](https://js.langchain.com/v0.2/docs/introduction/) under the hood for processing data for RAG and information retrieval, which means, you can easily extend this starter kit to support more complex data processing tasks or easily switch to using a different vector store or embedding model.
+- **System Prompts**: Use system prompts to ensure safety, accuracy, and reliability. Mitigate LLM hallucination and deter prompt injection attacks.
+- **Dotprompt**: Using Dotprompt for well-structured prompts with all relevant metadata and input-output data validation.
+- **Fast Build Time**: [SWC](https://swc.rs/) for ultra-fast TypeScript compilation.
 
 ## Notes
 
@@ -35,28 +35,28 @@ By default, the starter kit uses in-memory data stores for API Key Store, Cache 
 
 ## Table of Contents
 
--   [Genko](#genko)
-    -   [Features](#features)
-    -   [Notes](#notes)
-    -   [Table of Contents](#table-of-contents)
-    -   [Getting Started](#getting-started)
-    -   [Genkit Developer UI](#genkit-developer-ui)
-    -   [Usage](#usage)
-        -   [Open Chat](#open-chat)
-        -   [Open Chat with History](#open-chat-with-history)
-        -   [Open Chat with Chat History, Caching, and Authentication](#open-chat-with-chat-history-caching-and-authentication)
-        -   [Close Chat](#close-chat)
-        -   [Close Chat with History](#close-chat-with-history)
-        -   [Close Chat with Chat History, Caching, and Authentication](#close-chat-with-chat-history-caching-and-authentication)
-        -   [RAG (Retrieval Augmented Generation) Chat](#rag-retrieval-augmented-generation-chat)
-    -   [Chat Agents](#chat-agents)
-    -   [Chat History Storage](#chat-history-storage)
-    -   [API Key Store](#api-key-store)
-    -   [Cache Store](#cache-store)
-    -   [Prompts](#prompts)
-    -   [Contributions](#contributions)
-    -   [License](#license)
-    -   [Issues](#issues)
+- [QvikChat](#qvikchat)
+  - [Features](#features)
+  - [Notes](#notes)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+  - [Genkit Developer UI](#genkit-developer-ui)
+  - [Usage](#usage)
+    - [Open Chat](#open-chat)
+    - [Open Chat with History](#open-chat-with-history)
+    - [Open Chat with Chat History, Caching, and Authentication](#open-chat-with-chat-history-caching-and-authentication)
+    - [Close Chat](#close-chat)
+    - [Close Chat with History](#close-chat-with-history)
+    - [Close Chat with Chat History, Caching, and Authentication](#close-chat-with-chat-history-caching-and-authentication)
+    - [RAG (Retrieval Augmented Generation) Chat](#rag-retrieval-augmented-generation-chat)
+  - [Chat Agents](#chat-agents)
+  - [Chat History Storage](#chat-history-storage)
+  - [API Key Store](#api-key-store)
+  - [Cache Store](#cache-store)
+  - [Prompts](#prompts)
+  - [Contributions](#contributions)
+  - [License](#license)
+  - [Issues](#issues)
 
 ## Getting Started
 
@@ -134,48 +134,48 @@ Unrestricted chat with no chat history support.
 
 **Expected input schema**
 
--   `data`: User query to chat agent.
+- `data`: User query to chat agent.
 
-    ```json
-    {
-    	"data": "string",
-    	"required": ["data"]
-    }
-    ```
+  ```json
+  {
+    "data": "string",
+    "required": ["data"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 
-    ```json
-    {
-    	"result": "string"
-    }
-    ```
+  ```json
+  {
+    "result": "string"
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define an open-ended chat flow.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Open-ended chat flow
 defineChatFlow({
-	chatAgent: new ChatAgent(),
-	endpoint: ENDPOINTS.CHAT.OPEN_ENDED,
+  chatAgent: new ChatAgent(),
+  endpoint: ENDPOINTS.CHAT.OPEN_ENDED,
 });
 ```
 
@@ -195,58 +195,58 @@ Unresticted chat with chat history support. By default uses in-memory chat histo
 
 **Expected input schema**
 
--   `query`: User query to chat agent.
--   `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
+- `query`: User query to chat agent.
+- `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
 
-    ```json
-    {
-    	"data": {
-    		"query": "string",
-    		"chatId": "string"
-    	},
-    	"required": ["query"]
-    }
-    ```
+  ```json
+  {
+    "data": {
+      "query": "string",
+      "chatId": "string"
+    },
+    "required": ["query"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
--   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
+- `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-    ```json
-    {
-    	"result": {
-    		"response": "string",
-    		"chatId": "string"
-    	}
+  ```json
+  {
+    "result": {
+      "response": "string",
+      "chatId": "string"
     }
-    ```
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define an open-ended chat flow that supports chat history.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Open-ended chat flow with support for chat history
 defineChatFlow({
-	chatAgent: new ChatAgent({
-		useChatHistory: true,
-	}),
-	endpoint: ENDPOINTS.CHAT.OPEN_ENDED_WITH_HISTORY,
+  chatAgent: new ChatAgent({
+    useChatHistory: true,
+  }),
+  endpoint: ENDPOINTS.CHAT.OPEN_ENDED_WITH_HISTORY,
 });
 ```
 
@@ -268,69 +268,69 @@ Unrestricted chat with chat history support, response caching, and API key authe
 
 Request header requires an API key for authentication:
 
--   `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
+- `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
 
 Request body data:
 
--   `query`: User query to chat agent.
--   `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
--   `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
+- `query`: User query to chat agent.
+- `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
+- `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
 
-    ```json
-    {
-    	"data": {
-    		"query": "string",
-    		"uid": "string",
-    		"chatId": "string"
-    	},
-    	"required": ["query", "uid"]
-    }
-    ```
+  ```json
+  {
+    "data": {
+      "query": "string",
+      "uid": "string",
+      "chatId": "string"
+    },
+    "required": ["query", "uid"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
--   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
+- `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-    ```json
-    {
-    	"result": {
-    		"response": "string",
-    		"chatId": "string"
-    	}
+  ```json
+  {
+    "result": {
+      "response": "string",
+      "chatId": "string"
     }
-    ```
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define an open-ended chat flow that supports chat history, response caching, and API key authentication.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Open-ended chat flow with support for chat history, authentication, and caching
 defineChatFlow({
-	chatAgent: new ChatAgent({
-		useChatHistory: true,
-	}),
-	endpoint: ENDPOINTS.CHAT.OPEN_ENDED_HISTORY_AUTH_CACHED,
-	enableChatHistory: true,
-	enableAuth: true,
-	apiKeyStore,
-	enableCache: true,
-	cacheStore,
+  chatAgent: new ChatAgent({
+    useChatHistory: true,
+  }),
+  endpoint: ENDPOINTS.CHAT.OPEN_ENDED_HISTORY_AUTH_CACHED,
+  enableChatHistory: true,
+  enableAuth: true,
+  apiKeyStore,
+  enableCache: true,
+  cacheStore,
 });
 ```
 
@@ -350,53 +350,53 @@ Restricted chat to a specific topic with no chat history support.
 
 **Expected input schema**
 
--   `data`: User query to chat agent.
+- `data`: User query to chat agent.
 
-    ```json
-    {
-    	"data": "string",
-    	"required": ["data"]
-    }
-    ```
+  ```json
+  {
+    "data": "string",
+    "required": ["data"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `result`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
 
-    ```json
-    {
-    	"result": "string"
-    }
-    ```
+  ```json
+  {
+    "result": "string"
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define a close-ended chat flow.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Close-ended chat flow (will only answer queries related to specified topic, in this case, 'Firebase')
 defineChatFlow(
-	new ChatAgent({
-		agentTypeConfig: {
-			agentType: 'close-ended',
-			topic: 'Firebase',
-		},
-	}),
-	'closeChat'
+  new ChatAgent({
+    agentTypeConfig: {
+      agentType: "close-ended",
+      topic: "Firebase",
+    },
+  }),
+  "closeChat"
 );
 ```
 
@@ -417,62 +417,62 @@ Restricted chat to a specific topic with chat history support.
 
 **Expected input schema**
 
--   `query`: User query to chat agent.
--   `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
+- `query`: User query to chat agent.
+- `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
 
-    ```json
-    {
-    	"data": {
-    		"query": "string",
-    		"chatId": "string"
-    	},
-    	"required": ["query"]
-    }
-    ```
+  ```json
+  {
+    "data": {
+      "query": "string",
+      "chatId": "string"
+    },
+    "required": ["query"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
--   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
+- `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-    ```json
-    {
-    	"result": {
-    		"response": "string",
-    		"chatId": "string"
-    	}
+  ```json
+  {
+    "result": {
+      "response": "string",
+      "chatId": "string"
     }
-    ```
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define a close-ended chat flow that supports chat history.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Close-ended chat flow with support for chat history
 defineChatFlow({
-	chatAgent: new ChatAgent({
-		agentTypeConfig: {
-			agentType: 'close-ended',
-			topic: 'Firebase',
-		},
-		useChatHistory: true,
-	}),
-	endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_WITH_HISTORY,
+  chatAgent: new ChatAgent({
+    agentTypeConfig: {
+      agentType: "close-ended",
+      topic: "Firebase",
+    },
+    useChatHistory: true,
+  }),
+  endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_WITH_HISTORY,
 });
 ```
 
@@ -490,73 +490,73 @@ Restricted chat to a specific topic with chat history support, response caching,
 
 Request header requires an API key for authentication:
 
--   `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
+- `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
 
 Request body data:
 
--   `query`: User query to chat agent.
--   `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
--   `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
+- `query`: User query to chat agent.
+- `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
+- `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
 
-    ```json
-    {
-    	"data": {
-    		"query": "string",
-    		"uid": "string",
-    		"chatId": "string"
-    	},
-    	"required": ["query", "uid"]
-    }
-    ```
+  ```json
+  {
+    "data": {
+      "query": "string",
+      "uid": "string",
+      "chatId": "string"
+    },
+    "required": ["query", "uid"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
--   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
+- `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-    ```json
-    {
-    	"result": {
-    		"response": "string",
-    		"chatId": "string"
-    	}
+  ```json
+  {
+    "result": {
+      "response": "string",
+      "chatId": "string"
     }
-    ```
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
 Check `src/index.ts` to see how you can define a close-ended chat flow that supports chat history, response caching, and API key authentication.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Close-ended chat flow with support for chat history, authentication, and caching
 defineChatFlow({
-	chatAgent: new ChatAgent({
-		agentTypeConfig: {
-			agentType: 'close-ended',
-			topic: 'Firebase',
-		},
-		useChatHistory: true,
-	}),
-	endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_HISTORY_AUTH_CACHED,
-	enableChatHistory: true,
-	enableAuth: true,
-	apiKeyStore,
-	enableCache: true,
-	cacheStore,
+  chatAgent: new ChatAgent({
+    agentTypeConfig: {
+      agentType: "close-ended",
+      topic: "Firebase",
+    },
+    useChatHistory: true,
+  }),
+  endpoint: ENDPOINTS.CHAT.CLOSE_ENDED_HISTORY_AUTH_CACHED,
+  enableChatHistory: true,
+  enableAuth: true,
+  apiKeyStore,
+  enableCache: true,
+  cacheStore,
 });
 ```
 
@@ -578,50 +578,50 @@ Restricted chat to a specific topic with chat history support, response caching,
 
 Request header requires an API key for authentication:
 
--   `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
+- `key`: API key for authentication. The API key must be owned by the user making the request, and should have authorization to access the flow endpoint.
 
 Request body data:
 
--   `query`: User query to chat agent.
--   `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
--   `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
+- `query`: User query to chat agent.
+- `uid`: User ID of the user making the query. Required to assess if user is authorized to access the flow endpoint. The API key provided in headers must be owned by this user.
+- `chatId`: Optional chat ID to continue the chat history. If not provided, a new chat history will be created, and the chat ID for this chat history will be returned with the response. This chat ID can be sent in further requests to continue a specific conversation. If the provided chat ID is not valid or not found, as error is returned.
 
-    ```json
-    {
-    	"data": {
-    		"query": "string",
-    		"uid": "string",
-    		"chatId": "string"
-    	},
-    	"required": ["query", "uid"]
-    }
-    ```
+  ```json
+  {
+    "data": {
+      "query": "string",
+      "uid": "string",
+      "chatId": "string"
+    },
+    "required": ["query", "uid"]
+  }
+  ```
 
 **Output schema**
 
 For successful requests, the response will contain:
 
--   `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
--   `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
+- `response`: Chat agent response to the user query, returned as a string by default. (You may add more flows or update existing ones under `src/flows`)
+- `chatId`: Chat ID for the current chat history. This can be used to continue the chat history in further requests.
 
-    ```json
-    {
-    	"result": {
-    		"response": "string",
-    		"chatId": "string"
-    	}
+  ```json
+  {
+    "result": {
+      "response": "string",
+      "chatId": "string"
     }
-    ```
+  }
+  ```
 
 For failed requests, the response will contain:
 
--   `error`: Error message returned by the server.
+- `error`: Error message returned by the server.
 
-    ```json
-    {
-    	"error": "string"
-    }
-    ```
+  ```json
+  {
+    "error": "string"
+  }
+  ```
 
 **Example**
 
@@ -630,28 +630,28 @@ Check `src/index.ts` to see how you can define a RAG chat flow that supports cha
 Below example uses a RAG agent to answer user queries related to 'Store Inventory Data'. The sample inventory data is stored in `rag/knowledge-bases/test-retail-store-kb/inventory-data.csv` in CSV format. We'll index this data, store it in a vector store, and use a vector store retriever to retrieve the data when answering user queries.
 
 ```typescript
-import { defineChatFlow } from './flows/flow';
+import { defineChatFlow } from "./flows/flow";
 
 // Index inventory data and get retriever
 const inventoryDataRetriever = await getInventoryDataRetriever();
 
 // Inventory Data chat flow with support for chat history, authentication, caching and RAG
 defineChatFlow({
-	chatAgent: new ChatAgent({
-		agentTypeConfig: {
-			agentType: 'rag',
-			topic: 'Store Inventory Data',
-		},
-		useChatHistory: true,
-	}),
-	endpoint: ENDPOINTS.CHAT.RAG_HISTORY_AUTH_CACHED + '-inventory',
-	enableChatHistory: true,
-	enableAuth: true,
-	apiKeyStore,
-	enableCache: true,
-	cacheStore,
-	enableRAG: true,
-	retriever: inventoryDataRetriever,
+  chatAgent: new ChatAgent({
+    agentTypeConfig: {
+      agentType: "rag",
+      topic: "Store Inventory Data",
+    },
+    useChatHistory: true,
+  }),
+  endpoint: ENDPOINTS.CHAT.RAG_HISTORY_AUTH_CACHED + "-inventory",
+  enableChatHistory: true,
+  enableAuth: true,
+  apiKeyStore,
+  enableCache: true,
+  cacheStore,
+  enableRAG: true,
+  retriever: inventoryDataRetriever,
 });
 ```
 
@@ -701,4 +701,4 @@ If you encounter any issues or bugs while using the starter kit, please report t
 2. If the issue hasn't been reported, create a new issue and provide a detailed description of the problem.
 3. Include steps to reproduce the issue and any relevant error messages or screenshots.
 
-[Open Issue](https://github.com/pranav-kural/genko/issues)
+[Open Issue](https://github.com/pranav-kural/QvikChat/issues)

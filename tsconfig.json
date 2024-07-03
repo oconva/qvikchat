@@ -1,33 +1,33 @@
 {
-	"compileOnSave": true,
-	"compilerOptions": {
-		"module": "CommonJS",
-		"noImplicitReturns": true,
-		"outDir": "lib",
-		"sourceMap": true,
-		"strict": true,
-		"target": "ES2017",
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"lib": ["ESNext"],
-		"forceConsistentCasingInFileNames": true,
-		"allowSyntheticDefaultImports": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"strictBindCallApply": true,
-		"strictPropertyInitialization": true,
-		"noImplicitAny": true,
-		"noImplicitThis": true,
-		"alwaysStrict": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"incremental": true,
-		"paths": {
-			"/*": ["./*"]
-		}
-	}
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "CommonJS",
+    "noImplicitReturns": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2017",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext"],
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "incremental": true,
+    "paths": {
+      "/*": ["./*"]
+    }
+  }
 }

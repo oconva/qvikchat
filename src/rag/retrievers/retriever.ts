@@ -1,20 +1,20 @@
-import { Runnable, RunnableConfig } from '@langchain/core/runnables';
-import { EmbeddingsInterface } from '@langchain/core/embeddings';
+import { Runnable, RunnableConfig } from "@langchain/core/runnables";
+import { EmbeddingsInterface } from "@langchain/core/embeddings";
 import {
-	VectorStore,
-	VectorStoreRetrieverInput,
-} from '@langchain/core/vectorstores';
+  VectorStore,
+  VectorStoreRetrieverInput,
+} from "@langchain/core/vectorstores";
 import {
-	CSVLoaderOptions,
-	JSONLoaderKeysToInclude,
-	PDFLoaderOptions,
-	SupportedDataLoaderTypes,
-} from '../loaders/data-loaders';
+  CSVLoaderOptions,
+  JSONLoaderKeysToInclude,
+  PDFLoaderOptions,
+  SupportedDataLoaderTypes,
+} from "../loaders/data-loaders";
 import {
-	ChunkingConfig,
-	DataSplitterConfig,
-	SupportedDataSplitterTypes,
-} from '../splitters/data-splitters';
+  ChunkingConfig,
+  DataSplitterConfig,
+  SupportedDataSplitterTypes,
+} from "../splitters/data-splitters";
 
 /**
  * Type denoting a retriever that retrieves text data.
@@ -25,10 +25,10 @@ export type TextDataRetriever = Runnable<string, string, RunnableConfig>;
  * Retrieval options for the retriever.
  */
 export type RetrievalOptions =
-	| number
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	| Partial<VectorStoreRetrieverInput<any>>
-	| undefined;
+  | number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | Partial<VectorStoreRetrieverInput<any>>
+  | undefined;
 
 /**
  * Represents the configuration for the retriever when generating embeddings.
@@ -46,18 +46,18 @@ export type RetrievalOptions =
  * @property {boolean} generateEmbeddings - Whether to generate embeddings.
  */
 export type RetrieverConfigGeneratingEmbeddings = {
-	dataType: SupportedDataLoaderTypes;
-	filePath: string;
-	jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude;
-	csvLoaderOptions?: CSVLoaderOptions;
-	pdfLoaderOptions?: PDFLoaderOptions;
-	dataSplitterType?: SupportedDataSplitterTypes;
-	chunkingConfig?: ChunkingConfig;
-	splitterConfig?: DataSplitterConfig;
-	retrievalOptions?: RetrievalOptions;
-	vectorStore?: VectorStore;
-	embeddingModel?: EmbeddingsInterface;
-	generateEmbeddings: true;
+  dataType: SupportedDataLoaderTypes;
+  filePath: string;
+  jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude;
+  csvLoaderOptions?: CSVLoaderOptions;
+  pdfLoaderOptions?: PDFLoaderOptions;
+  dataSplitterType?: SupportedDataSplitterTypes;
+  chunkingConfig?: ChunkingConfig;
+  splitterConfig?: DataSplitterConfig;
+  retrievalOptions?: RetrievalOptions;
+  vectorStore?: VectorStore;
+  embeddingModel?: EmbeddingsInterface;
+  generateEmbeddings: true;
 };
 
 /**
@@ -67,27 +67,27 @@ export type RetrieverConfigGeneratingEmbeddings = {
  * @property {boolean} generateEmbeddings - Whether to generate embeddings.
  */
 export type RetrieverConfigNotGeneratingEmbeddings = {
-	generateEmbeddings: false;
-	vectorStore: VectorStore;
-	retrievalOptions?: RetrievalOptions;
+  generateEmbeddings: false;
+  vectorStore: VectorStore;
+  retrievalOptions?: RetrievalOptions;
 };
 
 /**
  * Represents the configuration for the retriever.
  */
 export type RetrieverConfig =
-	| RetrieverConfigGeneratingEmbeddings
-	| RetrieverConfigNotGeneratingEmbeddings;
+  | RetrieverConfigGeneratingEmbeddings
+  | RetrieverConfigNotGeneratingEmbeddings;
 
 /**
  * From @google/generative-ai
  * Task type for embedding content.
  */
 export enum TaskType {
-	TASK_TYPE_UNSPECIFIED = 'TASK_TYPE_UNSPECIFIED',
-	RETRIEVAL_QUERY = 'RETRIEVAL_QUERY',
-	RETRIEVAL_DOCUMENT = 'RETRIEVAL_DOCUMENT',
-	SEMANTIC_SIMILARITY = 'SEMANTIC_SIMILARITY',
-	CLASSIFICATION = 'CLASSIFICATION',
-	CLUSTERING = 'CLUSTERING',
+  TASK_TYPE_UNSPECIFIED = "TASK_TYPE_UNSPECIFIED",
+  RETRIEVAL_QUERY = "RETRIEVAL_QUERY",
+  RETRIEVAL_DOCUMENT = "RETRIEVAL_DOCUMENT",
+  SEMANTIC_SIMILARITY = "SEMANTIC_SIMILARITY",
+  CLASSIFICATION = "CLASSIFICATION",
+  CLUSTERING = "CLUSTERING",
 }
