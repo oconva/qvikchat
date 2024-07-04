@@ -135,6 +135,10 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
       // only used if chat history is enabled and cache is enabled, otherwise is fetched from chat agent
       let history: MessageData[] | undefined;
 
+      // variable to store if cache threshold has been reached for this query
+      // used only if cache is enabled
+      let cacheThresholdReached = false;
+
       // If using cache and cache store is provided
       if (config.enableCache && config.cacheStore) {
         // if chatId is provided, get chat history and add it to the query context
@@ -157,7 +161,7 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
           };
 
         // Check cache for the query
-        const cachedQuery = config.cacheStore.getRecord(queryHash);
+        const cachedQuery = await config.cacheStore.getRecord(queryHash);
 
         // If the query is cached, return the cached response
         if (cachedQuery) {
@@ -172,6 +176,12 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
           // decrement cacheThreshold to record another request for this query
           // if this decrement causes the cacheThreshold to reach 0, the query response will be cached this time
           config.cacheStore.decrementCacheThreshold(queryHash);
+
+          // check if cacheThreshold has reached 0
+          if (cachedQuery.cacheThreshold - 1 === 0) {
+            // if cacheThreshold reaches 0, cache the response
+            cacheThresholdReached = true;
+          }
         } else {
           // if query is not in cache, add it to cache to track the number of times this query is received
           // sending hash is optional. Sending so hash doesn't have to be recalculated
@@ -215,11 +225,7 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
 
         // If using cache and cache store is provided, and
         // if cacheThreshold reaches 0 for this query, cache the response
-        if (
-          config.enableCache &&
-          config.cacheStore &&
-          config.cacheStore.isCacheThresholdReached(queryHash)
-        ) {
+        if (config.enableCache && config.cacheStore && cacheThresholdReached) {
           config.cacheStore.cacheResponse(queryHash, response.res.text());
         }
 

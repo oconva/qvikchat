@@ -1,10 +1,7 @@
+import { CollectionReference, WriteResult } from "firebase-admin/firestore";
 import { generateHash } from "../utils/utils";
-import {
-  CacheCollection,
-  CacheRecord,
-  CacheStore,
-  QueryHash,
-} from "./cache-store";
+import { CacheRecord, CacheStore } from "./cache-store";
+import { app } from "firebase-admin";
 
 /**
  * Configuration for the in-memory cache store.
@@ -12,6 +9,8 @@ import {
  * @property cacheQueryAfterThreshold - The threshold after which a query is cached.
  */
 export type FirestoreCacheStoreConfig = {
+  /** Firebase app instance */
+  firebaseApp: app.App;
   /** name of the collection for cache store */
   collectionName: string;
   /** duration after which each record expires */
@@ -24,34 +23,22 @@ export type FirestoreCacheStoreConfig = {
  * In-memory cache store is an implementation of the cache store interface that stores cache records in memory.
  */
 export class FirestoreCacheStore implements CacheStore {
-  /** name of the collection for cache store */
-  collectionName: string;
   /** Map containing all cache records */
-  cache: CacheCollection;
+  cache: CollectionReference;
   /** duration after which each record expires */
   recordExpiryDuration: number;
   /** threshold after which a query is cached, e.g., n=3 means response will be cached when same query request received a third time */
   cacheQueryAfterThreshold: number;
 
   constructor({
+    firebaseApp,
     collectionName,
     recordExpiryDuration,
     cacheQueryAfterThreshold,
   }: FirestoreCacheStoreConfig) {
-    this.cache = new Map<QueryHash, CacheRecord>();
-    this.collectionName = collectionName;
+    this.cache = firebaseApp.firestore().collection(collectionName);
     (this.recordExpiryDuration = recordExpiryDuration ?? 1000 * 60 * 60 * 24), // 24 hours;
       (this.cacheQueryAfterThreshold = cacheQueryAfterThreshold ?? 3);
-  }
-
-  /**
-   * Checks if a query exists in the cache.
-   * @param hash - The hash of the query.
-   * @returns A boolean indicating whether the query exists in the cache.
-   */
-  queryExists(hash: string): boolean {
-    // Check if the query exists in the cache
-    return this.cache.has(hash);
   }
 
   /**
@@ -61,9 +48,9 @@ export class FirestoreCacheStore implements CacheStore {
    * @param query - The query to be added.
    * @param hash - The hash of the query. If not provided, it will be generated.
    */
-  addQuery(query: string, hash?: string): void {
+  async addQuery(query: string, hash?: string): Promise<WriteResult> {
     // verify query data is valid
-    if (query === "") return;
+    if (query === "") throw new Error("Invalid query data");
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -72,7 +59,7 @@ export class FirestoreCacheStore implements CacheStore {
     };
 
     // Add the record to the cache
-    this.cache.set(hash ?? generateHash(record.query), record);
+    return this.cache.doc(hash ?? generateHash(record.query)).set(record);
   }
 
   /**
@@ -81,28 +68,26 @@ export class FirestoreCacheStore implements CacheStore {
    * @param response - The response to be cached.
    * @returns True if the response was cached successfully, false otherwise.
    */
-  cacheResponse(hash: string, response: string): boolean {
+  async cacheResponse(hash: string, response: string): Promise<WriteResult> {
     // verify query data is valid
-    if (hash === "" || response === "") return false;
+    if (hash === "" || response === "")
+      throw new Error("Invalid hash or response data");
 
-    // Get the record from the cache
-    const record = this.cache.get(hash);
-    if (record) {
-      // Cache the response
-      record.response = response;
-      record.expiry = new Date(Date.now() + this.recordExpiryDuration);
-      return true;
-    }
-    return false;
+    // update cache record with response and expiry date
+    return this.cache.doc(hash).update({
+      response,
+      expiry: new Date(Date.now() + this.recordExpiryDuration),
+    });
   }
 
   /**
    * Adds a cache record to the cache.
    * @param record - The cache record to be added.
    */
-  addRecord(query: string, response: string): void {
+  async addRecord(query: string, response: string): Promise<WriteResult> {
     // verify query data is valid
-    if (query === "" || response === "") return;
+    if (query === "" || response === "")
+      throw new Error("Invalid query or response data");
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -113,17 +98,19 @@ export class FirestoreCacheStore implements CacheStore {
     };
 
     // Add the record to the cache
-    this.cache.set(generateHash(record.query), record);
+    return this.cache.doc(generateHash(record.query)).set(record);
   }
 
   /**
    * Retrieves a cache record from the cache.
    * @param hash - The hash of the record to be retrieved.
    * @returns The cache record, if found. Otherwise, undefined.
+   * @throws Error if the record is not found in the cache.
    */
-  getRecord(hash: string): CacheRecord | undefined {
+  async getRecord(hash: string): Promise<CacheRecord> {
     // Get the record from the cache
-    return this.cache.get(hash);
+    const record = await this.cache.doc(hash).get();
+    return record.data() as CacheRecord;
   }
 
   /**
@@ -131,9 +118,9 @@ export class FirestoreCacheStore implements CacheStore {
    * @param hash - The hash of the record to be deleted.
    * @returns A boolean indicating whether the record was successfully deleted.
    */
-  deleteRecord(hash: string): boolean {
+  async deleteRecord(hash: string): Promise<WriteResult> {
     // Delete the record from the cache
-    return this.cache.delete(hash);
+    return await this.cache.doc(hash).delete();
   }
 
   /**
@@ -141,9 +128,7 @@ export class FirestoreCacheStore implements CacheStore {
    * @param hash - The hash of the record to be checked.
    * @returns A boolean indicating whether the record is expired.
    */
-  isExpired(hash: string): boolean {
-    // Check if the record is expired
-    const record = this.cache.get(hash);
+  isExpired(record: CacheRecord): boolean {
     if (record && record.expiry) {
       // Compare the current time with the record's expiry time
       return Date.now() > record.expiry.getTime();
@@ -154,25 +139,19 @@ export class FirestoreCacheStore implements CacheStore {
   /**
    * Increments the cache threshold for a specific query.
    * @param hash - The hash of the query.
-   * @returns The updated cache threshold if the query exists in the cache, -1 otherwise.
+   * @throws Error if the record is not found in the cache.
+   * @returns A promise with write operation result.
    */
-  decrementCacheThreshold(hash: string): number {
+  async decrementCacheThreshold(hash: string): Promise<WriteResult> {
+    // Get the record from the cache
+    const record = await this.cache.doc(hash).get();
+    // Throw an error if the record is not found
+    if (!record) throw new Error("Record not found in cache");
+    // extract the cache record data
+    const data = record.data() as CacheRecord;
     // Decrement the cache threshold
-    const record = this.cache.get(hash);
-    if (record) {
-      record.cacheThreshold !== 0 ? record.cacheThreshold-- : 0;
-      return record.cacheThreshold;
-    }
-    return -1;
-  }
-
-  /**
-   * Checks if the cache threshold for a specific query has reached zero.
-   * @param hash - The hash of the query.
-   * @returns A boolean indicating whether the cache threshold has reached zero.
-   */
-  isCacheThresholdReached(hash: string): boolean {
-    const record = this.cache.get(hash);
-    return record ? record.cacheThreshold === 0 : false;
+    return await this.cache.doc(hash).update({
+      cacheThreshold: data.cacheThreshold - 1,
+    });
   }
 }

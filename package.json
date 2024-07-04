@@ -22,6 +22,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "nodemon": "^3.1.4",
+    "prettier": "^3.3.2",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.15.0"
@@ -41,6 +42,7 @@
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "firebase-admin": "^12.2.0",
     "genkitx-chromadb": "^0.5.4",
     "genkitx-langchain": "^0.5.4",
     "genkitx-openai": "^0.10.0",

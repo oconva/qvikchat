@@ -44,25 +44,16 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
-   * Checks if a query exists in the cache.
-   * @param hash - The hash of the query.
-   * @returns A boolean indicating whether the query exists in the cache.
-   */
-  queryExists(hash: string): boolean {
-    // Check if the query exists in the cache
-    return this.cache.has(hash);
-  }
-
-  /**
    * Adds a query to the cache without caching the response.
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
    * @param query - The query to be added.
    * @param hash - The hash of the query. If not provided, it will be generated.
+   * @throws Error if unable to add the query to the cache.
    */
-  addQuery(query: string, hash?: string): void {
+  async addQuery(query: string, hash?: string): Promise<void> {
     // verify query data is valid
-    if (query === "") return;
+    if (query === "") throw new Error("Invalid query data");
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -78,28 +69,29 @@ export class InMemoryCacheStore implements CacheStore {
    * Caches the response for a specific query.
    * @param hash - The hash of the query.
    * @param response - The response to be cached.
-   * @returns True if the response was cached successfully, false otherwise.
+   * @throws Error if unable to cache the response.
+   * @returns True if the response was cached successfully, throws an error otherwise.
    */
-  cacheResponse(hash: string, response: string): boolean {
+  cacheResponse(hash: string, response: string): true {
     // verify query data is valid
-    if (hash === "" || response === "") return false;
+    if (hash === "" || response === "")
+      throw new Error("Invalid hash or response data");
 
     // Get the record from the cache
     const record = this.cache.get(hash);
-    if (record) {
-      // Cache the response
-      record.response = response;
-      record.expiry = new Date(Date.now() + this.recordExpiryDuration);
-      return true;
-    }
-    return false;
+    if (!record) throw new Error("Record not found in cache");
+
+    // Cache the response
+    record.response = response;
+    record.expiry = new Date(Date.now() + this.recordExpiryDuration);
+    return true;
   }
 
   /**
    * Adds a cache record to the cache.
    * @param record - The cache record to be added.
    */
-  addRecord(query: string, response: string): void {
+  async addRecord(query: string, response: string): Promise<void> {
     // verify query data is valid
     if (query === "" || response === "") return;
 
@@ -119,16 +111,22 @@ export class InMemoryCacheStore implements CacheStore {
    * Retrieves a cache record from the cache.
    * @param hash - The hash of the record to be retrieved.
    * @returns The cache record, if found. Otherwise, undefined.
+   * @throws Error if the record is not found in the cache.
    */
-  getRecord(hash: string): CacheRecord | undefined {
+  async getRecord(hash: string): Promise<CacheRecord> {
     // Get the record from the cache
-    return this.cache.get(hash);
+    const record = this.cache.get(hash);
+    // Throw an error if the record is not found
+    if (!record) throw new Error("Record not found in cache");
+    // Return the record
+    return record;
   }
 
   /**
    * Deletes a cache record from the cache.
    * @param hash - The hash of the record to be deleted.
    * @returns A boolean indicating whether the record was successfully deleted.
+   * @throws Error if the record is not found in the cache.
    */
   deleteRecord(hash: string): boolean {
     // Delete the record from the cache
@@ -137,12 +135,11 @@ export class InMemoryCacheStore implements CacheStore {
 
   /**
    * Checks if a cache record is expired.
-   * @param hash - The hash of the record to be checked.
+   * @param record - The cache record to be checked.
    * @returns A boolean indicating whether the record is expired.
    */
-  isExpired(hash: string): boolean {
+  isExpired(record: CacheRecord): boolean {
     // Check if the record is expired
-    const record = this.cache.get(hash);
     if (record && record.expiry) {
       // Compare the current time with the record's expiry time
       return Date.now() > record.expiry.getTime();
@@ -155,7 +152,7 @@ export class InMemoryCacheStore implements CacheStore {
    * @param hash - The hash of the query.
    * @returns The updated cache threshold if the query exists in the cache, -1 otherwise.
    */
-  decrementCacheThreshold(hash: string): number {
+  async decrementCacheThreshold(hash: string): Promise<number> {
     // Decrement the cache threshold
     const record = this.cache.get(hash);
     if (record) {
@@ -163,15 +160,5 @@ export class InMemoryCacheStore implements CacheStore {
       return record.cacheThreshold;
     }
     return -1;
-  }
-
-  /**
-   * Checks if the cache threshold for a specific query has reached zero.
-   * @param hash - The hash of the query.
-   * @returns A boolean indicating whether the cache threshold has reached zero.
-   */
-  isCacheThresholdReached(hash: string): boolean {
-    const record = this.cache.get(hash);
-    return record ? record.cacheThreshold === 0 : false;
   }
 }

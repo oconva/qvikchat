@@ -31,8 +31,11 @@ export interface ChatHistoryStore {
   updateChatHistory: (
     chatId: string,
     messages: MessageData[]
-  ) => Promise<boolean>;
-  addMessages: (chatId: string, messages: MessageData[]) => Promise<boolean>;
+  ) => Promise<boolean> | Promise<void>;
+  addMessages: (
+    chatId: string,
+    messages: MessageData[]
+  ) => Promise<boolean> | Promise<void>;
   getChatHistory: (chatId: string) => Promise<MessageData[] | undefined>;
-  deleteChatHistory: (chatId: string) => Promise<boolean>;
+  deleteChatHistory: (chatId: string) => Promise<boolean> | Promise<void>;
 }

@@ -89,6 +89,10 @@ export const defineTestFlows = async () => {
     dataType: "csv",
     filePath: "lib/rag/knowledge-bases/test-retail-store-kb/inventory-data.csv",
     generateEmbeddings: true,
+    retrievalOptions: {
+      k: 10, // return top 10 matching documents
+      searchType: "mmr", // use Maximal Marginal Relevance (MMR) for search
+    },
   });
 
   // Inventory Data chat flow with support for chat history, authentication, caching and RAG
