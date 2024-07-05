@@ -76,11 +76,14 @@ export class InMemoryChatHistoryStore implements ChatHistoryStore {
    * @returns Returns the chat history as an array of MessageData objects.
    * @throws Throws an error if the conversation with the specified ID is not found.
    */
-  async getChatHistory(chatId: string): Promise<MessageData[] | undefined> {
+  async getChatHistory(chatId: string): Promise<MessageData[]> {
     // get chat history record
     const chatHistoryRecord = this.history.get(chatId);
+    // if chat history record not found for the given chat ID, throw an error
+    if (!chatHistoryRecord)
+      throw new Error(`Chat history with ID ${chatId} not found.`);
     // if chat history record is valid, return chat history
-    return chatHistoryRecord ? chatHistoryRecord.messages : undefined;
+    return chatHistoryRecord.messages;
   }
 
   /**

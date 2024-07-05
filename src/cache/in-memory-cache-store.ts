@@ -13,9 +13,9 @@ import {
  */
 export type InMemoryCacheStoreConfig = {
   /** duration after which each record expires */
-  recordExpiryDuration: number;
+  recordExpiryDuration?: number;
   /** threshold after which a query is cached */
-  cacheQueryAfterThreshold: number;
+  cacheQueryAfterThreshold?: number;
 };
 
 /**
@@ -31,8 +31,8 @@ export class InMemoryCacheStore implements CacheStore {
 
   constructor(
     {
-      recordExpiryDuration,
-      cacheQueryAfterThreshold,
+      recordExpiryDuration = 1000 * 60 * 60 * 24,
+      cacheQueryAfterThreshold = 3,
     }: InMemoryCacheStoreConfig = {
       recordExpiryDuration: 1000 * 60 * 60 * 24, // 24 hours
       cacheQueryAfterThreshold: 3,
@@ -59,6 +59,7 @@ export class InMemoryCacheStore implements CacheStore {
     const record: CacheRecord = {
       query, // complete query (may include chat history)
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
+      cacheHits: 0, // set cache hits to 0
     };
 
     // Add the record to the cache
@@ -101,6 +102,7 @@ export class InMemoryCacheStore implements CacheStore {
       response,
       expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
       cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+      cacheHits: 0, // set cache hits to 0
     };
 
     // Add the record to the cache
@@ -160,5 +162,21 @@ export class InMemoryCacheStore implements CacheStore {
       return record.cacheThreshold;
     }
     return -1;
+  }
+
+  /**
+   * Increments the cache hits for a specific query.
+   * Use this every time a cached response is used.
+   * @param hash - The hash of the query.
+   * @returns The updated cache hits if the query exists in the cache.
+   * @throws Error if the record is not found in the cache.
+   */
+  async incrementCacheHits(hash: string): Promise<void> {
+    // Increment the cache hits
+    const record = this.cache.get(hash);
+    // if no record, throw an error
+    if (!record) throw new Error("Record not found in cache");
+    // else, increment cache hits
+    record.cacheHits = record.cacheHits + 1;
   }
 }

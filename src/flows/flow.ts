@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { ChatAgent } from "../agents/chat-agent";
+import {
+  ChatAgent,
+  GenerateResponseHistoryProps,
+  GenerateResponseProps,
+} from "../agents/chat-agent";
 import { defineFlow } from "@genkit-ai/flow";
 import { APIKeyStore } from "../auth/api-key-store";
 import { CacheStore } from "../cache/cache-store";
@@ -11,6 +15,16 @@ import {
   TextDataRetriever,
 } from "../rag/retrievers/retriever";
 import { getDataRetriever } from "../rag/retrievers/data-retriever";
+import { ChatHistoryStore } from "../history/chat-history-store";
+
+type ChatHistoryParams =
+  | {
+      enableChatHistory: true;
+      chatHistoryStore: ChatHistoryStore;
+    }
+  | {
+      enableChatHistory?: false;
+    };
 
 type AuthParams =
   | {
@@ -33,21 +47,36 @@ type CacheParams =
 type RAGParams =
   | {
       enableRAG: true;
+      contextTopic?: string;
       retrieverConfig: RetrieverConfig;
     }
   | {
       enableRAG: true;
+      contextTopic?: string;
       retriever: TextDataRetriever;
     }
   | {
       enableRAG?: false;
     };
 
-type DefineChatFlowConfig = {
-  chatAgent: ChatAgent;
+type ChatAgentTypeParams =
+  | {
+      agentType?: "open-ended";
+    }
+  | {
+      agentType: "close-ended";
+      topic: string;
+    }
+  | {
+      chatAgent: ChatAgent;
+    };
+
+export type DefineChatFlowConfig = {
   endpoint: string;
   enableChatHistory?: boolean;
-} & AuthParams &
+} & ChatAgentTypeParams &
+  ChatHistoryParams &
+  AuthParams &
   CacheParams &
   RAGParams;
 
@@ -56,6 +85,7 @@ type DefineChatFlowConfig = {
  * @param chatAgent Chat Agent instance to use for this flow.
  * @param endpoint Flow endpoint value that will be used to send requests to this flow.
  * @param enableChatHistory Enable chat history for this flow. If chat ID is provided, chat history will be fetched and used to generate response. If no chat ID is provided, a new chat ID will be generated to store chat history, and will be returned in the response.
+ * @param chatHistoryStore Chat History Store instance to use for this flow.
  * @param enableAuth Enable authentication for this flow. Must provide an API Key Store instance if set to true.
  * @param apiKeyStore API Key Store instance to use for this flow.
  * @param enableCache Enable caching for this flow. Must provide a Cache Store instance if set to true.
@@ -101,9 +131,6 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
         },
       ],
       authPolicy: async (auth, input) => {
-        console.log("Auth policy called");
-        console.log("Auth:", auth);
-        console.log("Input:", input);
         if (config.enableAuth) {
           // check if auth object is valid
           if (!auth || !auth.key) throw new Error("Error: Invalid API key");
@@ -124,6 +151,40 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
     async ({ query, chatId }) => {
       if (query === "") return { response: "How can I help you today?" };
 
+      // store chat agent
+      let chatAgent: ChatAgent;
+
+      // Initialize chat agent if not provided
+      if (!("chatAgent" in config)) {
+        // Initialize chat agent based on the provided type
+        // If agent type if close-ended, and RAG is not enabled (i.e., no context needed in queries)
+        if (config.agentType === "close-ended" && !config.enableRAG) {
+          // check if topic is provided
+          if (!config.topic) {
+            throw new Error(
+              "Error: Topic not provided for close-ended chat agent."
+            );
+          }
+          // Initialize close-ended chat agent with the provided topic
+          chatAgent = new ChatAgent({
+            agentType: "close-ended",
+            topic: config.topic,
+          });
+        } else if (config.enableRAG) {
+          // Initialize chat agent with RAG
+          chatAgent = new ChatAgent({
+            agentType: "rag",
+            topic: ("contextTopic" in config && config.contextTopic) || "",
+          });
+        } else {
+          // Initialize open-ended chat
+          chatAgent = new ChatAgent();
+        }
+      } else {
+        // use the provided chat agent
+        chatAgent = config.chatAgent;
+      }
+
       // store query with context (includes the previous chat history if any, since that provides essential context)
       // will be used in caching and RAG, if enabled
       let queryWithContext = query;
@@ -139,18 +200,32 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
       // used only if cache is enabled
       let cacheThresholdReached = false;
 
+      // if chatId is provided, get chat history and add it to the query context
+      if (config.enableChatHistory && chatId) {
+        try {
+          // try getting chat history for the given chat ID
+          const chatHistory =
+            await config.chatHistoryStore.getChatHistory(chatId);
+
+          // add chat history to the query context
+          queryWithContext += getChatHistoryAsString(chatHistory);
+          // store chat history for use in generating response later
+          history = chatHistory;
+        } catch (error) {
+          return {
+            error:
+              error instanceof Error
+                ? error.message
+                : `Error fetching chat history for chat ID: ${chatId}`,
+          };
+        }
+      }
+
+      // if code here, chat history is disabled OR chat history is enabled but chat ID is not provided
+      // Don't generate new chat ID here, handled by the chat agent after response generation
+
       // If using cache and cache store is provided
       if (config.enableCache && config.cacheStore) {
-        // if chatId is provided, get chat history and add it to the query context
-        if (config.enableChatHistory && chatId) {
-          const chatHistory = await config.chatAgent.getChatHistory(chatId);
-          if (chatHistory) {
-            // add chat history to the query context
-            queryWithContext += getChatHistoryAsString(chatHistory);
-            // store chat history for use in generating response later
-            history = chatHistory;
-          }
-        }
         // Generate hash of the complete query to use as a key for the cache
         queryHash = generateHash(queryWithContext);
 
@@ -160,15 +235,19 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
             error: "Error: Invalid query. Could not generate hash.",
           };
 
-        // Check cache for the query
-        const cachedQuery = await config.cacheStore.getRecord(queryHash);
-
         // If the query is cached, return the cached response
-        if (cachedQuery) {
+        try {
+          // Check cache for the query
+          const cachedQuery = await config.cacheStore.getRecord(queryHash);
+
           // check if cached response is available
           if (cachedQuery.response) {
-            console.log("Chat flow with history: returning cached response");
-            return { response: cachedQuery.response, chatId };
+            // increment cache hits
+            config.cacheStore.incrementCacheHits(queryHash);
+            // return the cached response with the chat ID
+            return config.enableChatHistory
+              ? { response: cachedQuery.response, chatId }
+              : cachedQuery.response;
           }
 
           // if response is not available, but query is in cache
@@ -182,7 +261,7 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
             // if cacheThreshold reaches 0, cache the response
             cacheThresholdReached = true;
           }
-        } else {
+        } catch (error) {
           // if query is not in cache, add it to cache to track the number of times this query is received
           // sending hash is optional. Sending so hash doesn't have to be recalculated
           // remeber to add the query with context
@@ -215,13 +294,27 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
           }
         }
 
-        // Generate a response using the chat agent
-        const response = await config.chatAgent.generateResponse({
+        // Prepare query for generating response
+        let queryWithParams: GenerateResponseProps = {
           query,
-          chatId,
-          history,
           context,
-        });
+        };
+
+        // If chat history is enabled
+        if (config.enableChatHistory) {
+          // Prepare history props for generating response
+          const historyProps: GenerateResponseHistoryProps = {
+            enableChatHistory: config.enableChatHistory,
+            chatId: chatId,
+            history: history,
+            chatHistoryStore: config.chatHistoryStore,
+          };
+          // Add history props to the query
+          queryWithParams = { ...queryWithParams, ...historyProps };
+        }
+
+        // Generate a response using the chat agent
+        const response = await chatAgent.generateResponse(queryWithParams);
 
         // If using cache and cache store is provided, and
         // if cacheThreshold reaches 0 for this query, cache the response
@@ -229,10 +322,12 @@ export const defineChatFlow = (config: DefineChatFlowConfig) =>
           config.cacheStore.cacheResponse(queryHash, response.res.text());
         }
 
-        return {
-          response: response.res.text(),
-          chatId: response.chatId,
-        };
+        return config.enableChatHistory
+          ? {
+              response: response.res.text(),
+              chatId: response.chatId,
+            }
+          : response.res.text();
       } catch (error) {
         return {
           error: `Error: ${error}`,

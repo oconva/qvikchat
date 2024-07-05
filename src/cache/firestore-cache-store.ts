@@ -1,4 +1,8 @@
-import { CollectionReference, WriteResult } from "firebase-admin/firestore";
+import {
+  CollectionReference,
+  FieldValue,
+  WriteResult,
+} from "firebase-admin/firestore";
 import { generateHash } from "../utils/utils";
 import { CacheRecord, CacheStore } from "./cache-store";
 import { app } from "firebase-admin";
@@ -56,6 +60,7 @@ export class FirestoreCacheStore implements CacheStore {
     const record: CacheRecord = {
       query, // complete query (may include chat history)
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
+      cacheHits: 0,
     };
 
     // Add the record to the cache
@@ -95,6 +100,7 @@ export class FirestoreCacheStore implements CacheStore {
       response,
       expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
       cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+      cacheHits: 0, // set cache hits to 0
     };
 
     // Add the record to the cache
@@ -152,6 +158,20 @@ export class FirestoreCacheStore implements CacheStore {
     // Decrement the cache threshold
     return await this.cache.doc(hash).update({
       cacheThreshold: data.cacheThreshold - 1,
+    });
+  }
+
+  /**
+   * Increments the cache hits for a specific query.
+   * Use this every time a cached response is used.
+   * @param hash - The hash of the query.
+   * @returns A promise with write operation result.
+   * @throws Error if the record is not found in the cache.
+   */
+  async incrementCacheHits(hash: string): Promise<WriteResult> {
+    // Increment the cache hits
+    return await this.cache.doc(hash).update({
+      cacheHits: FieldValue.increment(1),
     });
   }
 }

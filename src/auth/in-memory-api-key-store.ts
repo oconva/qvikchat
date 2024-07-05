@@ -21,15 +21,6 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
   }
 
   /**
-   * Verifies if an API key is valid and active.
-   * @param key - The API key to verify.
-   * @returns A boolean indicating whether the API key is valid and active.
-   */
-  async verifyAPIKey(key: string): Promise<boolean> {
-    return this.keys.has(key) && this.keys.get(key)?.status === "active";
-  }
-
-  /**
    * Adds a new API key to the store.
    * By default, API key is disabled and has access to no endpoints.
    * @param key - The API key to add.

@@ -21,6 +21,8 @@ export const SupportedModelNames = {
   gpt4: gpt4.name,
 } as const;
 
+export const getSupportedModelNames = () => Object.values(SupportedModelNames);
+
 /**
  * List of supported models.
  */

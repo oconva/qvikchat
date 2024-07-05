@@ -1,3 +1,5 @@
+import { CollectionReference, WriteResult } from "firebase-admin/firestore";
+
 /**
  * Represents an API key.
  */
@@ -77,14 +79,12 @@ export interface APIKeyStore {
   /**
    * Map containing all API keys.
    */
-  keys: APIKeyCollection;
+  keys: APIKeyCollection | CollectionReference;
 
   /**
-   * Verifies if the given API key exists and its status is active.
-   * @param key - The API key to verify.
-   * @returns A promise that resolves to a boolean indicating whether the API key is valid.
+   * Collection reference to the Firestore collection containing API keys.
    */
-  verifyAPIKey: (key: APIKey) => Promise<boolean>;
+  // collectionRef: CollectionReference;
 
   /**
    * Adds a new API key record.
@@ -92,7 +92,10 @@ export interface APIKeyStore {
    * @param config - The configuration for the new API key record.
    * @returns A promise that resolves to a boolean indicating whether the API key was successfully added.
    */
-  addKey: (key: APIKey, config: NewAPIKeyRecord) => Promise<boolean>;
+  addKey: (
+    key: APIKey,
+    config: NewAPIKeyRecord
+  ) => Promise<boolean> | Promise<WriteResult>;
 
   /**
    * Updates an existing API key record.
@@ -112,7 +115,7 @@ export interface APIKeyStore {
     status?: APIKeyStatus;
     endpoints?: string[] | "all";
     requests?: number;
-  }) => Promise<boolean>;
+  }) => Promise<boolean> | Promise<WriteResult>;
 
   /**
    * Gets a specific API key record.
@@ -126,12 +129,12 @@ export interface APIKeyStore {
    * @param key - The API key to delete.
    * @returns A promise that resolves to a boolean indicating whether the API key was successfully deleted.
    */
-  deleteKey: (key: APIKey) => Promise<boolean>;
+  deleteKey: (key: APIKey) => Promise<boolean> | Promise<WriteResult>;
 
   /**
    * Increments the requests count for an API key.
    * @param key - The API key to increment the requests count for.
    * @returns A promise that resolves to a boolean indicating whether the requests count was successfully incremented.
    */
-  incrementRequests: (key: APIKey) => Promise<boolean>;
+  incrementRequests: (key: APIKey) => Promise<boolean> | Promise<WriteResult>;
 }

@@ -1,7 +1,7 @@
 import { MessageData } from "@genkit-ai/ai/model";
 import { app } from "firebase-admin";
-import { FieldValue } from "firebase-admin/firestore";
-import { ChatHistoryCollection, ChatHistoryStore } from "./chat-history-store";
+import { CollectionReference, FieldValue } from "firebase-admin/firestore";
+import { ChatHistoryStore } from "./chat-history-store";
 
 /**
  * Configuration for the Firebase chat history store.
@@ -18,12 +18,7 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
   /**
    * Reference to the collection in Firestore where chat history is stored.
    */
-  collectionRef: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>;
-
-  /**
-   * The collection of chat history records.
-   */
-  history: ChatHistoryCollection = new Map();
+  history: CollectionReference;
 
   /**
    * Initializes a new instance of the FirebaseChatHistoryStore class.
@@ -31,7 +26,7 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
    */
   constructor(config: FirestoreChatHistoryStoreConfig) {
     // initialize Firestore collection reference
-    this.collectionRef = config.firebaseApp
+    this.history = config.firebaseApp
       .firestore()
       .collection(config.collectionName);
   }
@@ -43,7 +38,7 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
    */
   async addChatHistory(messages?: MessageData[]): Promise<string> {
     // add chat history to Firestore
-    const newChatHistory = await this.collectionRef.add({
+    const newChatHistory = await this.history.add({
       messages: messages || [],
       lastUpdated: new Date(),
     });
@@ -63,7 +58,7 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
     messages: MessageData[]
   ): Promise<void> {
     // update firestore chat history
-    await this.collectionRef.doc(chatId).update({
+    await this.history.doc(chatId).update({
       messages: messages,
       lastUpdated: new Date(),
     });
@@ -77,7 +72,7 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
    */
   async addMessages(chatId: string, messages: MessageData[]): Promise<void> {
     // add message to chat history
-    await this.collectionRef.doc(chatId).update({
+    await this.history.doc(chatId).update({
       messages: FieldValue.arrayUnion(...messages),
       lastUpdated: new Date(),
     });
@@ -89,15 +84,15 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
    * @returns Returns the chat history as an array of MessageData objects. Returns undefined if the chat history is not found.
    * @throws Throws an error if the conversation with the specified ID is not found.
    */
-  async getChatHistory(chatId: string): Promise<MessageData[] | undefined> {
+  async getChatHistory(chatId: string): Promise<MessageData[]> {
     // get chat history from Firestore
-    const chatHistory = await this.collectionRef.doc(chatId).get();
+    const chatHistory = await this.history.doc(chatId).get();
     if (!chatHistory.exists) {
       throw new Error(`Chat history with ID ${chatId} not found.`);
     }
     // return messages
     const data = chatHistory.data();
-    return data ? (data.messages as MessageData[]) : undefined;
+    return data ? (data.messages as MessageData[]) : [];
   }
 
   /**
@@ -107,10 +102,10 @@ export class FirestoreChatHistoryStore implements ChatHistoryStore {
    */
   async deleteChatHistory(chatId: string): Promise<void> {
     // delete chat history from Firestore
-    const chatHistory = await this.collectionRef.doc(chatId).get();
+    const chatHistory = await this.history.doc(chatId).get();
     if (!chatHistory.exists) {
       throw new Error(`Chat history with ID ${chatId} not found.`);
     }
-    await this.collectionRef.doc(chatId).delete();
+    await this.history.doc(chatId).delete();
   }
 }

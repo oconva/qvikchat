@@ -1,8 +1,11 @@
 import { generate } from "@genkit-ai/ai";
 import type { GenerateResponse } from "@genkit-ai/ai";
 import { ChatHistoryStore } from "../history/chat-history-store";
-import { InMemoryChatHistoryStore } from "../history/in-memory-chat-history-store";
-import { ModelConfig, SupportedModels } from "../models/model";
+import {
+  ModelConfig,
+  SupportedModelNames,
+  SupportedModels,
+} from "../models/model";
 import {
   closeEndedSystemPrompt,
   openEndedSystemPrompt,
@@ -38,8 +41,6 @@ export type AgentTypeConfig =
  * @property topic - The topic for the chat agent.
  * @property systemPrompt - The system prompt for the chat agent.
  * @property chatPrompt - The chat prompt for the chat agent.
- * @property enableChatHistory - Indicates whether to use chat history.
- * @property chatHistoryStore - The chat history store.
  * @property tools - Tools for the chat agent.
  * @property model - The supported model to use for chat completion.
  * @property modelConfig - The model configuration.
@@ -47,19 +48,21 @@ export type AgentTypeConfig =
 export type ChatAgentConfig = {
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
-  enableChatHistory?: boolean;
-  chatHistoryStore?: ChatHistoryStore;
   tools?: ToolArgument[];
   model?: SupportedModels;
   modelConfig?: ModelConfig;
 } & AgentTypeConfig;
 
+type DefaultChatAgentConfigType = {
+  agentType: ChatAgentType;
+  model: SupportedModels;
+};
+
 /**
  * Represents the default chat agent configuration.
  */
-export const defaultChatAgentConfig: ChatAgentConfig = {
+export const defaultChatAgentConfig: DefaultChatAgentConfigType = {
   agentType: "open-ended",
-  enableChatHistory: false,
   model: "gemini15Flash",
 };
 
@@ -72,11 +75,23 @@ export interface ChatAgentAttributes {
   topic?: string;
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
-  enableChatHistory: boolean;
-  chatHistoryStore: ChatHistoryStore;
-  model?: SupportedModels;
+  tools?: ToolArgument[];
   modelConfig?: ModelConfig;
 }
+
+/**
+ * Represents the properties for generating a response with chat history.
+ */
+export type GenerateResponseHistoryProps =
+  | {
+      enableChatHistory: true;
+      chatId?: string;
+      history?: MessageData[];
+      chatHistoryStore: ChatHistoryStore;
+    }
+  | {
+      enableChatHistory?: false;
+    };
 
 /**
  * Represents the properties for generating a response.
@@ -85,6 +100,8 @@ export interface ChatAgentAttributes {
  * @property context - The context object.
  * @property chatId - The ID of the chat history.
  * @property history - The chat history.
+ * @property enableChatHistory - Indicates whether to use chat history.
+ * @property chatHistoryStore - The chat history store.
  * @property tools - The tool arguments.
  * @property model - The supported model.
  * @property modelConfig - The model configuration.
@@ -95,13 +112,12 @@ export type GenerateResponseProps = {
   query: string;
   context?: string;
   chatId?: string;
-  history?: MessageData[];
   tools?: ToolArgument[];
   model?: SupportedModels;
   modelConfig?: ModelConfig;
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
-};
+} & GenerateResponseHistoryProps;
 
 /**
  * Represents the return object for generating a response.
@@ -129,11 +145,9 @@ export interface ChatAgentMethods {
   ) => Promise<GenerateResponseReturnObj>;
 
   /**
-   * Retrieves the chat history for a given chat ID.iven chat ID.
-   * @param chatId - The ID of the chat history to retrieve.
-   * @returns Returns a promise that resolves to the chat history for the given chat ID if available, otherwise returns undefined.
+   * Method to get model name that the chat agent is using.
    */
-  getChatHistory: (chatId: string) => Promise<MessageData[] | undefined>;
+  getModelName(): string;
 }
 
 /**
@@ -146,7 +160,7 @@ export interface ChatAgentInterface
 type GenerateSystemPromptResponseParams = {
   agentType?: ChatAgentType;
   prompt: Dotprompt;
-  model?: SupportedModels;
+  model?: string;
   modelConfig?: ModelConfig;
   query?: string;
   context?: string;
@@ -162,10 +176,8 @@ export class ChatAgent implements ChatAgentInterface {
   topic?: string;
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
-  enableChatHistory: boolean;
-  chatHistoryStore: ChatHistoryStore;
   tools?: ToolArgument[];
-  model?: SupportedModels;
+  private modelName: string;
   modelConfig?: ModelConfig;
 
   /**
@@ -180,16 +192,18 @@ export class ChatAgent implements ChatAgentInterface {
    * @param model - The supported model. If not provided, will use the default model (e.g. Gemini 1.5 Flash).
    * @param modelConfig - The model configuration.
    */
-  constructor(config: ChatAgentConfig = defaultChatAgentConfig) {
+  constructor(config: ChatAgentConfig = {}) {
     this.agentType = config.agentType ?? defaultChatAgentConfig.agentType;
     this.systemPrompt = config.systemPrompt;
     this.chatPrompt = config.chatPrompt;
-    this.enableChatHistory = config.enableChatHistory ?? false;
-    this.chatHistoryStore =
-      config.chatHistoryStore ?? new InMemoryChatHistoryStore();
     this.tools = config.tools;
-    this.model = config.model;
+    this.modelName = config.model
+      ? SupportedModelNames[config.model]
+      : SupportedModelNames[defaultChatAgentConfig.model];
     this.modelConfig = config.modelConfig;
+    if ("topic" in config) {
+      this.topic = config.topic;
+    }
   }
 
   /**
@@ -251,7 +265,7 @@ export class ChatAgent implements ChatAgentInterface {
   /**
    * Generates a response using the system prompt.
    * @param agentType - The type of agent.
-   * @param model - The supported model.
+   * @param model - The supported model name.
    * @param modelConfig - The model configuration.
    * @param query - The query string.
    * @param context - The context string.
@@ -271,7 +285,8 @@ export class ChatAgent implements ChatAgentInterface {
   }: GenerateSystemPromptResponseParams) {
     // generate the response
     const res = prompt.generate({
-      model: model, // if undefined, will use model defined in the dotprompt
+      // if undefined, will use model defined in the dotprompt
+      model: model,
       config: modelConfig,
       input: ChatAgent.getFormattedInput(agentType, query, context, topic),
       tools: tools,
@@ -292,90 +307,94 @@ export class ChatAgent implements ChatAgentInterface {
    * @returns Returns a promise that resolves to the generated response.
    * @throws Throws an error if chat history enabled but the chat history store is not initialized or if no data is found for the chat ID.
    */
-  async generateResponse({
-    query,
-    context,
-    chatId,
-    history,
-    tools,
-    model,
-    modelConfig,
-    systemPrompt,
-  }: GenerateResponseProps): Promise<GenerateResponseReturnObj> {
+  async generateResponse(
+    params: GenerateResponseProps
+  ): Promise<GenerateResponseReturnObj> {
     // System prompt to use
     // In order of priority: systemPrompt provided as argument to generateResponse, this.systemPrompt, default system prompt
     const prompt =
-      systemPrompt ??
+      params.systemPrompt ??
       this.systemPrompt ??
       ChatAgent.getSystemPrompt(this.agentType);
     // if not using chat history
-    if (!this.enableChatHistory) {
+    if (!params.enableChatHistory) {
       // return response in specified format
       return {
         res: await ChatAgent.generateSystemPromptResponse({
           agentType: this.agentType,
           prompt,
-          model: model ?? this.model,
-          modelConfig: modelConfig ?? this.modelConfig,
-          query,
-          context,
+          model: params.model
+            ? SupportedModelNames[params.model]
+            : this.modelName,
+          modelConfig: params.modelConfig ?? this.modelConfig,
+          query: params.query,
+          context: params.context,
           topic: this.topic,
-          tools: tools ?? this.tools,
+          tools: params.tools ?? this.tools,
         }),
       };
     }
     // if using chat history, confirm chat history store is initialized
-    if (!this.chatHistoryStore)
+    if (!params.chatHistoryStore)
       throw new Error("Chat history store not initialized");
     // if no chatID provided
-    if (!chatId) {
+    if (!params.chatId) {
       // generate response for given query (will use system prompt)
       const res = await ChatAgent.generateSystemPromptResponse({
         agentType: this.agentType,
         prompt,
-        model: model ?? this.model,
-        modelConfig: modelConfig ?? this.modelConfig,
-        query,
-        context,
+        model: params.model
+          ? SupportedModelNames[params.model]
+          : this.modelName,
+        modelConfig: params.modelConfig ?? this.modelConfig,
+        query: params.query,
+        context: params.context,
         topic: this.topic,
-        tools: tools ?? this.tools,
+        tools: params.tools ?? this.tools,
       });
       // add chat history and obtain new chat ID
-      chatId = await this.chatHistoryStore.addChatHistory(res.toHistory());
+      params.chatId = await params.chatHistoryStore.addChatHistory(
+        res.toHistory()
+      );
       // return response in specified format
       return {
-        chatId,
+        chatId: params.chatId,
         res,
       };
     }
     // retrieve chat history if not provided already
     const chatHistory =
-      history ?? (await this.chatHistoryStore.getChatHistory(chatId));
+      params.history ??
+      (await params.chatHistoryStore.getChatHistory(params.chatId));
     // if no chat history provided and no chat history found for the given chat ID
-    if (!chatHistory) throw new Error(`No data found for chat ID ${chatId}.`);
-    // generate response for given query (will use chat prompt and chat history)
+    if (!chatHistory)
+      throw new Error(`No data found for chat ID ${params.chatId}.`);
+    // generate response for given query (will use chat prompt and any provided chat history, context and tools)
     const res = await generate({
-      model: model ?? this.model,
-      prompt: query,
+      model: params.model ?? this.modelName,
+      prompt: params.query,
       history: chatHistory,
-      tools,
+      context: params.context
+        ? [{ content: [{ text: params.context }] }]
+        : undefined,
+      tools: params.tools,
     });
     // update chat history with new messages (user query and model response)
-    await this.chatHistoryStore.addMessages(chatId, res.toHistory().slice(-2));
+    await params.chatHistoryStore.addMessages(
+      params.chatId,
+      res.toHistory().slice(-2)
+    );
     // return response in specified format
     return {
-      chatId,
+      chatId: params.chatId,
       res,
     };
   }
 
   /**
-   * Retrieves the chat history for a given chat ID.
-   * @param chatId - The ID of the chat history to retrieve.
-   * @returns Returns a promise that resolves to the chat history for the given chat ID if available, otherwise returns undefined.
+   * Method to get model name that the chat agent is using.
    */
-  async getChatHistory(chatId: string): Promise<MessageData[] | undefined> {
-    if (!this.enableChatHistory || !this.chatHistoryStore) return undefined;
-    return await this.chatHistoryStore.getChatHistory(chatId);
+  getModelName() {
+    return this.modelName;
   }
 }

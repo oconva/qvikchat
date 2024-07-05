@@ -25,6 +25,8 @@ export type CacheRecord = {
   expiry?: ExpiryDate;
   /** cache threshold. Query data is cached after this threshold reaches zero. Avoids the need to cache all data for every query. */
   cacheThreshold: number;
+  /** record number of cache hits */
+  cacheHits: number;
 };
 
 /** Cache collection is a map containing all cache records. */
@@ -102,4 +104,9 @@ export interface CacheStore {
   decrementCacheThreshold(
     hash: QueryHash
   ): Promise<number> | Promise<WriteResult>;
+
+  /**
+   * Increment the cache hits every time a cached response is used.
+   */
+  incrementCacheHits(hash: QueryHash): Promise<void> | Promise<WriteResult>;
 }
