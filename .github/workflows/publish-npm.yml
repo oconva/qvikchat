@@ -30,6 +30,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: ESLint
+        run: pnpm eslint .
+
+      - name: Format Code
+        run: pnpm prettier . --write
+        
+      - name: Build
+        run: pnpm build
+
       - name: Publish 🚀
         run: pnpm publish --access public --no-git-checks
         env:
