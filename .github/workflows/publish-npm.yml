@@ -13,11 +13,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@4
+        uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
-      
+
       # Setup .npmrc file to publish to GitHub Packages
       - name: Install Node.js and Setup NPMRC
         uses: actions/setup-node@v4
@@ -29,9 +29,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Publish 🚀 
+      - name: Publish 🚀
         run: pnpm publish --access public --no-git-checks
         env:
-           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-           NPM_CONFIG_PROVENANCE: true
-
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
