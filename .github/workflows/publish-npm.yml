@@ -39,6 +39,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: List Contents of Lib
+        run: ls -l lib
+
       - name: Publish 🚀
         run: pnpm publish --access public --no-git-checks
         env:

@@ -12,7 +12,7 @@
     "predeploy": "pnpm lint && pnpm format && pnpm build && pnpm test"
   },
   "name": "qvikchat",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
@@ -31,7 +31,11 @@
   "files": [
     "lib",
     "src",
-    "*"
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "lib/*",
+    "src/*"
   ],
   "exports": {
     "./agents": {
