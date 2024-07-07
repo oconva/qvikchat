@@ -164,7 +164,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Issues
 
-If you encounter any issues or bugs while using the starter kit, please report them by following these steps:
+If you encounter any issues or bugs while using QvikChat, please report them by following these steps:
 
 1. Check if the issue has already been reported by searching our issue tracker.
 2. If the issue hasn't been reported, create a new issue and provide a detailed description of the problem.
