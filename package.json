@@ -1,4 +1,10 @@
 {
+  "name": "@oconva/qvikchat",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oconva/qvikchat.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "start": "node lib/index.js",
@@ -11,12 +17,6 @@
     "buildandtest": "pnpm build && pnpm test",
     "predeploy": "pnpm lint && pnpm format && pnpm build && pnpm test"
   },
-  "name": "qvikchat",
-  "version": "1.0.2",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/oconva/qvikchat.git"
-  },
   "keywords": [
     "conversational ai",
     "chat",
@@ -25,7 +25,7 @@
     "langchain",
     "genkit"
   ],
-  "author": "Pranav Kural <oconva-kural@gmail.com> (https://github.com/pranav-kural)",
+  "author": "Oconva <oconva.org@gmail.com> (https://github.com/oconva)",
   "license": "MIT",
   "description": "Framework to build secure, performant and reliable chat apps and services quickly and efficiently.",
   "files": [
