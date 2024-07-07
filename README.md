@@ -31,7 +31,7 @@ You can either install QvikChat as a package or use the QvikChat starter templat
 To install QvikChat as a package, run the following command:
 
 ```bash copy
-npm install qvikchat # or pnpm add qvikchat
+npm install @oconva/qvikchat # or pnpm add @oconva/qvikchat
 ```
 
 Before you can deploy your chat endpoints, you need to setup Firebase Genkit, either by using the default configurations or by providing your own configurations, these may include additional Genkit plugins you may want to enable (e.g. to add support for a new language model). When starting out, we recommend using the default configurations.
@@ -39,8 +39,8 @@ Before you can deploy your chat endpoints, you need to setup Firebase Genkit, ei
 Create a `index.ts` (or `index.js`) file and add the following code:
 
 ```typescript copy
-import { runServer, setupGenkit } from "qvikchat/genkit";
-import { defineChatEndpoint } from "qvikchat/endpoints";
+import { runServer, setupGenkit } from "@oconva/qvikchat/genkit";
+import { defineChatEndpoint } from "@oconva/qvikchat/endpoints";
 
 // Setup Genkit
 setupGenkit();
