@@ -10,7 +10,7 @@ import {
  * @param params App options for initializing the Firebase app.
  * @returns instance of the Firebase app.
  */
-export const getFirebaseApp = (params: AppOptions): app.App =>
+export const getFirebaseApp = (params?: AppOptions): app.App =>
   initializeApp(params);
 
 /**

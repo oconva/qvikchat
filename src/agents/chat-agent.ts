@@ -53,7 +53,7 @@ export type ChatAgentConfig = {
   modelConfig?: ModelConfig;
 } & AgentTypeConfig;
 
-type DefaultChatAgentConfigType = {
+export type DefaultChatAgentConfigType = {
   agentType: ChatAgentType;
   model: SupportedModels;
 };
@@ -157,7 +157,7 @@ export interface ChatAgentInterface
   extends ChatAgentAttributes,
     ChatAgentMethods {}
 
-type GenerateSystemPromptResponseParams = {
+export type GenerateSystemPromptResponseParams = {
   agentType?: ChatAgentType;
   prompt: Dotprompt;
   model?: string;
