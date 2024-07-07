@@ -10,26 +10,27 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@4
-        name: Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@4
         with:
           version: 9
           run_install: false
       
       # Setup .npmrc file to publish to GitHub Packages
-      - uses: actions/setup-node@v4
+      - name: Install Node.js and Setup NPMRC
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
           cache: pnpm
 
       - name: Install dependencies
-      - run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Publish 🚀 
-      - run: pnpm publish --access public --no-git-checks
+        run: pnpm publish --access public --no-git-checks
         env:
            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
            NPM_CONFIG_PROVENANCE: true
