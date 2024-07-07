@@ -12,12 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
-
       # Setup .npmrc file to publish to GitHub Packages
       - name: Install Node.js and Setup NPMRC
         uses: actions/setup-node@v4
@@ -25,15 +19,11 @@ jobs:
           node-version: "20.x"
           registry-url: "https://npm.pkg.github.com"
           scope: "@oconva"
-          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Set Registry
-        run: pnpm config set registry "https://npm.pkg.github.com"
+        run: npm ci
         
       - name: Publish 🚀
-        run: pnpm publish --no-git-checks
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
