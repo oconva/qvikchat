@@ -1,5 +1,5 @@
 {
-  "minify": true,
+  "minify": false,
   "jsc": {
     "parser": {
       "syntax": "typescript",
@@ -9,11 +9,7 @@
     },
     "target": "es2017",
     "loose": false,
-    "transform": {
-      "legacyDecorator": false,
-      "decoratorVersion": "2022-03"
-    },
-    "keepClassNames": false,
+    "keepClassNames": true,
     "baseUrl": "./src",
     "paths": {
       "/*": ["./*"]
@@ -23,6 +19,7 @@
   "isModule": true,
   "module": {
     "type": "commonjs",
-    "strictMode": true
+    "strictMode": true,
+    "noInterop": true
   }
 }

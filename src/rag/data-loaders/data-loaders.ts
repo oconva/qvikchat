@@ -2,6 +2,7 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 import { JSONLoader } from "langchain/document_loaders/fs/json";
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import { Document } from "langchain/document";
 
 /**
  * Supported data loader types.
@@ -54,7 +55,7 @@ export const getDocs = async (
   jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude,
   csvLoaderOptions?: CSVLoaderOptions,
   pdfLoaderOptions?: PDFLoaderOptions
-) => {
+): Promise<Document<Record<string, string>>[]> => {
   // store loader
   let loader;
   // infer loader to use based on dataLoaderType

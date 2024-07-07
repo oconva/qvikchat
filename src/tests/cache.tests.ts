@@ -1,15 +1,20 @@
-import { runFlow } from "@genkit-ai/flow";
-import { defineChatFlow } from "../flows/flow";
+import {
+  defineChatEndpoint,
+  getChatEndpointRunner,
+} from "../endpoints/endpoints";
 import { InMemoryCacheStore } from "../cache/in-memory-cache-store";
-import { setupGenkit } from "../genkit";
+import { setupGenkit } from "../genkit/genkit";
 import { CacheCollection } from "../cache/cache-store";
 
 /**
- * Test suite for Chat Flow Core Functionality.
+ * Test suite for Chat Endpoint - Cache.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Flow Cache Tests", () => {
+describe("Test - Endpoint Cache Tests", () => {
+  // Initialize endpoint runner
+  const runEndpoint = getChatEndpointRunner();
+
   beforeAll(() => {
     setupGenkit();
   });
@@ -32,7 +37,7 @@ describe("Test - Flow Cache Tests", () => {
           cacheQueryAfterThreshold: 2, // cache response after same query is received twice
         });
         // define chat flow
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-cache",
           enableCache: true,
           cacheStore: cacheStore,
@@ -40,17 +45,17 @@ describe("Test - Flow Cache Tests", () => {
 
         try {
           // send query the first time
-          await runFlow(flow, {
+          await runEndpoint(flow, {
             query: "Answer in one sentence: what is Firebase?",
           });
 
           // send query the second time
-          await runFlow(flow, {
+          await runEndpoint(flow, {
             query: "Answer in one sentence: what is Firebase?",
           });
 
           // send query the third time
-          const response = await runFlow(flow, {
+          const response = await runEndpoint(flow, {
             query: "Answer in one sentence: what is Firebase?",
           });
 

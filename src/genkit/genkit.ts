@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import {
   ConfigOptions,
   PluginProvider,
@@ -9,12 +8,10 @@ import { googleAI } from "@genkit-ai/googleai";
 import { dotprompt } from "@genkit-ai/dotprompt";
 import { firebase } from "@genkit-ai/firebase";
 import { TelemetryConfig } from "@genkit-ai/google-cloud";
-import { GLOBAL_CONFIG, StartFlowsServerParamsType } from "./config";
+import { GLOBAL_CONFIG, StartServerParamsType } from "../config/config";
 import { langchain } from "genkitx-langchain";
 import { openAI } from "genkitx-openai";
-
-// Load environment variables
-dotenv.config();
+import { getEnvironmentVariable } from "../utils/utils";
 
 /**
  * Configuration for Firebase plugin.
@@ -44,12 +41,12 @@ export type SetupGenkitConfig = {
  */
 const requiredPlugins: PluginProvider[] = [
   googleAI({
-    apiKey: process.env.GOOGLE_GENAI_API_KEY,
+    apiKey: getEnvironmentVariable("GOOGLE_GENAI_API_KEY"),
   }),
   dotprompt(),
   langchain({}),
   openAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: getEnvironmentVariable("OPENAI_API_KEY"),
   }),
 ];
 
@@ -96,10 +93,10 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
 };
 
 /**
- * Method to run the flows server.
- * @param params parameters for running the flows server
+ * Method to run the server that will serve the chat endpoints.
+ * @param params parameters for running the server
  */
-export const runFlowsServer = (params: StartFlowsServerParamsType = {}) => {
+export const runServer = (params: StartServerParamsType = {}) => {
   // Start the flows server with global configurations
-  startFlowsServer(params ?? GLOBAL_CONFIG.startFlowsServerParams);
+  startFlowsServer(params ?? GLOBAL_CONFIG.startServerParams);
 };

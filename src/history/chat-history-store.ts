@@ -72,3 +72,10 @@ export interface ChatHistoryStore {
    */
   deleteChatHistory: (chatId: string) => Promise<boolean> | Promise<void>;
 }
+
+// export supported chat history stores
+export { InMemoryChatHistoryStore } from "./in-memory-chat-history-store";
+export {
+  FirestoreChatHistoryStore,
+  type FirestoreChatHistoryStoreConfig,
+} from "./firestore-chat-history-store";

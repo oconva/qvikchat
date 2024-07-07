@@ -138,3 +138,11 @@ export interface APIKeyStore {
    */
   incrementRequests: (key: APIKey) => Promise<boolean> | Promise<WriteResult>;
 }
+
+// Export supported API key stores
+export { InMemoryAPIKeyStore } from "./in-memory-api-key-store";
+
+export {
+  FirestoreAPIKeyStore,
+  type FirestoreAPIKeyStoreConfig,
+} from "./firestore-api-key-store";

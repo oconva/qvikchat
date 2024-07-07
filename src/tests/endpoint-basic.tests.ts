@@ -1,13 +1,18 @@
-import { runFlow } from "@genkit-ai/flow";
-import { defineChatFlow } from "../flows/flow";
-import { setupGenkit } from "../genkit";
+import {
+  defineChatEndpoint,
+  getChatEndpointRunner,
+} from "../endpoints/endpoints";
+import { setupGenkit } from "../genkit/genkit";
 
 /**
- * Test suite for Chat Flow Core Functionality.
+ * Test suite for Chat Endpoint Basic Functionality.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Chat Flow Core Funtionality Tests", () => {
+describe("Test - Chat Endpoint Core Funtionality Tests", () => {
+  // Initialize endpoint runner
+  const runEndpoint = getChatEndpointRunner();
+
   beforeAll(() => {
     setupGenkit();
   });
@@ -31,7 +36,7 @@ describe("Test - Chat Flow Core Funtionality Tests", () => {
 
   if (Tests.define_chat_flow)
     test("Define chat flow", () => {
-      const flow = defineChatFlow({ endpoint: "test-chat" });
+      const flow = defineChatEndpoint({ endpoint: "test-chat" });
       expect(flow).toBeDefined();
     });
 
@@ -39,10 +44,10 @@ describe("Test - Chat Flow Core Funtionality Tests", () => {
     test(
       "Confirm response generation",
       async () => {
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-response",
         });
-        const response = await runFlow(flow, {
+        const response = await runEndpoint(flow, {
           query: "How can you help? In one sentence.",
         });
         expect(response).toBeDefined();

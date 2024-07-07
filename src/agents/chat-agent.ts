@@ -5,7 +5,7 @@ import {
   ModelConfig,
   SupportedModelNames,
   SupportedModels,
-} from "../models/model";
+} from "../models/models";
 import {
   closeEndedSystemPrompt,
   openEndedSystemPrompt,

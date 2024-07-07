@@ -3,7 +3,8 @@
   "scripts": {
     "start": "nodemon -x tsx src/index.js",
     "dev": "npm run build && npm run start",
-    "build": "swc --strip-leading-paths --delete-dir-on-start -d lib src && node scripts/copy-build-files.mjs",
+    "build": "swc --strip-leading-paths --delete-dir-on-start -d lib src && tsc",
+    "buildtypes": "tsc",
     "lint": "pnpm eslint .",
     "format": "pnpm prettier . --write",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-watchman",
@@ -20,9 +21,113 @@
     "langchain",
     "genkit"
   ],
-  "author": "Oconva <oconva.org@gmail.com> (https://github.com/oconva)",
-  "license": "ISC",
+  "author": "Pranav Kural <oconva-kural@gmail.com> (https://github.com/pranav-kural)",
+  "license": "MIT",
   "description": "Framework to build secure, performant and reliable chat apps and services quickly and efficiently.",
+  "files": [
+    "lib",
+    "src",
+    "*"
+  ],
+  "types": "lib/index.d.ts",
+  "exports": {
+    "./agents": {
+      "types": "./lib/agents/chat-agents.d.ts",
+      "import": "./lib/agents/chat-agent.js",
+      "require": "./lib/agents/chat-agent.js",
+      "default": "./lib/agents/chat-agent.js"
+    },
+    "./auth": {
+      "types": "./lib/auth/api-key-store.d.ts",
+      "import": "./lib/auth/api-key-store.js",
+      "require": "./lib/auth/api-key-store.js",
+      "default": "./lib/auth/api-key-store.js"
+    },
+    "./cache": {
+      "types": "./lib/cache/cache-store.d.ts",
+      "import": "./lib/cache/cache-store.js",
+      "require": "./lib/cache/cache-store.js",
+      "default": "./lib/cache/cache-store.js"
+    },
+    "./config": {
+      "types": "./lib/config/config.d.ts",
+      "import": "./lib/config/config.js",
+      "require": "./lib/config/config.js",
+      "default": "./lib/config/config.js"
+    },
+    "./endpoints": {
+      "types": "./lib/endpoints/endpoints.d.ts",
+      "import": "./lib/endpoints/endpoints.js",
+      "require": "./lib/endpoints/endpoints.js",
+      "default": "./lib/endpoints/endpoints.js"
+    },
+    "./genkit": {
+      "types": "./lib/genkit/genkit.d.ts",
+      "import": "./lib/genkit/genkit.js",
+      "require": "./lib/genkit/genkit.js",
+      "default": "./lib/genkit/genkit.js"
+    },
+    "./history": {
+      "types": "./lib/history/chat-history-store.d.ts",
+      "import": "./lib/history/chat-history-store.js",
+      "require": "./lib/history/chat-history-store.js",
+      "default": "./lib/history/chat-history-store.js"
+    },
+    "./firebase": {
+      "types": "./lib/integrations/firebase.d.ts",
+      "import": "./lib/integrations/firebase.js",
+      "require": "./lib/integrations/firebase.js",
+      "default": "./lib/integrations/firebase.js"
+    },
+    "./models": {
+      "types": "./lib/models/models.d.ts",
+      "import": "./lib/models/models.js",
+      "require": "./lib/models/models.js",
+      "default": "./lib/models/models.js"
+    },
+    "./prompts": {
+      "types": "./lib/prompts/prompts.d.ts",
+      "import": "./lib/prompts/prompts.js",
+      "require": "./lib/prompts/prompts.js",
+      "default": "./lib/prompts/prompts.js"
+    },
+    "./rag": {
+      "types": "./lib/rag/rag.d.ts",
+      "import": "./lib/rag/rag.js",
+      "require": "./lib/rag/rag.js",
+      "default": "./lib/rag/rag.js"
+    },
+    "./data-embeddings": {
+      "types": "./lib/rag/data-embeddings/embedding-models.d.ts",
+      "import": "./lib/rag/data-embeddings/embedding-models.js",
+      "require": "./lib/rag/data-embeddings/embedding-models.js",
+      "default": "./lib/rag/data-embeddings/embedding-models.js"
+    },
+    "./data-loaders": {
+      "types": "./lib/rag/data-loaders/data-loaders.d.ts",
+      "import": "./lib/rag/data-loaders/data-loaders.js",
+      "require": "./lib/rag/data-loaders/data-loaders.js",
+      "default": "./lib/rag/data-loaders/data-loaders.js"
+    },
+    "./data-retrievers": {
+      "types": "./lib/rag/data-retrievers/data-retrievers.d.ts",
+      "import": "./lib/rag/data-retrievers/data-retrievers.js",
+      "require": "./lib/rag/data-retrievers/data-retrievers.js",
+      "default": "./lib/rag/data-retrievers/data-retrievers.js"
+    },
+    "./data-splitters": {
+      "types": "./lib/rag/data-splitters/data-splitters.d.ts",
+      "import": "./lib/rag/data-splitters/data-splitters.js",
+      "require": "./lib/rag/data-splitters/data-splitters.js",
+      "default": "./lib/rag/data-splitters/data-splitters.js"
+    },
+    "./utils": {
+      "types": "./lib/utils/utils.d.ts",
+      "import": "./lib/utils/utils.js",
+      "require": "./lib/utils/utils.js",
+      "default": "./lib/utils/utils.js"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
     "@swc/cli": "^0.4.0",

@@ -1,14 +1,19 @@
-import { runFlow } from "@genkit-ai/flow";
-import { defineChatFlow } from "../flows/flow";
-import { setupGenkit } from "../genkit";
+import {
+  defineChatEndpoint,
+  getChatEndpointRunner,
+} from "../endpoints/endpoints";
+import { setupGenkit } from "../genkit/genkit";
 import { InMemoryChatHistoryStore } from "../history/in-memory-chat-history-store";
 
 /**
- * Test suite for Chat Flow Core Functionality.
+ * Test suite for Chat Endpoint - Chat History.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Flow Chat History Tests", () => {
+describe("Test - Endpoint Chat History Tests", () => {
+  // Initialize endpoint runner
+  const runEndpoint = getChatEndpointRunner();
+
   beforeAll(() => {
     setupGenkit();
   });
@@ -28,11 +33,11 @@ describe("Test - Flow Chat History Tests", () => {
     test(
       "Sending invalid Chat ID when chat history is disabled",
       async () => {
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-chat-id-history-disabled",
           enableChatHistory: false,
         });
-        const response = await runFlow(flow, {
+        const response = await runEndpoint(flow, {
           query: "How can you help? In one sentence.",
           chatId: "test-chat-id",
         });
@@ -54,12 +59,12 @@ describe("Test - Flow Chat History Tests", () => {
     test(
       "Sending invalid Chat ID when chat history is enabled",
       async () => {
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-chat-id-history-enabled",
           enableChatHistory: true,
           chatHistoryStore: new InMemoryChatHistoryStore(),
         });
-        const response = await runFlow(flow, {
+        const response = await runEndpoint(flow, {
           query: "How can you help? In one sentence.",
           chatId: "test-chat-id",
         });
@@ -73,12 +78,12 @@ describe("Test - Flow Chat History Tests", () => {
     test(
       "Test chat history works",
       async () => {
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-chat-history",
           enableChatHistory: true,
           chatHistoryStore: new InMemoryChatHistoryStore(),
         });
-        const response = await runFlow(flow, {
+        const response = await runEndpoint(flow, {
           query: "What is Firebase? In one sentence.",
         });
         expect(response).toBeDefined();
@@ -90,7 +95,7 @@ describe("Test - Flow Chat History Tests", () => {
           // response should not be empty
           expect(response.response.length).toBeGreaterThan(0);
 
-          const secondResponse = await runFlow(flow, {
+          const secondResponse = await runEndpoint(flow, {
             query: "Can I use it for authentication? In one sentence.",
             chatId,
           });

@@ -15,7 +15,7 @@ import { app } from "firebase-admin";
  * Configurations for the FirestoreAPIKeyStore.
  * @property collectionName - The name of the Firestore collection to store API keys.
  */
-type FirestoreAPIKeyStoreConfig = {
+export type FirestoreAPIKeyStoreConfig = {
   firebaseApp: app.App;
   collectionName: string;
 };
@@ -70,18 +70,18 @@ export class FirestoreAPIKeyStore implements APIKeyStore {
   async updateKey({
     key,
     status,
-    flows,
+    endpoints,
     requests,
   }: {
     key: string;
     status?: APIKeyStatus;
-    flows?: string[] | "all";
+    endpoints?: string[] | "all";
     requests?: number;
   }): Promise<WriteResult> {
     // values to update
     const valuesToUpdate = {
       ...(status && { status }),
-      ...(flows && { endpoints: flows }),
+      ...(endpoints && { endpoints: endpoints }),
       ...(requests && { requests }),
     };
     // Update the API key in the Firestore collection

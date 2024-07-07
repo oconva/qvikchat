@@ -1,14 +1,19 @@
-import { runFlow } from "@genkit-ai/flow";
-import { defineChatFlow } from "../flows/flow";
-import { setupGenkit } from "../genkit";
-import { getDataRetriever } from "../rag/retrievers/data-retriever";
+import {
+  defineChatEndpoint,
+  getChatEndpointRunner,
+} from "../endpoints/endpoints";
+import { setupGenkit } from "../genkit/genkit";
+import { getDataRetriever } from "../rag/data-retrievers/data-retrievers";
 
 /**
- * Test suite for Chat Flow Core Functionality.
+ * Test suite for Chat Endpoint RAG Functionality.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Flow RAG Tests", () => {
+describe("Test - Endpoint RAG Tests", () => {
+  // Initialize endpoint runner
+  const runEndpoint = getChatEndpointRunner();
+
   beforeAll(() => {
     setupGenkit();
   });
@@ -24,21 +29,21 @@ describe("Test - Flow RAG Tests", () => {
 
   if (Tests.test_rag_works)
     test(
-      "Test RAG works (w/ Data Retriever, Embedding Generation, RAG-enabled Flow)",
+      "Test RAG works (w/ Data Retriever, Embedding Generation, RAG-enabled Endpoint)",
       async () => {
         // define chat flow
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-rag",
           enableRAG: true,
           retriever: await getDataRetriever({
             dataType: "csv",
-            filePath: "lib/tests/test-data/inventory-data.csv",
+            filePath: "src/tests/test-data/inventory-data.csv",
             generateEmbeddings: true,
           }),
         });
         try {
           // send test query
-          const response = await runFlow(flow, {
+          const response = await runEndpoint(flow, {
             query: "What is the price of Seagate ST1000DX002?",
           });
 

@@ -1,15 +1,20 @@
-import { runFlow } from "@genkit-ai/flow";
-import { defineChatFlow } from "../flows/flow";
+import {
+  defineChatEndpoint,
+  getChatEndpointRunner,
+} from "../endpoints/endpoints";
 import { InMemoryAPIKeyStore } from "../auth/in-memory-api-key-store";
 import { generateAlphaNumericString } from "../utils/utils";
-import { setupGenkit } from "../genkit";
+import { setupGenkit } from "../genkit/genkit";
 
 /**
- * Test suite for Chat Flow Core Functionality.
+ * Test suite for Chat Endpoint - API Keys.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Flow API Keys Tests", () => {
+describe("Test - Endpoint API Keys Tests", () => {
+  // Initialize endpoint runner
+  const runEndpoint = getChatEndpointRunner();
+
   beforeAll(() => {
     setupGenkit();
   });
@@ -38,7 +43,7 @@ describe("Test - Flow API Keys Tests", () => {
           endpoints: "all", // allow access to all endpoints
         });
         // define chat flow
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-api-key-required",
           enableAuth: true,
           apiKeyStore,
@@ -48,7 +53,7 @@ describe("Test - Flow API Keys Tests", () => {
 
         try {
           // send test query without API key
-          response = await runFlow(flow, {
+          response = await runEndpoint(flow, {
             query: "How can you help? In one sentence.",
             uid: "test-user",
           });
@@ -82,14 +87,14 @@ describe("Test - Flow API Keys Tests", () => {
           endpoints: "all", // allow access to all endpoints
         });
         // define chat flow
-        const flow = defineChatFlow({
+        const flow = defineChatEndpoint({
           endpoint: "test-chat-open-api-key-auth-working",
           enableAuth: true,
           apiKeyStore,
         });
         try {
           // send test query with API key
-          const response = await runFlow(
+          const response = await runEndpoint(
             flow,
             {
               query: "How can you help? In one sentence.",

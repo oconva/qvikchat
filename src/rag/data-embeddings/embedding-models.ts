@@ -1,6 +1,6 @@
 import { EmbeddingsInterface } from "@langchain/core/embeddings";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
-import { TaskType } from "../retrievers/retriever";
+import { TaskType } from "../data-retrievers/data-retrievers";
 import {
   AzureOpenAIInput,
   OpenAIEmbeddings,

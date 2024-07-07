@@ -1,5 +1,7 @@
 import { MessageData } from "@genkit-ai/ai/model";
 import * as crypto from "crypto";
+import { config as dotenvConfig } from "dotenv";
+import { resolve as pathResolve } from "path";
 
 export function generateAlphaNumericString(
   bytes: number = 32,
@@ -35,4 +37,21 @@ export function getChatHistoryAsString(messages: MessageData[]): string {
   }
   chatHistory += "</chat_history>";
   return chatHistory;
+}
+
+export function getEnvironmentVariable(name: string, envFileName?: string) {
+  // Certain Deno setups will throw an error if you try to access environment variables
+  // https://github.com/langchain-ai/langchainjs/issues/1412
+  console.log("getEnvironmentVariable: ", pathResolve(envFileName ?? ".env"));
+  try {
+    dotenvConfig({
+      path: pathResolve(envFileName ?? ".env"),
+    });
+    return typeof process !== "undefined"
+      ? // eslint-disable-next-line no-process-env
+        process.env?.[name]
+      : undefined;
+  } catch (e) {
+    throw new Error(`Error getting environment variable. ${e}`);
+  }
 }

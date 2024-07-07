@@ -1,11 +1,11 @@
 import { ConfigOptions } from "@genkit-ai/core";
 import { CorsOptions } from "cors";
-import { SupportedModels } from "./models/model";
+import { SupportedModels } from "../models/models";
 
 /**
- * Type for the parameters of the startFlowsServer function
+ * Type for the parameters to start the server
  */
-export type StartFlowsServerParamsType = {
+export type StartServerParamsType = {
   port?: number;
   cors?: CorsOptions;
   pathPrefix?: string;
@@ -36,7 +36,7 @@ export const cacheStoreConfig = {
  *
  * @property {string} primaryLLM - The primary LLM to use (for example, for chat completion tasks)
  * @property {ConfigOptions} genkitConfig - The configuration options for the Genkit library
- * @property {StartFlowsServerParamsType} startFlowsServerParams - The parameters for the startFlowsServer function
+ * @property {StartServerParamsType} startServerParams - Parameters for starting the server
  * @property {boolean} enableAPIKeyAuth - Enable API key authentication
  * @property {CacheStoreConfig} cacheStoreConfig - Cache store configuration
  *
@@ -47,8 +47,8 @@ export interface GlobalConfigInterface {
   primaryLLM?: SupportedModels;
   /** Genkit configuration options */
   genkitConfig?: ConfigOptions;
-  /** Parameters for the startFlowsServer function */
-  startFlowsServerParams?: StartFlowsServerParamsType;
+  /** Parameters for server */
+  startServerParams?: StartServerParamsType;
   /** Enable API key authentication */
   enableAPIKeyAuth?: boolean;
   /** Cache store configuration */
@@ -65,7 +65,7 @@ export const GLOBAL_CONFIG: GlobalConfigInterface = {
     logLevel: "warn",
     enableTracingAndMetrics: true,
   },
-  startFlowsServerParams: {
+  startServerParams: {
     port: 8884,
   },
   enableAPIKeyAuth: true,

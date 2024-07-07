@@ -1,4 +1,5 @@
 {
+  "include": ["src/**/*"],
   "compileOnSave": true,
   "compilerOptions": {
     "module": "CommonJS",
@@ -9,12 +10,12 @@
     "target": "ES2017",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "lib": ["ESNext"],
+    "lib": ["es2017"],
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -26,8 +27,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "incremental": true,
-    "paths": {
-      "/*": ["./*"]
-    }
+    "declaration": true,
+    "emitDeclarationOnly": true
   }
 }

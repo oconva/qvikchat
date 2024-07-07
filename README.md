@@ -170,10 +170,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define an open-ended chat flow.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Open-ended chat flow
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent(),
   endpoint: ENDPOINTS.CHAT.OPEN_ENDED,
 });
@@ -239,10 +239,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define an open-ended chat flow that supports chat history.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Open-ended chat flow with support for chat history
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent({
     useChatHistory: true,
   }),
@@ -318,10 +318,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define an open-ended chat flow that supports chat history, response caching, and API key authentication.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Open-ended chat flow with support for chat history, authentication, and caching
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent({
     useChatHistory: true,
   }),
@@ -386,10 +386,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define a close-ended chat flow.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Close-ended chat flow (will only answer queries related to specified topic, in this case, 'Firebase')
-defineChatFlow(
+defineChatEndpoint(
   new ChatAgent({
     agentTypeConfig: {
       agentType: "close-ended",
@@ -461,10 +461,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define a close-ended chat flow that supports chat history.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Close-ended chat flow with support for chat history
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent({
     agentTypeConfig: {
       agentType: "close-ended",
@@ -540,10 +540,10 @@ For failed requests, the response will contain:
 Check `src/index.ts` to see how you can define a close-ended chat flow that supports chat history, response caching, and API key authentication.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Close-ended chat flow with support for chat history, authentication, and caching
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent({
     agentTypeConfig: {
       agentType: "close-ended",
@@ -630,13 +630,13 @@ Check `src/index.ts` to see how you can define a RAG chat flow that supports cha
 Below example uses a RAG agent to answer user queries related to 'Store Inventory Data'. The sample inventory data is stored in `rag/knowledge-bases/test-retail-store-kb/inventory-data.csv` in CSV format. We'll index this data, store it in a vector store, and use a vector store retriever to retrieve the data when answering user queries.
 
 ```typescript
-import { defineChatFlow } from "./flows/flow";
+import { defineChatEndpoint } from "./flows/flow";
 
 // Index inventory data and get retriever
 const inventoryDataRetriever = await getInventoryDataRetriever();
 
 // Inventory Data chat flow with support for chat history, authentication, caching and RAG
-defineChatFlow({
+defineChatEndpoint({
   chatAgent: new ChatAgent({
     agentTypeConfig: {
       agentType: "rag",

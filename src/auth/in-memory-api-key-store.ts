@@ -54,12 +54,12 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
   async updateKey({
     key,
     status,
-    flows,
+    endpoints,
     requests,
   }: {
     key: string;
     status?: APIKeyStatus;
-    flows?: string[] | "all";
+    endpoints?: string[] | "all";
     requests?: number;
   }): Promise<boolean> {
     const apiKey = this.keys.get(key);
@@ -68,8 +68,8 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
     if (status) {
       apiKey.status = status;
     }
-    if (flows) {
-      apiKey.endpoints = flows;
+    if (endpoints) {
+      apiKey.endpoints = endpoints;
     }
     if (requests) {
       apiKey.requests = requests;
