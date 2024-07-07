@@ -35,7 +35,7 @@ jobs:
 
       - name: Format Code
         run: pnpm prettier . --write
-        
+
       - name: Build
         run: pnpm build
 
