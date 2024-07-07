@@ -30,7 +30,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Set NPM Auth Token
+        run: pnpm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
       - name: Publish 🚀
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
