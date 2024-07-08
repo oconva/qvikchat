@@ -36,8 +36,8 @@ describe("Test - Endpoint Cache Tests", () => {
         const cacheStore = new InMemoryCacheStore({
           cacheQueryAfterThreshold: 2, // cache response after same query is received twice
         });
-        // define chat flow
-        const flow = defineChatEndpoint({
+        // define chat endpoint
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-cache",
           enableCache: true,
           cacheStore: cacheStore,
@@ -45,17 +45,17 @@ describe("Test - Endpoint Cache Tests", () => {
 
         try {
           // send query the first time
-          await runEndpoint(flow, {
+          await runEndpoint(endpoint, {
             query: "Answer in one sentence: what is Firebase?",
           });
 
           // send query the second time
-          await runEndpoint(flow, {
+          await runEndpoint(endpoint, {
             query: "Answer in one sentence: what is Firebase?",
           });
 
           // send query the third time
-          const response = await runEndpoint(flow, {
+          const response = await runEndpoint(endpoint, {
             query: "Answer in one sentence: what is Firebase?",
           });
 

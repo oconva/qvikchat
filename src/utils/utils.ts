@@ -42,7 +42,6 @@ export function getChatHistoryAsString(messages: MessageData[]): string {
 export function getEnvironmentVariable(name: string, envFileName?: string) {
   // Certain Deno setups will throw an error if you try to access environment variables
   // https://github.com/langchain-ai/langchainjs/issues/1412
-  console.log("getEnvironmentVariable: ", pathResolve(envFileName ?? ".env"));
   try {
     dotenvConfig({
       path: pathResolve(envFileName ?? ".env"),
