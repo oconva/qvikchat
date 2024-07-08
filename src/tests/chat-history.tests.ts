@@ -33,11 +33,11 @@ describe("Test - Endpoint Chat History Tests", () => {
     test(
       "Sending invalid Chat ID when chat history is disabled",
       async () => {
-        const flow = defineChatEndpoint({
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-chat-id-history-disabled",
           enableChatHistory: false,
         });
-        const response = await runEndpoint(flow, {
+        const response = await runEndpoint(endpoint, {
           query: "How can you help? In one sentence.",
           chatId: "test-chat-id",
         });
@@ -59,12 +59,12 @@ describe("Test - Endpoint Chat History Tests", () => {
     test(
       "Sending invalid Chat ID when chat history is enabled",
       async () => {
-        const flow = defineChatEndpoint({
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-chat-id-history-enabled",
           enableChatHistory: true,
           chatHistoryStore: new InMemoryChatHistoryStore(),
         });
-        const response = await runEndpoint(flow, {
+        const response = await runEndpoint(endpoint, {
           query: "How can you help? In one sentence.",
           chatId: "test-chat-id",
         });
@@ -78,12 +78,12 @@ describe("Test - Endpoint Chat History Tests", () => {
     test(
       "Test chat history works",
       async () => {
-        const flow = defineChatEndpoint({
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-chat-history",
           enableChatHistory: true,
           chatHistoryStore: new InMemoryChatHistoryStore(),
         });
-        const response = await runEndpoint(flow, {
+        const response = await runEndpoint(endpoint, {
           query: "What is Firebase? In one sentence.",
         });
         expect(response).toBeDefined();
@@ -95,7 +95,7 @@ describe("Test - Endpoint Chat History Tests", () => {
           // response should not be empty
           expect(response.response.length).toBeGreaterThan(0);
 
-          const secondResponse = await runEndpoint(flow, {
+          const secondResponse = await runEndpoint(endpoint, {
             query: "Can I use it for authentication? In one sentence.",
             chatId,
           });

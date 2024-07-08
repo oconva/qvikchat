@@ -235,12 +235,17 @@ export class ChatAgent implements ChatAgentInterface {
    * @returns Returns the formatted input.
    * @throws Throws an error if the agent type is invalid.
    */
-  private static getFormattedInput(
-    agentType?: ChatAgentType,
-    query?: string,
-    topic?: string,
-    context?: string
-  ) {
+  private static getFormattedInput({
+    agentType,
+    query,
+    context,
+    topic,
+  }: {
+    agentType?: ChatAgentType;
+    query?: string;
+    topic?: string;
+    context?: string;
+  }) {
     switch (agentType) {
       case "open-ended":
         return {
@@ -288,7 +293,7 @@ export class ChatAgent implements ChatAgentInterface {
       // if undefined, will use model defined in the dotprompt
       model: model,
       config: modelConfig,
-      input: ChatAgent.getFormattedInput(agentType, query, context, topic),
+      input: ChatAgent.getFormattedInput({ agentType, query, context, topic }),
       tools: tools,
     });
     // return the response

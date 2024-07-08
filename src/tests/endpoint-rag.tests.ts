@@ -31,8 +31,8 @@ describe("Test - Endpoint RAG Tests", () => {
     test(
       "Test RAG works (w/ Data Retriever, Embedding Generation, RAG-enabled Endpoint)",
       async () => {
-        // define chat flow
-        const flow = defineChatEndpoint({
+        // define chat endpoint
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-rag",
           enableRAG: true,
           retriever: await getDataRetriever({
@@ -43,7 +43,7 @@ describe("Test - Endpoint RAG Tests", () => {
         });
         try {
           // send test query
-          const response = await runEndpoint(flow, {
+          const response = await runEndpoint(endpoint, {
             query: "What is the price of Seagate ST1000DX002?",
           });
 

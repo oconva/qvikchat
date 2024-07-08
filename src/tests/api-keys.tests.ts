@@ -42,8 +42,8 @@ describe("Test - Endpoint API Keys Tests", () => {
           status: "active",
           endpoints: "all", // allow access to all endpoints
         });
-        // define chat flow
-        const flow = defineChatEndpoint({
+        // define chat endpoint
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-api-key-required",
           enableAuth: true,
           apiKeyStore,
@@ -53,7 +53,7 @@ describe("Test - Endpoint API Keys Tests", () => {
 
         try {
           // send test query without API key
-          response = await runEndpoint(flow, {
+          response = await runEndpoint(endpoint, {
             query: "How can you help? In one sentence.",
             uid: "test-user",
           });
@@ -86,8 +86,8 @@ describe("Test - Endpoint API Keys Tests", () => {
           status: "active",
           endpoints: "all", // allow access to all endpoints
         });
-        // define chat flow
-        const flow = defineChatEndpoint({
+        // define chat endpoint
+        const endpoint = defineChatEndpoint({
           endpoint: "test-chat-open-api-key-auth-working",
           enableAuth: true,
           apiKeyStore,
@@ -95,7 +95,7 @@ describe("Test - Endpoint API Keys Tests", () => {
         try {
           // send test query with API key
           const response = await runEndpoint(
-            flow,
+            endpoint,
             {
               query: "How can you help? In one sentence.",
               uid: testUID,
