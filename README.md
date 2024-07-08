@@ -8,6 +8,9 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 
 [Get Started](https://qvikchat.pkural.ca/getting-started) | [Documentation](https://qvikchat.pkural.ca)
 
+## QvikChat Chat Endpoint demo
+![QvikChat RAG Demo](https://github.com/oconva/qvikchat/assets/17651852/11864142-b75b-4076-87fe-dbd301dbfa75)
+
 ## Features
 
 - **Firebase Genkit**: Built using the open source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered apps or services quickly and efficiently.
@@ -79,9 +82,14 @@ git clone https://github.com/oconva/qvikchat-starter-template.git
 Once you have cloned the starter template, you can run the following commands to get started:
 
 ```bash copy
-cd qvikchat-starter-template
 npm install # or pnpm install
-npm run start # or pnpm start
+npm run dev # or pnpm dev
+```
+
+The starter template predefines some chat endpoints. Once, you run the project, you can test the endpoints from terminal using command below:
+
+```bash copy
+curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "Answer in one sentence: What is Firebase Firestore?" } }'
 ```
 
 To build the project, run:
