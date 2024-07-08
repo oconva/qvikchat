@@ -1,4 +1,3 @@
-import path from "path";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { formatDocumentsAsString } from "langchain/util/document";
@@ -176,7 +175,7 @@ export const getDataRetriever = async (
 
   try {
     // Retrieve the documents from the specified file path
-    const docs = await getDocs(config.dataType, path.resolve(config.filePath));
+    const docs = await getDocs(config.dataType, config.filePath);
 
     const { defaultDataSplitterType, defaultSplitterConfig } =
       getAppropriateDataSplitter(config.dataType);
