@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x, 21.x, 22.x]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
@@ -30,3 +30,7 @@ jobs:
         run: pnpm prettier . --write
       - name: Build
         run: pnpm build
+      - name: Tests
+        run: pnpm test
+    env:
+      GOOGLE_GENAI_API_KEY: ${{ secrets.GOOGLE_GENAI_API_KEY }}
