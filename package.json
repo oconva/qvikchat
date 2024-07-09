@@ -1,6 +1,6 @@
 {
   "name": "@oconva/qvikchat",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
@@ -98,10 +98,10 @@
       "default": "./lib/history/chat-history-store.js"
     },
     "./firebase": {
-      "types": "./lib/integrations/firebase.d.ts",
-      "import": "./lib/integrations/firebase.js",
-      "require": "./lib/integrations/firebase.js",
-      "default": "./lib/integrations/firebase.js"
+      "types": "./lib/integrations/firebase/firebase.d.ts",
+      "import": "./lib/integrations/firebase/firebase.js",
+      "require": "./lib/integrations/firebase/firebase.js",
+      "default": "./lib/integrations/firebase/firebase.js"
     },
     "./models": {
       "types": "./lib/models/models.d.ts",
