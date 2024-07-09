@@ -9,6 +9,7 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 [Get Started](https://qvikchat.pkural.ca/getting-started) | [Documentation](https://qvikchat.pkural.ca)
 
 ## QvikChat Chat Endpoint demo
+
 ![QvikChat RAG Demo](https://github.com/oconva/qvikchat/assets/17651852/11864142-b75b-4076-87fe-dbd301dbfa75)
 
 ## Features
@@ -35,6 +36,14 @@ To install QvikChat as a package, run the following command:
 
 ```bash copy
 npm install @oconva/qvikchat # or pnpm add @oconva/qvikchat
+```
+
+Please ensure that correctly set up the environment variables. By default, QvikChat uses Google's Gemini API for text generation and embedding models. If you don't yet have a Google Gen AI API key, you can get one from [Gemini API - Get an API Key](https://ai.google.dev/gemini-api/docs/api-key).
+
+`.env` should have:
+
+```bash
+GOOGLE_GENAI_API_KEY=
 ```
 
 Before you can deploy your chat endpoints, you need to setup Firebase Genkit, either by using the default configurations or by providing your own configurations, these may include additional Genkit plugins you may want to enable (e.g. to add support for a new language model). When starting out, we recommend using the default configurations.
@@ -72,37 +81,6 @@ You could also use the [Genkit Developer UI](#genkit-developer-ui) to test the e
 ### QvikChat Starter Template
 
 To get up and running quickly, you can use the QvikChat starter template. The starter template is a pre-configured project with all the necessary configurations and setup to get you started with QvikChat write quality and reliable code. It comes pre-configured with support for TypeScript, ESLint, Prettier, Jest, SWC, and GitHub Actions, so you can get started with developing the next revolutionary chat app right away.
-
-Simply, clone the [QvikChat starter template](https://github.com/oconva/qvikchat-starter-template) to get started.
-
-```bash copy
-git clone https://github.com/oconva/qvikchat-starter-template.git
-```
-
-Once you have cloned the starter template, you can run the following commands to get started:
-
-```bash copy
-npm install # or pnpm install
-npm run dev # or pnpm dev
-```
-
-The starter template predefines some chat endpoints. Once, you run the project, you can test the endpoints from terminal using command below:
-
-```bash copy
-curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "Answer in one sentence: What is Firebase Firestore?" } }'
-```
-
-To build the project, run:
-
-```bash copy
-npm run build # or pnpm build
-```
-
-And to run the included tests, run:
-
-```bash copy
-npm run test # or pnpm test
-```
 
 To learn more about the QvikChat starter template, check the [QvikChat Starter Template](https://github.com/oconva/qvikchat-starter-template) repo.
 
