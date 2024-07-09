@@ -16,6 +16,9 @@ import {
 } from "../rag/data-retrievers/data-retrievers";
 import { getDataRetriever } from "../rag/data-retrievers/data-retrievers";
 import { ChatHistoryStore } from "../history/chat-history-store";
+import { Dotprompt } from "@genkit-ai/dotprompt";
+import { ToolArgument } from "@genkit-ai/ai/tool";
+import { ModelConfig, SupportedModels } from "../models/models";
 
 type ChatHistoryParams =
   | {
@@ -70,9 +73,18 @@ type ChatAgentTypeParams =
       topic: string;
     };
 
+type EndpointChatAgentConfig = {
+  systemPrompt?: Dotprompt;
+  chatPrompt?: Dotprompt;
+  tools?: ToolArgument[];
+  model?: SupportedModels;
+  modelConfig?: ModelConfig;
+};
+
 export type DefineChatEndpointConfig = {
   endpoint: string;
   enableChatHistory?: boolean;
+  chatAgentConfig?: EndpointChatAgentConfig;
 } & ChatAgentTypeParams &
   ChatHistoryParams &
   AuthParams &
@@ -169,8 +181,12 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
             ? new ChatAgent({
                 agentType: "close-ended",
                 topic: config.topic,
+                ...config.chatAgentConfig,
               })
-            : new ChatAgent();
+            : new ChatAgent({
+                agentType: "open-ended",
+                ...config.chatAgentConfig,
+              });
       }
       // If RAG is enabled
       else {
@@ -178,6 +194,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         chatAgent = new ChatAgent({
           agentType: "rag",
           topic: config.topic,
+          ...config.chatAgentConfig,
         });
       }
 
