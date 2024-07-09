@@ -47,13 +47,15 @@ type CacheParams =
 type RAGParams =
   | {
       enableRAG: true;
-      contextTopic?: string;
+      topic: string;
       retrieverConfig: RetrieverConfig;
+      agentType?: "close-ended";
     }
   | {
       enableRAG: true;
-      contextTopic?: string;
+      topic: string;
       retriever: TextDataRetriever;
+      agentType?: "close-ended";
     }
   | {
       enableRAG?: false;
@@ -64,11 +66,8 @@ type ChatAgentTypeParams =
       agentType?: "open-ended";
     }
   | {
-      agentType: "close-ended";
+      agentType?: "close-ended";
       topic: string;
-    }
-  | {
-      chatAgent: ChatAgent;
     };
 
 export type DefineChatEndpointConfig = {
@@ -154,35 +153,32 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       // store chat agent
       let chatAgent: ChatAgent;
 
-      // Initialize chat agent if not provided
-      if (!("chatAgent" in config)) {
-        // Initialize chat agent based on the provided type
-        // If agent type if close-ended, and RAG is not enabled (i.e., no context needed in queries)
-        if (config.agentType === "close-ended" && !config.enableRAG) {
-          // check if topic is provided
-          if (!config.topic) {
-            throw new Error(
-              "Error: Topic not provided for close-ended chat agent."
-            );
-          }
-          // Initialize close-ended chat agent with the provided topic
-          chatAgent = new ChatAgent({
-            agentType: "close-ended",
-            topic: config.topic,
-          });
-        } else if (config.enableRAG) {
-          // Initialize chat agent with RAG
-          chatAgent = new ChatAgent({
-            agentType: "rag",
-            topic: ("contextTopic" in config && config.contextTopic) || "",
-          });
-        } else {
-          // Initialize open-ended chat
-          chatAgent = new ChatAgent();
+      // Initialize chat agent based on the provided type
+      if (!config.enableRAG) {
+        // check if topic is provided
+        if (config.agentType === "close-ended" && !config.topic) {
+          throw new Error(
+            "Error: Topic not provided for close-ended chat agent."
+          );
         }
-      } else {
-        // use the provided chat agent
-        chatAgent = config.chatAgent;
+
+        // Initialize close-ended chat agent with the provided topic if close-ended agent
+        // otherwise, initialize open-ended chat agent
+        chatAgent =
+          config.agentType === "close-ended"
+            ? new ChatAgent({
+                agentType: "close-ended",
+                topic: config.topic,
+              })
+            : new ChatAgent();
+      }
+      // If RAG is enabled
+      else {
+        // Initialize chat agent with RAG
+        chatAgent = new ChatAgent({
+          agentType: "rag",
+          topic: config.topic,
+        });
       }
 
       // store query with context (includes the previous chat history if any, since that provides essential context)
