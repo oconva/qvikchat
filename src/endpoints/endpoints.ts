@@ -93,8 +93,10 @@ export type DefineChatEndpointConfig = {
 
 /**
  * Method to define a chat endpoint using the provided chat agent and endpoint, with support for chat history.
- * @param chatAgent Chat Agent instance to use for this endpoint.
+ * @param chatAgentConfig Configurations for the chat agent, like LLM model, system prompt, chat prompt, and tools.
  * @param endpoint Server endpoint to which queries should be sent to run this chat flow.
+ * @param agentType Type of chat agent to use for this endpoint. Can be "open-ended" or "close-ended".
+ * @param topic Topic for the close-ended or RAG chat agent. Required if agentType is "close-ended" or if RAG is enabled.
  * @param enableChatHistory Enable chat history for this endpoint. If chat ID is provided, chat history will be fetched and used to generate response. If no chat ID is provided, a new chat ID will be generated to store chat history, and will be returned in the response.
  * @param chatHistoryStore Chat History Store instance to use for this endpoint.
  * @param enableAuth Enable authentication for this endpoint. Must provide an API Key Store instance if set to true.
