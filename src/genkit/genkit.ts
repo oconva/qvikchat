@@ -39,16 +39,7 @@ export type SetupGenkitConfig = {
 /**
  * Required plugins for Genkit setup.
  */
-const requiredPlugins: PluginProvider[] = [
-  googleAI({
-    apiKey: getEnvironmentVariable("GOOGLE_GENAI_API_KEY"),
-  }),
-  dotprompt(),
-  langchain({}),
-  openAI({
-    apiKey: getEnvironmentVariable("OPENAI_API_KEY"),
-  }),
-];
+const requiredPlugins: PluginProvider[] = [dotprompt(), langchain({})];
 
 /**
  * Function to check if a plugin exists in the list of plugins.
@@ -68,6 +59,36 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
   // if plugins provided, add them to the required plugins
   if (config.plugins) {
     requiredPlugins.push(...config.plugins);
+  }
+  // check if googleAI or openAI plugin is already added by user in provided plugins
+  if (
+    !pluginExists("googleAI", requiredPlugins) &&
+    !pluginExists("openAI", requiredPlugins)
+  ) {
+    // check at least one of the API keys is provided
+    if (
+      !getEnvironmentVariable("GOOGLE_GENAI_API_KEY") &&
+      !getEnvironmentVariable("OPENAI_API_KEY")
+    ) {
+      throw new Error(
+        "At least one of the API keys (GOOGLE_GENAI_API_KEY or OPENAI_API_KEY) is required to be set in the `.env` file."
+      );
+    }
+    // depending on the API keys provided, add the respective plugin
+    if (getEnvironmentVariable("GOOGLE_GENAI_API_KEY")) {
+      requiredPlugins.push(
+        googleAI({
+          apiKey: getEnvironmentVariable("GOOGLE_GENAI_API_KEY"),
+        })
+      );
+    }
+    if (getEnvironmentVariable("OPENAI_API_KEY")) {
+      requiredPlugins.push(
+        openAI({
+          apiKey: getEnvironmentVariable("OPENAI_API_KEY"),
+        })
+      );
+    }
   }
   // configure firebase if configurations provided
   if (config.firebaseConfig) {
