@@ -1,6 +1,6 @@
 {
   "name": "@oconva/qvikchat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
@@ -17,7 +17,7 @@
     "buildtypes": "tsc",
     "lint": "pnpm eslint .",
     "format": "pnpm prettier . --write",
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-watchman",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --verbose --no-watchman",
     "buildandtest": "pnpm build && pnpm test",
     "predeploy": "pnpm lint && pnpm format && pnpm build && pnpm test"
   },
