@@ -51,6 +51,6 @@ export function getEnvironmentVariable(name: string, envFileName?: string) {
         process.env?.[name]
       : undefined;
   } catch (e) {
-    throw new Error(`Error getting environment variable. ${e}`);
+    return undefined;
   }
 }
