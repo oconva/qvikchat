@@ -19,6 +19,7 @@ import { ChatHistoryStore } from "../history/chat-history-store";
 import { Dotprompt } from "@genkit-ai/dotprompt";
 import { ToolArgument } from "@genkit-ai/ai/tool";
 import { ModelConfig, SupportedModels } from "../models/models";
+import { getSystemPromptText } from "../prompts/system-prompts";
 
 type ChatHistoryParams =
   | {
@@ -259,6 +260,43 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           if (cachedQuery.response) {
             // increment cache hits
             config.cacheStore.incrementCacheHits(queryHash);
+
+            // if chat history is enabled
+            if (config.enableChatHistory) {
+              // if chat ID is provided
+              // add the query and response to the chat history for the provided chat ID
+              if (chatId) {
+                const messages: MessageData[] = [
+                  { role: "user", content: [{ text: query }] },
+                  { role: "model", content: [{ text: cachedQuery.response }] },
+                ];
+                // add messages to chat history for the provided chat ID
+                // will throw an error if the provided chat ID is not valid
+                await config.chatHistoryStore.addMessages(chatId, messages);
+              }
+
+              // if chat ID is not provided
+              // store the chat history so the conversation can be continued
+              else {
+                // get system prompt text based on agent type
+                const systemPrompt = getSystemPromptText(
+                  config.agentType === "close-ended"
+                    ? config.enableRAG
+                      ? { agentType: "rag", topic: config.topic }
+                      : { agentType: "close-ended", topic: config.topic }
+                    : { agentType: "open-ended" }
+                );
+                // store the chat history so the conversation can be continued
+                const messages: MessageData[] = [
+                  { role: "system", content: [{ text: systemPrompt }] },
+                  { role: "user", content: [{ text: query }] },
+                  { role: "model", content: [{ text: cachedQuery.response }] },
+                ];
+                // add messages to chat history and get the chat ID
+                chatId = await config.chatHistoryStore.addChatHistory(messages);
+              }
+            }
+
             // return the cached response with the chat ID
             return config.enableChatHistory
               ? { response: cachedQuery.response, chatId }

@@ -1,9 +1,9 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from "../endpoints/endpoints";
-import { setupGenkit } from "../genkit/genkit";
-import { InMemoryChatHistoryStore } from "../history/in-memory-chat-history-store";
+} from "../../endpoints/endpoints";
+import { setupGenkit } from "../../genkit/genkit";
+import { InMemoryChatHistoryStore } from "../../history/in-memory-chat-history-store";
 
 /**
  * Test suite for Chat Endpoint - Chat History.
@@ -24,6 +24,7 @@ describe("Test - Endpoint Chat History Tests", () => {
     sending_invalid_chat_id_when_chat_history_is_disabled: true,
     sending_invalid_chat_id_when_chat_history_is_enabled: true,
     test_chat_history_works: true,
+    test_chat_history_works_with_cache: true,
   };
 
   // default test timeout
