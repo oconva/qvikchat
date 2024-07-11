@@ -1,10 +1,10 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from "../endpoints/endpoints";
-import { InMemoryCacheStore } from "../cache/in-memory-cache-store";
-import { setupGenkit } from "../genkit/genkit";
-import { CacheCollection } from "../cache/cache-store";
+} from "../../endpoints/endpoints";
+import { InMemoryCacheStore } from "../../cache/in-memory-cache-store";
+import { setupGenkit } from "../../genkit/genkit";
+import { CacheCollection } from "../../cache/cache-store";
 
 /**
  * Test suite for Chat Endpoint - Cache.
