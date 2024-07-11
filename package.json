@@ -1,12 +1,12 @@
 {
   "name": "@oconva/qvikchat",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
   },
   "bugs": {
-    "url": "ttps://github.com/oconva/qvikchat/issues"
+    "url": "https://github.com/oconva/qvikchat/issues"
   },
   "homepage": "https://qvikchat.pkural.ca",
   "main": "lib/index.js",
