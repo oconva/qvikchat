@@ -179,7 +179,7 @@
     "@langchain/core": "^0.2.14",
     "@langchain/google-genai": "^0.0.21",
     "@langchain/openai": "^0.2.1",
-    "d3-dsv": "^2.0.0",
+    "d3-dsv": "^3.0.1",
     "dotenv": "^16.4.5",
     "firebase-admin": "^12.2.0",
     "genkitx-chromadb": "^0.5.4",
