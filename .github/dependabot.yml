@@ -1,6 +1,4 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
+# Documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
@@ -11,6 +9,67 @@ updates:
       interval: "daily"
     commit-message:
       prefix: "Dependency Updates"
+    groups:
+      # group dev dependencies together in a single pull request
+      dev-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "@eslint*"
+          - "@swc*"
+          - "@types*"
+          - "eslint*"
+          - "jest"
+          - "prettier"
+          - "ts-*"
+          - "typescript*"
+      dev-dependencies-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "@eslint*"
+          - "@swc*"
+          - "@types*"
+          - "eslint*"
+          - "jest"
+          - "prettier"
+          - "ts-*"
+          - "typescript*"
+      # group Genkit related updates in a single pull request
+      genkit:
+        applies-to: version-updates
+        patterns:
+          - "@genkit*"
+          - "genkit*"
+      genkit-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "@genkit*"
+          - "genkit*"
+      # group langchain related updates in a single pull request
+      langchain:
+        applies-to: version-updates
+        patterns:
+          - "@langchain*"
+          - "langchain"
+          - "d3-dsv" # used for data loading by langchain for CSV
+      langchain-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "@langchain*"
+          - "langchain"
+          - "d3-dsv" # used for data loading by langchain for CSV
+      # group rest of the dependencies together
+      dependencies:
+        applies-to: version-updates
+        patterns:
+          - "dotenv"
+          - "firebase-admin"
+          - "zod"
+      dependencies-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "dotenv"
+          - "firebase-admin"
+          - "zod"
 
   - package-ecosystem: "github-actions"
     directory: "/"
