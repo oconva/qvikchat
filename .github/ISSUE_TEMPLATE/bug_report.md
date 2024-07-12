@@ -7,16 +7,17 @@ labels: bug
 
 **Affected components(s)**
 
-- [ ] Chat Agents
-- [ ] Chat Endpoints
-- [ ] RAG
-- [ ] LLM Models
-- [ ] Vector Stores
-- [ ] Chat History
-- [ ] Response Caching
-- [ ] API Key Authentication
-- [ ] Endpoint Deployment
-- [ ] Other
+- [] API Key Authentication
+- [] Chat Agents
+- [] Chat Endpoints
+- [] Chat History
+- [] Embedding Models
+- [] Endpoint Deployment
+- [] LLM Models
+- [] RAG
+- [] Response Caching
+- [] Vector Stores
+- [] Other
 
 **Describe the bug**
 A short and clear description of what the bug is.
