@@ -1,25 +1,25 @@
-import { z } from "zod";
+import {z} from 'zod';
 import {
   ChatAgent,
   GenerateResponseHistoryProps,
   GenerateResponseProps,
-} from "../agents/chat-agent";
-import { defineFlow, runFlow } from "@genkit-ai/flow";
-import { APIKeyStore } from "../auth/api-key-store";
-import { CacheStore } from "../cache/cache-store";
-import { generateHash, getChatHistoryAsString } from "../utils/utils";
-import { MessageData } from "@genkit-ai/ai/model";
-import { apiKeyAuthPolicy } from "../auth/api-key-auth-policy";
+} from '../agents/chat-agent';
+import {defineFlow, runFlow} from '@genkit-ai/flow';
+import {APIKeyStore} from '../auth/api-key-store';
+import {CacheStore} from '../cache/cache-store';
+import {generateHash, getChatHistoryAsString} from '../utils/utils';
+import {MessageData} from '@genkit-ai/ai/model';
+import {apiKeyAuthPolicy} from '../auth/api-key-auth-policy';
 import {
   RetrieverConfig,
   TextDataRetriever,
-} from "../rag/data-retrievers/data-retrievers";
-import { getDataRetriever } from "../rag/data-retrievers/data-retrievers";
-import { ChatHistoryStore } from "../history/chat-history-store";
-import { Dotprompt } from "@genkit-ai/dotprompt";
-import { ToolArgument } from "@genkit-ai/ai/tool";
-import { ModelConfig, SupportedModels } from "../models/models";
-import { getSystemPromptText } from "../prompts/system-prompts";
+} from '../rag/data-retrievers/data-retrievers';
+import {getDataRetriever} from '../rag/data-retrievers/data-retrievers';
+import {ChatHistoryStore} from '../history/chat-history-store';
+import {Dotprompt} from '@genkit-ai/dotprompt';
+import {ToolArgument} from '@genkit-ai/ai/tool';
+import {ModelConfig, SupportedModels} from '../models/models';
+import {getSystemPromptText} from '../prompts/system-prompts';
 
 type ChatHistoryParams =
   | {
@@ -53,13 +53,13 @@ type RAGParams =
       enableRAG: true;
       topic: string;
       retrieverConfig: RetrieverConfig;
-      agentType?: "close-ended";
+      agentType?: 'close-ended';
     }
   | {
       enableRAG: true;
       topic: string;
       retriever: TextDataRetriever;
-      agentType?: "close-ended";
+      agentType?: 'close-ended';
     }
   | {
       enableRAG?: false;
@@ -67,10 +67,10 @@ type RAGParams =
 
 type ChatAgentTypeParams =
   | {
-      agentType?: "open-ended";
+      agentType?: 'open-ended';
     }
   | {
-      agentType?: "close-ended";
+      agentType?: 'close-ended';
       topic: string;
     };
 
@@ -137,9 +137,9 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       middleware: [
         (req, _, next) => {
           if (config.enableAuth) {
-            const key = req.headers["authorization"];
+            const key = req.headers['authorization'];
             // add API key to the request object's auth property
-            Object.assign(req, { auth: { key } });
+            Object.assign(req, {auth: {key}});
           }
           next();
         },
@@ -147,10 +147,10 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       authPolicy: async (auth, input) => {
         if (config.enableAuth) {
           // check if auth object is valid
-          if (!auth || !auth.key) throw new Error("Error: Invalid API key");
+          if (!auth || !auth.key) throw new Error('Error: Invalid API key');
 
           // check if user ID is provided
-          if (!input.uid) throw new Error("Error: User ID not provided");
+          if (!input.uid) throw new Error('Error: User ID not provided');
 
           // Verify API key and user ID
           await apiKeyAuthPolicy({
@@ -162,8 +162,8 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         }
       },
     },
-    async ({ query, chatId }) => {
-      if (query === "") return { response: "How can I help you today?" };
+    async ({query, chatId}) => {
+      if (query === '') return {response: 'How can I help you today?'};
 
       // store chat agent
       let chatAgent: ChatAgent;
@@ -171,23 +171,23 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       // Initialize chat agent based on the provided type
       if (!config.enableRAG) {
         // check if topic is provided
-        if (config.agentType === "close-ended" && !config.topic) {
+        if (config.agentType === 'close-ended' && !config.topic) {
           throw new Error(
-            "Error: Topic not provided for close-ended chat agent."
+            'Error: Topic not provided for close-ended chat agent.'
           );
         }
 
         // Initialize close-ended chat agent with the provided topic if close-ended agent
         // otherwise, initialize open-ended chat agent
         chatAgent =
-          config.agentType === "close-ended"
+          config.agentType === 'close-ended'
             ? new ChatAgent({
-                agentType: "close-ended",
+                agentType: 'close-ended',
                 topic: config.topic,
                 ...config.chatAgentConfig,
               })
             : new ChatAgent({
-                agentType: "open-ended",
+                agentType: 'open-ended',
                 ...config.chatAgentConfig,
               });
       }
@@ -195,7 +195,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       else {
         // Initialize chat agent with RAG
         chatAgent = new ChatAgent({
-          agentType: "rag",
+          agentType: 'rag',
           topic: config.topic,
           ...config.chatAgentConfig,
         });
@@ -206,7 +206,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       let queryWithContext = query;
 
       // store hash of the query for caching
-      let queryHash: string = "";
+      let queryHash: string = '';
 
       // store chat history for use in generating response later (avoids the need to fetch chat history again later)
       // only used if chat history is enabled and cache is enabled, otherwise is fetched from chat agent
@@ -246,9 +246,9 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         queryHash = generateHash(queryWithContext);
 
         // validate query hash
-        if (!queryHash || queryHash === "")
+        if (!queryHash || queryHash === '')
           return {
-            error: "Error: Invalid query. Could not generate hash.",
+            error: 'Error: Invalid query. Could not generate hash.',
           };
 
         // If the query is cached, return the cached response
@@ -267,8 +267,8 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               // add the query and response to the chat history for the provided chat ID
               if (chatId) {
                 const messages: MessageData[] = [
-                  { role: "user", content: [{ text: query }] },
-                  { role: "model", content: [{ text: cachedQuery.response }] },
+                  {role: 'user', content: [{text: query}]},
+                  {role: 'model', content: [{text: cachedQuery.response}]},
                 ];
                 // add messages to chat history for the provided chat ID
                 // will throw an error if the provided chat ID is not valid
@@ -280,17 +280,17 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               else {
                 // get system prompt text based on agent type
                 const systemPrompt = getSystemPromptText(
-                  config.agentType === "close-ended"
+                  config.agentType === 'close-ended'
                     ? config.enableRAG
-                      ? { agentType: "rag", topic: config.topic }
-                      : { agentType: "close-ended", topic: config.topic }
-                    : { agentType: "open-ended" }
+                      ? {agentType: 'rag', topic: config.topic}
+                      : {agentType: 'close-ended', topic: config.topic}
+                    : {agentType: 'open-ended'}
                 );
                 // store the chat history so the conversation can be continued
                 const messages: MessageData[] = [
-                  { role: "system", content: [{ text: systemPrompt }] },
-                  { role: "user", content: [{ text: query }] },
-                  { role: "model", content: [{ text: cachedQuery.response }] },
+                  {role: 'system', content: [{text: systemPrompt}]},
+                  {role: 'user', content: [{text: query}]},
+                  {role: 'model', content: [{text: cachedQuery.response}]},
                 ];
                 // add messages to chat history and get the chat ID
                 chatId = await config.chatHistoryStore.addChatHistory(messages);
@@ -299,7 +299,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
 
             // return the cached response with the chat ID
             return config.enableChatHistory
-              ? { response: cachedQuery.response, chatId }
+              ? {response: cachedQuery.response, chatId}
               : cachedQuery.response;
           }
 
@@ -329,12 +329,12 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         // If RAG enabled
         if (config.enableRAG) {
           // if retriever not provided, check if retrieverConfig is provided
-          if (!("retriever" in config)) {
+          if (!('retriever' in config)) {
             // if retrieverConfig not provided, return an error
             if (!config.retrieverConfig) {
               return {
                 error:
-                  "Error: To enable RAG you must provide either retriever or retriever config.",
+                  'Error: To enable RAG you must provide either retriever or retriever config.',
               };
             }
             // get retriever using the provided configuration
@@ -363,7 +363,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
             chatHistoryStore: config.chatHistoryStore,
           };
           // Add history props to the query
-          queryWithParams = { ...queryWithParams, ...historyProps };
+          queryWithParams = {...queryWithParams, ...historyProps};
         }
 
         // Generate a response using the chat agent

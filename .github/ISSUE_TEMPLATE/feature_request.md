@@ -1,9 +1,9 @@
 ---
-name: "Feature Request"
-about: "Suggest a new feature or enhancement for QvikChat"
-title: "[Feature Request] - "
-labels: "enhancement"
-assignees: ""
+name: 'Feature Request'
+about: 'Suggest a new feature or enhancement for QvikChat'
+title: '[Feature Request] - '
+labels: 'enhancement'
+assignees: ''
 ---
 
 ### Checklist

@@ -38,14 +38,14 @@ body:
           required: true
   - type: textarea
     attributes:
-      label: "Issue with current documentation:"
+      label: 'Issue with current documentation:'
       description: >
         Please make sure to leave a reference to the document/code you're
         referring to. Feel free to include names of classes, functions, methods
         or concepts you'd like to see documented more.
   - type: textarea
     attributes:
-      label: "Idea or request for content:"
+      label: 'Idea or request for content:'
       description: >
         Please describe as clearly as possible what topics you think are missing
         from the current documentation.

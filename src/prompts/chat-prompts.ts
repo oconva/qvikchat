@@ -1,10 +1,10 @@
-import { MessageSchema } from "@genkit-ai/ai/model";
-import { defineDotprompt } from "@genkit-ai/dotprompt";
-import { z } from "zod";
+import {MessageSchema} from '@genkit-ai/ai/model';
+import {defineDotprompt} from '@genkit-ai/dotprompt';
+import {z} from 'zod';
 
 export const secureChatPrompt = defineDotprompt(
   {
-    model: "googleai/gemini-1.5-flash-latest",
+    model: 'googleai/gemini-1.5-flash-latest',
     input: {
       schema: z.object({
         query: z.string(),
@@ -12,7 +12,7 @@ export const secureChatPrompt = defineDotprompt(
       }),
     },
     output: {
-      format: "text",
+      format: 'text',
     },
   },
   `{{role "system"}}
@@ -30,7 +30,7 @@ User query: {{query}}`
 
 export const secureRagChatPrompt = defineDotprompt(
   {
-    model: "googleai/gemini-1.5-flash-latest",
+    model: 'googleai/gemini-1.5-flash-latest',
     input: {
       schema: z.object({
         query: z.string(),
@@ -38,7 +38,7 @@ export const secureRagChatPrompt = defineDotprompt(
       }),
     },
     output: {
-      format: "text",
+      format: 'text',
     },
   },
   `{{role "system"}}

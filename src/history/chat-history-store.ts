@@ -1,5 +1,5 @@
-import { MessageData } from "@genkit-ai/ai/model";
-import { CollectionReference } from "firebase-admin/firestore";
+import {MessageData} from '@genkit-ai/ai/model';
+import {CollectionReference} from 'firebase-admin/firestore';
 
 /**
  * Represents a record of chat history.
@@ -74,8 +74,8 @@ export interface ChatHistoryStore {
 }
 
 // export supported chat history stores
-export { InMemoryChatHistoryStore } from "./in-memory-chat-history-store";
+export {InMemoryChatHistoryStore} from './in-memory-chat-history-store';
 export {
   FirestoreChatHistoryStore,
   type FirestoreChatHistoryStoreConfig,
-} from "./firestore-chat-history-store";
+} from './firestore-chat-history-store';

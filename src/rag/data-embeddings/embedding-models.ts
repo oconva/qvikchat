@@ -1,23 +1,23 @@
-import { EmbeddingsInterface } from "@langchain/core/embeddings";
-import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
-import { TaskType } from "../data-retrievers/data-retrievers";
+import {EmbeddingsInterface} from '@langchain/core/embeddings';
+import {GoogleGenerativeAIEmbeddings} from '@langchain/google-genai';
+import {TaskType} from '../data-retrievers/data-retrievers';
 import {
   AzureOpenAIInput,
   OpenAIEmbeddings,
   OpenAIEmbeddingsParams,
-} from "@langchain/openai";
+} from '@langchain/openai';
 
 /**
  * Text embedding models supported by Google GenAI.
  */
 export const GOOGLE_GENAI_EMBEDDING_MODELS = {
-  "embedding-001": {
-    name: "embedding-001",
+  'embedding-001': {
+    name: 'embedding-001',
     dimensions: 768,
     max_input_tokens: 2048,
   },
-  "text-embedding-004": {
-    name: "text-embedding-004",
+  'text-embedding-004': {
+    name: 'text-embedding-004',
     dimensions: 768,
     max_input_tokens: 2048,
   },
@@ -27,19 +27,19 @@ export const GOOGLE_GENAI_EMBEDDING_MODELS = {
  * Text embedding models supported by OpenAI.
  */
 export const OPENAI_EMBEDDING_MODELS = {
-  "text-embedding-3-small": {
-    name: "text-embedding-3-small",
+  'text-embedding-3-small': {
+    name: 'text-embedding-3-small',
     dimensions: 1536,
     max_input_tokens: 8191,
   },
-  "text-embedding-3-large": {
-    name: "text-embedding-3-large",
+  'text-embedding-3-large': {
+    name: 'text-embedding-3-large',
     min_dimensions: 256,
     dimensions: 3072,
     max_input_tokens: 8191,
   },
-  "text-embedding-ada-002": {
-    name: "text-embedding-ada-002",
+  'text-embedding-ada-002': {
+    name: 'text-embedding-ada-002',
     dimensions: 1536,
     max_input_tokens: 8191,
   },
@@ -48,7 +48,7 @@ export const OPENAI_EMBEDDING_MODELS = {
 /**
  * Supported embedding models
  */
-export const EmbeddingModels = { ...GOOGLE_GENAI_EMBEDDING_MODELS };
+export const EmbeddingModels = {...GOOGLE_GENAI_EMBEDDING_MODELS};
 
 /**
  * Names of the supported embedding models.
@@ -113,25 +113,25 @@ export const getEmbeddingModel = (
     if (params.modelName in GOOGLE_GENAI_EMBEDDING_MODELS) {
       return new GoogleGenerativeAIEmbeddings({
         model: params.modelName,
-        taskType: "taskType" in params ? params.taskType : undefined,
-        title: "title" in params ? params.title : undefined,
+        taskType: 'taskType' in params ? params.taskType : undefined,
+        title: 'title' in params ? params.title : undefined,
         stripNewLines:
-          "stripNewLines" in params ? params.stripNewLines : undefined,
-        apiKey: "apiKey" in params ? params.apiKey : undefined,
+          'stripNewLines' in params ? params.stripNewLines : undefined,
+        apiKey: 'apiKey' in params ? params.apiKey : undefined,
       });
     }
 
     // if model name one of OpenAI models
     if (params.modelName in OPENAI_EMBEDDING_MODELS) {
       return new OpenAIEmbeddings(
-        "config" in params ? params.config : undefined
+        'config' in params ? params.config : undefined
       );
     }
   }
 
   // default model to return
   return new GoogleGenerativeAIEmbeddings({
-    model: "text-embedding-004",
+    model: 'text-embedding-004',
     taskType: TaskType.RETRIEVAL_DOCUMENT,
   });
 };

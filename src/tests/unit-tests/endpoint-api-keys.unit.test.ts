@@ -1,17 +1,17 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from "../../endpoints/endpoints";
-import { InMemoryAPIKeyStore } from "../../auth/in-memory-api-key-store";
-import { generateAlphaNumericString } from "../../utils/utils";
-import { setupGenkit } from "../../genkit/genkit";
+} from '../../endpoints/endpoints';
+import {InMemoryAPIKeyStore} from '../../auth/in-memory-api-key-store';
+import {generateAlphaNumericString} from '../../utils/utils';
+import {setupGenkit} from '../../genkit/genkit';
 
 /**
  * Test suite for Chat Endpoint - API Keys.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Endpoint API Keys Tests", () => {
+describe('Test - Endpoint API Keys Tests', () => {
   // Initialize endpoint runner
   const runEndpoint = getChatEndpointRunner();
 
@@ -31,20 +31,20 @@ describe("Test - Endpoint API Keys Tests", () => {
 
   if (Tests.test_api_key_is_required)
     test(
-      "Test API Key is required",
+      'Test API Key is required',
       async () => {
         // Initialize API key store
         const apiKeyStore = new InMemoryAPIKeyStore();
         // add a test API key
         const key = generateAlphaNumericString();
         apiKeyStore.addKey(key, {
-          uid: "test-user",
-          status: "active",
-          endpoints: "all", // allow access to all endpoints
+          uid: 'test-user',
+          status: 'active',
+          endpoints: 'all', // allow access to all endpoints
         });
         // define chat endpoint
         const endpoint = defineChatEndpoint({
-          endpoint: "test-chat-open-api-key-required",
+          endpoint: 'test-chat-open-api-key-required',
           enableAuth: true,
           apiKeyStore,
         });
@@ -54,8 +54,8 @@ describe("Test - Endpoint API Keys Tests", () => {
         try {
           // send test query without API key
           response = await runEndpoint(endpoint, {
-            query: "How can you help? In one sentence.",
-            uid: "test-user",
+            query: 'How can you help? In one sentence.',
+            uid: 'test-user',
           });
 
           throw new Error(
@@ -73,22 +73,22 @@ describe("Test - Endpoint API Keys Tests", () => {
 
   if (Tests.test_api_key_auth_working)
     test(
-      "Test API Key auth working",
+      'Test API Key auth working',
       async () => {
         // Initialize API key store
         const apiKeyStore = new InMemoryAPIKeyStore();
         // Test user ID and key
-        const testUID = "test-user";
+        const testUID = 'test-user';
         // add a test API key
         const testKey = generateAlphaNumericString();
         apiKeyStore.addKey(testKey, {
           uid: testUID,
-          status: "active",
-          endpoints: "all", // allow access to all endpoints
+          status: 'active',
+          endpoints: 'all', // allow access to all endpoints
         });
         // define chat endpoint
         const endpoint = defineChatEndpoint({
-          endpoint: "test-chat-open-api-key-auth-working",
+          endpoint: 'test-chat-open-api-key-auth-working',
           enableAuth: true,
           apiKeyStore,
         });
@@ -97,7 +97,7 @@ describe("Test - Endpoint API Keys Tests", () => {
           const response = await runEndpoint(
             endpoint,
             {
-              query: "How can you help? In one sentence.",
+              query: 'How can you help? In one sentence.',
               uid: testUID,
             },
             {
@@ -108,7 +108,7 @@ describe("Test - Endpoint API Keys Tests", () => {
           );
           // check response is valid and does not contain error
           expect(response).toBeDefined();
-          expect(response).not.toHaveProperty("error");
+          expect(response).not.toHaveProperty('error');
         } catch (error) {
           throw new Error(`Error in test. Error: ${error}`);
         }

@@ -1,17 +1,13 @@
-import {
-  ConfigOptions,
-  PluginProvider,
-  configureGenkit,
-} from "@genkit-ai/core";
-import { startFlowsServer } from "@genkit-ai/flow";
-import { googleAI } from "@genkit-ai/googleai";
-import { dotprompt } from "@genkit-ai/dotprompt";
-import { firebase } from "@genkit-ai/firebase";
-import { TelemetryConfig } from "@genkit-ai/google-cloud";
-import { GLOBAL_CONFIG, StartServerParamsType } from "../config/config";
-import { langchain } from "genkitx-langchain";
-import { openAI } from "genkitx-openai";
-import { getEnvironmentVariable } from "../utils/utils";
+import {ConfigOptions, PluginProvider, configureGenkit} from '@genkit-ai/core';
+import {startFlowsServer} from '@genkit-ai/flow';
+import {googleAI} from '@genkit-ai/googleai';
+import {dotprompt} from '@genkit-ai/dotprompt';
+import {firebase} from '@genkit-ai/firebase';
+import {TelemetryConfig} from '@genkit-ai/google-cloud';
+import {GLOBAL_CONFIG, StartServerParamsType} from '../config/config';
+import {langchain} from 'genkitx-langchain';
+import {openAI} from 'genkitx-openai';
+import {getEnvironmentVariable} from '../utils/utils';
 
 /**
  * Configuration for Firebase plugin.
@@ -62,30 +58,30 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
   }
   // check if googleAI or openAI plugin is already added by user in provided plugins
   if (
-    !pluginExists("googleAI", requiredPlugins) &&
-    !pluginExists("openAI", requiredPlugins)
+    !pluginExists('googleAI', requiredPlugins) &&
+    !pluginExists('openAI', requiredPlugins)
   ) {
     // check at least one of the API keys is provided
     if (
-      !getEnvironmentVariable("GOOGLE_GENAI_API_KEY") &&
-      !getEnvironmentVariable("OPENAI_API_KEY")
+      !getEnvironmentVariable('GOOGLE_GENAI_API_KEY') &&
+      !getEnvironmentVariable('OPENAI_API_KEY')
     ) {
       throw new Error(
-        "At least one of the API keys (GOOGLE_GENAI_API_KEY or OPENAI_API_KEY) is required to be set in the `.env` file."
+        'At least one of the API keys (GOOGLE_GENAI_API_KEY or OPENAI_API_KEY) is required to be set in the `.env` file.'
       );
     }
     // depending on the API keys provided, add the respective plugin
-    if (getEnvironmentVariable("GOOGLE_GENAI_API_KEY")) {
+    if (getEnvironmentVariable('GOOGLE_GENAI_API_KEY')) {
       requiredPlugins.push(
         googleAI({
-          apiKey: getEnvironmentVariable("GOOGLE_GENAI_API_KEY"),
+          apiKey: getEnvironmentVariable('GOOGLE_GENAI_API_KEY'),
         })
       );
     }
-    if (getEnvironmentVariable("OPENAI_API_KEY")) {
+    if (getEnvironmentVariable('OPENAI_API_KEY')) {
       requiredPlugins.push(
         openAI({
-          apiKey: getEnvironmentVariable("OPENAI_API_KEY"),
+          apiKey: getEnvironmentVariable('OPENAI_API_KEY'),
         })
       );
     }
@@ -94,7 +90,7 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
   if (config.firebaseConfig) {
     // if firebase already added by user in provided plugins, then don't add it again
     // will only add if firebase plugin is not already added
-    if (!pluginExists("firebase", requiredPlugins)) {
+    if (!pluginExists('firebase', requiredPlugins)) {
       requiredPlugins.push(
         firebase({
           ...config.firebaseConfig,
@@ -105,7 +101,7 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
   // Configure Genkit
   configureGenkit({
     plugins: requiredPlugins,
-    logLevel: config.logLevel ?? GLOBAL_CONFIG.genkitConfig?.logLevel ?? "warn",
+    logLevel: config.logLevel ?? GLOBAL_CONFIG.genkitConfig?.logLevel ?? 'warn',
     enableTracingAndMetrics:
       config.enableTracingAndMetrics ??
       GLOBAL_CONFIG.genkitConfig?.enableTracingAndMetrics ??

@@ -1,13 +1,13 @@
-import { TextLoader } from "langchain/document_loaders/fs/text";
-import { JSONLoader } from "langchain/document_loaders/fs/json";
-import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import { Document } from "langchain/document";
+import {TextLoader} from 'langchain/document_loaders/fs/text';
+import {JSONLoader} from 'langchain/document_loaders/fs/json';
+import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
+import {PDFLoader} from '@langchain/community/document_loaders/fs/pdf';
+import {Document} from 'langchain/document';
 
 /**
  * Supported data loader types.
  */
-export type SupportedDataLoaderTypes = "text" | "json" | "csv" | "code" | "pdf";
+export type SupportedDataLoaderTypes = 'text' | 'json' | 'csv' | 'code' | 'pdf';
 
 /**
  * Keys to include when loading JSON data.
@@ -60,16 +60,16 @@ export const getDocs = async (
   let loader;
   // infer loader to use based on dataLoaderType
   switch (dataLoaderType) {
-    case "text":
+    case 'text':
       loader = new TextLoader(path);
       break;
-    case "json":
+    case 'json':
       loader = new JSONLoader(path, jsonLoaderKeysToInclude);
       break;
-    case "csv":
+    case 'csv':
       loader = new CSVLoader(path, csvLoaderOptions);
       break;
-    case "pdf":
+    case 'pdf':
       loader = new PDFLoader(path, pdfLoaderOptions);
       break;
     default:

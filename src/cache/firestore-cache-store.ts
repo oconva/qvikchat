@@ -2,10 +2,10 @@ import {
   CollectionReference,
   FieldValue,
   WriteResult,
-} from "firebase-admin/firestore";
-import { generateHash } from "../utils/utils";
-import { CacheRecord, CacheStore } from "./cache-store";
-import { app } from "firebase-admin";
+} from 'firebase-admin/firestore';
+import {generateHash} from '../utils/utils';
+import {CacheRecord, CacheStore} from './cache-store';
+import {app} from 'firebase-admin';
 
 /**
  * Configuration for the in-memory cache store.
@@ -54,7 +54,7 @@ export class FirestoreCacheStore implements CacheStore {
    */
   async addQuery(query: string, hash?: string): Promise<WriteResult> {
     // verify query data is valid
-    if (query === "") throw new Error("Invalid query data");
+    if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -75,8 +75,8 @@ export class FirestoreCacheStore implements CacheStore {
    */
   async cacheResponse(hash: string, response: string): Promise<WriteResult> {
     // verify query data is valid
-    if (hash === "" || response === "")
-      throw new Error("Invalid hash or response data");
+    if (hash === '' || response === '')
+      throw new Error('Invalid hash or response data');
 
     // update cache record with response and expiry date
     return this.cache.doc(hash).update({
@@ -91,8 +91,8 @@ export class FirestoreCacheStore implements CacheStore {
    */
   async addRecord(query: string, response: string): Promise<WriteResult> {
     // verify query data is valid
-    if (query === "" || response === "")
-      throw new Error("Invalid query or response data");
+    if (query === '' || response === '')
+      throw new Error('Invalid query or response data');
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -152,7 +152,7 @@ export class FirestoreCacheStore implements CacheStore {
     // Get the record from the cache
     const record = await this.cache.doc(hash).get();
     // Throw an error if the record is not found
-    if (!record) throw new Error("Record not found in cache");
+    if (!record) throw new Error('Record not found in cache');
     // extract the cache record data
     const data = record.data() as CacheRecord;
     // Decrement the cache threshold

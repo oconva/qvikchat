@@ -1,6 +1,6 @@
-import { ConfigOptions } from "@genkit-ai/core";
-import { CorsOptions } from "cors";
-import { SupportedModels } from "../models/models";
+import {ConfigOptions} from '@genkit-ai/core';
+import {CorsOptions} from 'cors';
+import {SupportedModels} from '../models/models';
 
 /**
  * Type for the parameters to start the server
@@ -60,9 +60,9 @@ export interface GlobalConfigInterface {
  * @type {GlobalConfigInterface}
  */
 export const GLOBAL_CONFIG: GlobalConfigInterface = {
-  primaryLLM: "gemini15Flash",
+  primaryLLM: 'gemini15Flash',
   genkitConfig: {
-    logLevel: "warn",
+    logLevel: 'warn',
     enableTracingAndMetrics: true,
   },
   startServerParams: {
@@ -77,14 +77,14 @@ export const GLOBAL_CONFIG: GlobalConfigInterface = {
  */
 export const ENDPOINTS = {
   CHAT: {
-    OPEN_ENDED: "chat-open",
-    OPEN_ENDED_WITH_HISTORY: "chat-open-history",
-    OPEN_ENDED_HISTORY_AUTH_CACHED: "chat-open-history-auth-cached",
-    CLOSE_ENDED: "chat-close",
-    CLOSE_ENDED_WITH_HISTORY: "chat-close-history",
-    CLOSE_ENDED_HISTORY_AUTH_CACHED: "chat-close-history-auth-cached",
-    RAG: "chat-rag",
-    RAG_WITH_HISTORY: "chat-rag-history",
-    RAG_HISTORY_AUTH_CACHED: "chat-rag-history-auth-cached",
+    OPEN_ENDED: 'chat-open',
+    OPEN_ENDED_WITH_HISTORY: 'chat-open-history',
+    OPEN_ENDED_HISTORY_AUTH_CACHED: 'chat-open-history-auth-cached',
+    CLOSE_ENDED: 'chat-close',
+    CLOSE_ENDED_WITH_HISTORY: 'chat-close-history',
+    CLOSE_ENDED_HISTORY_AUTH_CACHED: 'chat-close-history-auth-cached',
+    RAG: 'chat-rag',
+    RAG_WITH_HISTORY: 'chat-rag-history',
+    RAG_HISTORY_AUTH_CACHED: 'chat-rag-history-auth-cached',
   },
 };
