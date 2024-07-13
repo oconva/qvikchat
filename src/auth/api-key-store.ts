@@ -1,4 +1,4 @@
-import { CollectionReference, WriteResult } from "firebase-admin/firestore";
+import {CollectionReference, WriteResult} from 'firebase-admin/firestore';
 
 /**
  * Represents an API key.
@@ -8,12 +8,12 @@ export type APIKey = string;
 /**
  * Represents the status of an API key.
  */
-export type APIKeyStatus = "active" | "disabled";
+export type APIKeyStatus = 'active' | 'disabled';
 
 /**
  * Represents the endpoints accessible by an API key.
  */
-export type APIKeyEndpoints = string[] | "all";
+export type APIKeyEndpoints = string[] | 'all';
 
 /**
  * Represents a record of an API key.
@@ -113,7 +113,7 @@ export interface APIKeyStore {
   }: {
     key: APIKey;
     status?: APIKeyStatus;
-    endpoints?: string[] | "all";
+    endpoints?: string[] | 'all';
     requests?: number;
   }) => Promise<boolean> | Promise<WriteResult>;
 
@@ -140,9 +140,9 @@ export interface APIKeyStore {
 }
 
 // Export supported API key stores
-export { InMemoryAPIKeyStore } from "./in-memory-api-key-store";
+export {InMemoryAPIKeyStore} from './in-memory-api-key-store';
 
 export {
   FirestoreAPIKeyStore,
   type FirestoreAPIKeyStoreConfig,
-} from "./firestore-api-key-store";
+} from './firestore-api-key-store';

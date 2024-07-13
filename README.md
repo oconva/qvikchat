@@ -51,15 +51,15 @@ Before you can deploy your chat endpoints, you need to setup Firebase Genkit, ei
 Create a `index.ts` (or `index.js`) file and add the following code:
 
 ```typescript copy
-import { runServer, setupGenkit } from "@oconva/qvikchat/genkit";
-import { defineChatEndpoint } from "@oconva/qvikchat/endpoints";
+import {runServer, setupGenkit} from '@oconva/qvikchat/genkit';
+import {defineChatEndpoint} from '@oconva/qvikchat/endpoints';
 
 // Setup Genkit
 setupGenkit();
 
 // Open-ended chat
 defineChatEndpoint({
-  endpoint: "chat",
+  endpoint: 'chat',
 });
 
 // Run server

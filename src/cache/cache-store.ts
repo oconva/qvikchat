@@ -1,4 +1,4 @@
-import { CollectionReference, WriteResult } from "firebase-admin/firestore";
+import {CollectionReference, WriteResult} from 'firebase-admin/firestore';
 
 /**
  * Expiry date is the date and time when the cache record will expire.
@@ -112,8 +112,8 @@ export interface CacheStore {
 }
 
 // export supported cache stores
-export { InMemoryCacheStore } from "./in-memory-cache-store";
+export {InMemoryCacheStore} from './in-memory-cache-store';
 export {
   FirestoreCacheStore,
   type FirestoreCacheStoreConfig,
-} from "./firestore-cache-store";
+} from './firestore-cache-store';

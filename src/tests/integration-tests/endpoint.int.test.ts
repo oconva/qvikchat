@@ -1,17 +1,17 @@
-import { CacheCollection, InMemoryCacheStore } from "../../cache/cache-store";
-import { InMemoryChatHistoryStore } from "../../history/in-memory-chat-history-store";
+import {CacheCollection, InMemoryCacheStore} from '../../cache/cache-store';
+import {InMemoryChatHistoryStore} from '../../history/in-memory-chat-history-store';
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from "../../endpoints/endpoints";
-import { setupGenkit } from "../../genkit/genkit";
+} from '../../endpoints/endpoints';
+import {setupGenkit} from '../../genkit/genkit';
 
 /**
  * Test suite for Chat Endpoint Basic Functionality.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Chat Endpoint Core Funtionality Tests", () => {
+describe('Test - Chat Endpoint Core Funtionality Tests', () => {
   // Initialize endpoint runner
   const runEndpoint = getChatEndpointRunner();
 
@@ -31,28 +31,28 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
   const defaultTimeout = 10000; // 10 secondss
 
   if (Tests.define_chat_endpoint)
-    test("Define chat endpoint", () => {
-      const endpoint = defineChatEndpoint({ endpoint: "test-chat" });
+    test('Define chat endpoint', () => {
+      const endpoint = defineChatEndpoint({endpoint: 'test-chat'});
       expect(endpoint).toBeDefined();
     });
 
   if (Tests.confirm_response_generation)
     test(
-      "Confirm response generation",
+      'Confirm response generation',
       async () => {
         const endpoint = defineChatEndpoint({
-          endpoint: "test-chat-open-response",
+          endpoint: 'test-chat-open-response',
         });
         const response = await runEndpoint(endpoint, {
-          query: "How can you help? In one sentence.",
+          query: 'How can you help? In one sentence.',
         });
         expect(response).toBeDefined();
-        if (typeof response === "string") {
+        if (typeof response === 'string') {
           // should not be empty
           expect(response.length).toBeGreaterThan(0);
         } else {
-          expect(response).toHaveProperty("response");
-          if ("response" in response) {
+          expect(response).toHaveProperty('response');
+          if ('response' in response) {
             // should not be empty
             expect(response.response.length).toBeGreaterThan(0);
           } else {
@@ -67,7 +67,7 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
 
   if (Tests.test_chat_history_cache_rag)
     test(
-      "Test endpoint with chat history, cache and RAG",
+      'Test endpoint with chat history, cache and RAG',
       async () => {
         // cache store
         const cacheStore = new InMemoryCacheStore({
@@ -75,16 +75,16 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
         });
         // define endpoint with chat history, cache and RAG
         const endpoint = defineChatEndpoint({
-          endpoint: "test-chat-open-chat-history-cache",
+          endpoint: 'test-chat-open-chat-history-cache',
           enableChatHistory: true,
           chatHistoryStore: new InMemoryChatHistoryStore(),
           enableCache: true,
           cacheStore,
           enableRAG: true,
-          topic: "inventory data",
+          topic: 'inventory data',
           retrieverConfig: {
-            dataType: "csv",
-            filePath: "src/tests/test-data/inventory-data.csv",
+            dataType: 'csv',
+            filePath: 'src/tests/test-data/inventory-data.csv',
             generateEmbeddings: true,
             retrievalOptions: {
               k: 10, // number of matching documents to retrieve. Didn't work well with the default value (4) for test data.
@@ -93,21 +93,21 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
         });
         // ask the same query 2 times
         await runEndpoint(endpoint, {
-          query: "What is the price of Seagate ST1000DX002?",
+          query: 'What is the price of Seagate ST1000DX002?',
         });
         await runEndpoint(endpoint, {
-          query: "What is the price of Seagate ST1000DX002?",
+          query: 'What is the price of Seagate ST1000DX002?',
         });
         // ask the same query again
         // this time the response should be from cache
         const response = await runEndpoint(endpoint, {
-          query: "What is the price of Seagate ST1000DX002?",
+          query: 'What is the price of Seagate ST1000DX002?',
         });
         expect(response).toBeDefined();
-        expect(response).toHaveProperty("chatId");
+        expect(response).toHaveProperty('chatId');
 
         // response should not be a string when history cache and rag enabled
-        if (typeof response !== "string") {
+        if (typeof response !== 'string') {
           // ------ Confirm Cache was used ------
           // method to check cache was used
           const atLeastOneCacheHit = (cache: CacheCollection) => {
@@ -124,7 +124,7 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
 
           // ------ Confirm Chat History working ------
           // confirm chatId is returned
-          if (!("chatId" in response)) {
+          if (!('chatId' in response)) {
             throw new Error(
               `No chatId returned in response. Response: ${JSON.stringify(response)}`
             );
@@ -138,23 +138,23 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
 
           // ------ Confirm RAG is working ------
           // response should contain 68.06 (from inventory-data.csv)
-          expect(response.response).toContain("68.06");
+          expect(response.response).toContain('68.06');
 
           // ask next query to continue conversation
           // no additional context is provided since it should come from chat history
           const secondResponse = await runEndpoint(endpoint, {
-            query: "How many of these do we have in stock?",
+            query: 'How many of these do we have in stock?',
             chatId,
           });
 
           expect(secondResponse).toBeDefined();
-          expect(secondResponse).toHaveProperty("chatId");
+          expect(secondResponse).toHaveProperty('chatId');
 
           // response should not be a string when history cache and rag enabled
-          if (typeof secondResponse !== "string") {
+          if (typeof secondResponse !== 'string') {
             // ------ Confirm Chat History working ------
             // confirm chatId is returned
-            if (!("chatId" in secondResponse)) {
+            if (!('chatId' in secondResponse)) {
               throw new Error(
                 `No chatId returned in the second response. Response: ${JSON.stringify(secondResponse)}`
               );
@@ -166,7 +166,7 @@ describe("Test - Chat Endpoint Core Funtionality Tests", () => {
 
             // ------ Confirm RAG is working ------
             // response should contain 88 (from inventory-data.csv)
-            expect(secondResponse.response).toContain("88");
+            expect(secondResponse.response).toContain('88');
           } else {
             throw new Error(
               `error in second response. Invalid response object. Response: ${JSON.stringify(response)}`

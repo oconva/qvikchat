@@ -1,24 +1,24 @@
-import { generate } from "@genkit-ai/ai";
-import type { GenerateResponse } from "@genkit-ai/ai";
-import { ChatHistoryStore } from "../history/chat-history-store";
+import {generate} from '@genkit-ai/ai';
+import type {GenerateResponse} from '@genkit-ai/ai';
+import {ChatHistoryStore} from '../history/chat-history-store';
 import {
   ModelConfig,
   SupportedModelNames,
   SupportedModels,
-} from "../models/models";
+} from '../models/models';
 import {
   closeEndedSystemPrompt,
   openEndedSystemPrompt,
   ragSystemPrompt,
-} from "../prompts/system-prompts";
-import { MessageData } from "@genkit-ai/ai/model";
-import { ToolArgument } from "@genkit-ai/ai/tool";
-import { Dotprompt } from "@genkit-ai/dotprompt";
+} from '../prompts/system-prompts';
+import {MessageData} from '@genkit-ai/ai/model';
+import {ToolArgument} from '@genkit-ai/ai/tool';
+import {Dotprompt} from '@genkit-ai/dotprompt';
 
 /**
  * Represents the type of chat agent.
  */
-export type ChatAgentType = "open-ended" | "close-ended" | "rag";
+export type ChatAgentType = 'open-ended' | 'close-ended' | 'rag';
 
 /**
  * Represents the configuration for the agent type.
@@ -27,10 +27,10 @@ export type ChatAgentType = "open-ended" | "close-ended" | "rag";
  */
 export type AgentTypeConfig =
   | {
-      agentType?: "open-ended";
+      agentType?: 'open-ended';
     }
   | {
-      agentType: "close-ended" | "rag";
+      agentType: 'close-ended' | 'rag';
       topic: string;
     };
 
@@ -62,8 +62,8 @@ export type DefaultChatAgentConfigType = {
  * Represents the default chat agent configuration.
  */
 export const defaultChatAgentConfig: DefaultChatAgentConfigType = {
-  agentType: "open-ended",
-  model: "gemini15Flash",
+  agentType: 'open-ended',
+  model: 'gemini15Flash',
 };
 
 /**
@@ -201,7 +201,7 @@ export class ChatAgent implements ChatAgentInterface {
       ? SupportedModelNames[config.model]
       : SupportedModelNames[defaultChatAgentConfig.model];
     this.modelConfig = config.modelConfig;
-    if ("topic" in config) {
+    if ('topic' in config) {
       this.topic = config.topic;
     }
   }
@@ -215,14 +215,14 @@ export class ChatAgent implements ChatAgentInterface {
   private static getSystemPrompt(agentType?: ChatAgentType) {
     // get the system prompt based on the agent type
     switch (agentType) {
-      case "open-ended":
+      case 'open-ended':
         return openEndedSystemPrompt;
-      case "close-ended":
+      case 'close-ended':
         return closeEndedSystemPrompt;
-      case "rag":
+      case 'rag':
         return ragSystemPrompt;
       default:
-        throw new Error("Invalid agent type");
+        throw new Error('Invalid agent type');
     }
   }
 
@@ -247,23 +247,23 @@ export class ChatAgent implements ChatAgentInterface {
     context?: string;
   }) {
     switch (agentType) {
-      case "open-ended":
+      case 'open-ended':
         return {
           query,
         };
-      case "close-ended":
+      case 'close-ended':
         return {
           query,
           topic: topic,
         };
-      case "rag":
+      case 'rag':
         return {
           query,
           topic: topic,
           context,
         };
       default:
-        throw new Error("Invalid agent type");
+        throw new Error('Invalid agent type');
     }
   }
 
@@ -293,7 +293,7 @@ export class ChatAgent implements ChatAgentInterface {
       // if undefined, will use model defined in the dotprompt
       model: model,
       config: modelConfig,
-      input: ChatAgent.getFormattedInput({ agentType, query, context, topic }),
+      input: ChatAgent.getFormattedInput({agentType, query, context, topic}),
       tools: tools,
     });
     // return the response
@@ -341,7 +341,7 @@ export class ChatAgent implements ChatAgentInterface {
     }
     // if using chat history, confirm chat history store is initialized
     if (!params.chatHistoryStore)
-      throw new Error("Chat history store not initialized");
+      throw new Error('Chat history store not initialized');
     // if no chatID provided
     if (!params.chatId) {
       // generate response for given query (will use system prompt)
@@ -380,7 +380,7 @@ export class ChatAgent implements ChatAgentInterface {
       prompt: params.query,
       history: chatHistory,
       context: params.context
-        ? [{ content: [{ text: params.context }] }]
+        ? [{content: [{text: params.context}]}]
         : undefined,
       tools: params.tools,
     });

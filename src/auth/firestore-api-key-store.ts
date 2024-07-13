@@ -2,14 +2,14 @@ import {
   CollectionReference,
   FieldValue,
   WriteResult,
-} from "firebase-admin/firestore";
+} from 'firebase-admin/firestore';
 import {
   APIKeyStore,
   APIKeyRecord,
   APIKeyStatus,
   NewAPIKeyRecord,
-} from "./api-key-store";
-import { app } from "firebase-admin";
+} from './api-key-store';
+import {app} from 'firebase-admin';
 
 /**
  * Configurations for the FirestoreAPIKeyStore.
@@ -48,9 +48,9 @@ export class FirestoreAPIKeyStore implements APIKeyStore {
    */
   async addKey(
     key: string,
-    { status = "disabled", endpoints = [], uid }: NewAPIKeyRecord
+    {status = 'disabled', endpoints = [], uid}: NewAPIKeyRecord
   ): Promise<WriteResult> {
-    if (uid === "") throw new Error("UID is required to create an API key");
+    if (uid === '') throw new Error('UID is required to create an API key');
     // Add the new API key to the Firestore collection
     return await this.keys.doc(key).set({
       requests: 0,
@@ -75,14 +75,14 @@ export class FirestoreAPIKeyStore implements APIKeyStore {
   }: {
     key: string;
     status?: APIKeyStatus;
-    endpoints?: string[] | "all";
+    endpoints?: string[] | 'all';
     requests?: number;
   }): Promise<WriteResult> {
     // values to update
     const valuesToUpdate = {
-      ...(status && { status }),
-      ...(endpoints && { endpoints: endpoints }),
-      ...(requests && { requests }),
+      ...(status && {status}),
+      ...(endpoints && {endpoints: endpoints}),
+      ...(requests && {requests}),
     };
     // Update the API key in the Firestore collection
     return await this.keys.doc(key).update(valuesToUpdate);

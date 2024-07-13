@@ -3,7 +3,7 @@ import {
   app,
   AppOptions,
   credential as firebaseCredential,
-} from "firebase-admin";
+} from 'firebase-admin';
 
 /**
  * Method to get the Firebase app instance.

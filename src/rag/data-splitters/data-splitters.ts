@@ -1,15 +1,15 @@
-import { Document } from "@langchain/core/documents";
+import {Document} from '@langchain/core/documents';
 import {
   CharacterTextSplitter,
   RecursiveCharacterTextSplitter,
   SupportedTextSplitterLanguage,
   TextSplitterChunkHeaderOptions,
-} from "langchain/text_splitter";
+} from 'langchain/text_splitter';
 
 /**
  * Represents the supported types of data splitters.
  */
-export type SupportedDataSplitterTypes = "character" | "text" | "json" | "code";
+export type SupportedDataSplitterTypes = 'character' | 'text' | 'json' | 'code';
 
 /**
  * Represents the configuration for chunking data.
@@ -73,23 +73,23 @@ export const runDataSplitter = async ({
   let splitter;
 
   switch (dataSplitterType) {
-    case "character":
+    case 'character':
       splitter = new CharacterTextSplitter({
         ...chunkingConfig,
         ...splitterConfig?.textSplitterConfig,
       });
       break;
-    case "text":
+    case 'text':
       splitter = new RecursiveCharacterTextSplitter({
         ...chunkingConfig,
         ...splitterConfig?.textSplitterConfig,
       });
       break;
 
-    case "code":
+    case 'code':
       if (!splitterConfig || !splitterConfig.codeSplitterConfig) {
         throw new Error(
-          "Code splitter config is required for code data splitter"
+          'Code splitter config is required for code data splitter'
         );
       }
       splitter = RecursiveCharacterTextSplitter.fromLanguage(

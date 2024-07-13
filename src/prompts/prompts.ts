@@ -4,6 +4,6 @@ export {
   openEndedSystemPrompt,
   closeEndedSystemPrompt,
   ragSystemPrompt,
-} from "./system-prompts";
+} from './system-prompts';
 
-export { secureChatPrompt, secureRagChatPrompt } from "./chat-prompts";
+export {secureChatPrompt, secureRagChatPrompt} from './chat-prompts';

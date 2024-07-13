@@ -1,10 +1,10 @@
-import { generateHash } from "../utils/utils";
+import {generateHash} from '../utils/utils';
 import {
   CacheCollection,
   CacheRecord,
   CacheStore,
   QueryHash,
-} from "./cache-store";
+} from './cache-store';
 
 /**
  * Configuration for the in-memory cache store.
@@ -53,7 +53,7 @@ export class InMemoryCacheStore implements CacheStore {
    */
   async addQuery(query: string, hash?: string): Promise<void> {
     // verify query data is valid
-    if (query === "") throw new Error("Invalid query data");
+    if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -75,12 +75,12 @@ export class InMemoryCacheStore implements CacheStore {
    */
   cacheResponse(hash: string, response: string): true {
     // verify query data is valid
-    if (hash === "" || response === "")
-      throw new Error("Invalid hash or response data");
+    if (hash === '' || response === '')
+      throw new Error('Invalid hash or response data');
 
     // Get the record from the cache
     const record = this.cache.get(hash);
-    if (!record) throw new Error("Record not found in cache");
+    if (!record) throw new Error('Record not found in cache');
 
     // Cache the response
     record.response = response;
@@ -94,7 +94,7 @@ export class InMemoryCacheStore implements CacheStore {
    */
   async addRecord(query: string, response: string): Promise<void> {
     // verify query data is valid
-    if (query === "" || response === "") return;
+    if (query === '' || response === '') return;
 
     // Create a new cache record
     const record: CacheRecord = {
@@ -119,7 +119,7 @@ export class InMemoryCacheStore implements CacheStore {
     // Get the record from the cache
     const record = this.cache.get(hash);
     // Throw an error if the record is not found
-    if (!record) throw new Error("Record not found in cache");
+    if (!record) throw new Error('Record not found in cache');
     // Return the record
     return record;
   }
@@ -175,7 +175,7 @@ export class InMemoryCacheStore implements CacheStore {
     // Increment the cache hits
     const record = this.cache.get(hash);
     // if no record, throw an error
-    if (!record) throw new Error("Record not found in cache");
+    if (!record) throw new Error('Record not found in cache');
     // else, increment cache hits
     record.cacheHits = record.cacheHits + 1;
   }

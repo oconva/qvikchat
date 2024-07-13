@@ -5,7 +5,7 @@ import {
   APIKeyRecord,
   APIKeyStatus,
   NewAPIKeyRecord,
-} from "./api-key-store";
+} from './api-key-store';
 
 /**
  * Represents an in-memory implementation of the APIKeyStore interface.
@@ -30,9 +30,9 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
    */
   async addKey(
     key: string,
-    { status = "disabled", endpoints = [], uid }: NewAPIKeyRecord
+    {status = 'disabled', endpoints = [], uid}: NewAPIKeyRecord
   ): Promise<boolean> {
-    if (uid === "") throw new Error("UID is required to create an API key");
+    if (uid === '') throw new Error('UID is required to create an API key');
 
     this.keys.set(key, {
       requests: 0,
@@ -59,11 +59,11 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
   }: {
     key: string;
     status?: APIKeyStatus;
-    endpoints?: string[] | "all";
+    endpoints?: string[] | 'all';
     requests?: number;
   }): Promise<boolean> {
     const apiKey = this.keys.get(key);
-    if (!apiKey) throw new Error("API key not found");
+    if (!apiKey) throw new Error('API key not found');
 
     if (status) {
       apiKey.status = status;
@@ -104,7 +104,7 @@ export class InMemoryAPIKeyStore implements APIKeyStore {
    */
   async incrementRequests(key: string): Promise<boolean> {
     const apiKey = this.keys.get(key);
-    if (!apiKey) throw new Error("API key not found");
+    if (!apiKey) throw new Error('API key not found');
 
     return this.updateKey({
       key,

@@ -1,17 +1,17 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from "../../endpoints/endpoints";
-import { InMemoryCacheStore } from "../../cache/in-memory-cache-store";
-import { setupGenkit } from "../../genkit/genkit";
-import { CacheCollection } from "../../cache/cache-store";
+} from '../../endpoints/endpoints';
+import {InMemoryCacheStore} from '../../cache/in-memory-cache-store';
+import {setupGenkit} from '../../genkit/genkit';
+import {CacheCollection} from '../../cache/cache-store';
 
 /**
  * Test suite for Chat Endpoint - Cache.
  *
  * Some tests include the use of LLM model, defining a chat agent, defining API key store, defining chat history store, and defining cache store.
  */
-describe("Test - Endpoint Cache Tests", () => {
+describe('Test - Endpoint Cache Tests', () => {
   // Initialize endpoint runner
   const runEndpoint = getChatEndpointRunner();
 
@@ -30,7 +30,7 @@ describe("Test - Endpoint Cache Tests", () => {
 
   if (Tests.test_cache_works)
     test(
-      "Test cache works",
+      'Test cache works',
       async () => {
         // use in-memory cache store
         const cacheStore = new InMemoryCacheStore({
@@ -38,7 +38,7 @@ describe("Test - Endpoint Cache Tests", () => {
         });
         // define chat endpoint
         const endpoint = defineChatEndpoint({
-          endpoint: "test-chat-open-cache",
+          endpoint: 'test-chat-open-cache',
           enableCache: true,
           cacheStore: cacheStore,
         });
@@ -46,24 +46,24 @@ describe("Test - Endpoint Cache Tests", () => {
         try {
           // send query the first time
           await runEndpoint(endpoint, {
-            query: "Answer in one sentence: what is Firebase?",
+            query: 'Answer in one sentence: what is Firebase?',
           });
 
           // send query the second time
           await runEndpoint(endpoint, {
-            query: "Answer in one sentence: what is Firebase?",
+            query: 'Answer in one sentence: what is Firebase?',
           });
 
           // send query the third time
           const response = await runEndpoint(endpoint, {
-            query: "Answer in one sentence: what is Firebase?",
+            query: 'Answer in one sentence: what is Firebase?',
           });
 
           // check response is valid
           expect(response).toBeDefined();
 
           // confirm response type
-          if (typeof response === "string") {
+          if (typeof response === 'string') {
             // should not be empty
             expect(response.length).toBeGreaterThan(0);
             // check cache was used

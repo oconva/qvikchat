@@ -12,9 +12,9 @@ Two types of prompts are available:
 Firebase Genkit provides the Dotprompt plugin to easily integrate and use prompts in your project. To use the Dotprompt plugin, you need to configure Genkit with the Dotprompt plugin.
 
 ```typescript
-import { dotprompt, prompt } from "@genkit-ai/dotprompt";
+import {dotprompt, prompt} from '@genkit-ai/dotprompt';
 
-configureGenkit({ plugins: [dotprompt()] });
+configureGenkit({plugins: [dotprompt()]});
 ```
 
 ## System Prompts
@@ -33,14 +33,14 @@ Below is an example of how to use the `openEndedSystemPrompt` system prompt to c
 
 ```typescript
 // update the path to the dotprompt file
-import { openEndedSystemPrompt } from "./prompts/system-prompts";
+import {openEndedSystemPrompt} from './prompts/system-prompts';
 
 // generate response using the system prompt
 const response = await openEndedSystemPrompt.generate({
   model: model, // if undefined, will use model defined in the dotprompt
   config: modelConfig,
   input: {
-    query: "How can I read multiple documents in Firestore?",
+    query: 'How can I read multiple documents in Firestore?',
   },
 });
 
