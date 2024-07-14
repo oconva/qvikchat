@@ -83,7 +83,6 @@ describe('Test - Chat Endpoint Core Funtionality Tests', () => {
           enableRAG: true,
           topic: 'inventory data',
           retrieverConfig: {
-            dataType: 'csv',
             filePath: 'src/tests/test-data/inventory-data.csv',
             generateEmbeddings: true,
             retrievalOptions: {
