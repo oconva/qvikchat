@@ -14,6 +14,7 @@ import {
   PDFLoaderOptions,
   SupportedDataLoaderTypes,
   getDocs,
+  validateDataType,
 } from '../data-loaders/data-loaders';
 import {
   ChunkingConfig,
@@ -56,8 +57,8 @@ export type RetrievalOptions =
  * @property {boolean} generateEmbeddings - Whether to generate embeddings.
  */
 export type RetrieverConfigGeneratingEmbeddings = {
-  dataType: SupportedDataLoaderTypes;
   filePath: string;
+  dataType?: SupportedDataLoaderTypes;
   docs?: Document<Record<string, string>>[];
   splitDocs?: Document<Record<string, unknown>>[];
   jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude;
@@ -166,16 +167,24 @@ export const getDataRetriever = async (
         .pipe(formatDocumentsAsString);
   }
 
-  // if generating embeddings, data type must be provided
-  if (!config.dataType) {
-    throw new Error(
-      'Data type and file path must be provided when generating embeddings'
-    );
-  }
-
   // if generating embeddings, file path must be provided
   if (!config.filePath || config.filePath === '') {
     throw new Error('Invalid file path. File path must be provided');
+  }
+
+  // if data type not provided, infer the data type from file extension using the file path
+  if (!config.dataType) {
+    const result = validateDataType(config.filePath);
+    // check if the file type is supported
+    if (result.isSupported) {
+      console.log('/n/n------------------');
+      console.log(`Data type: ${result.dataType}`);
+      config.dataType = result.dataType;
+    } else {
+      throw new Error(
+        `Unable to load data. Unsupported file type: ${result.unSupportedDataType}`
+      );
+    }
   }
 
   try {
