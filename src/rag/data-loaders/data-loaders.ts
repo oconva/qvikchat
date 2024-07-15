@@ -120,13 +120,19 @@ export function validateDataType(filePath: string):
  * For more data loaders, see:
  * @link https://js.langchain.com/v0.1/docs/integrations/document_loaders/
  */
-export const getDocs = async (
-  dataLoaderType: SupportedDataLoaderTypes,
-  path: string,
-  jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude,
-  csvLoaderOptions?: CSVLoaderOptions,
-  pdfLoaderOptions?: PDFLoaderOptions
-): Promise<Document<Record<string, string>>[]> => {
+export const getDocs = async ({
+  dataLoaderType,
+  path,
+  jsonLoaderKeysToInclude,
+  csvLoaderOptions,
+  pdfLoaderOptions,
+}: {
+  dataLoaderType: SupportedDataLoaderTypes;
+  path: string;
+  jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude;
+  csvLoaderOptions?: CSVLoaderOptions;
+  pdfLoaderOptions?: PDFLoaderOptions;
+}): Promise<Document<Record<string, string>>[]> => {
   // store loader
   let loader;
   // infer loader to use based on dataLoaderType
