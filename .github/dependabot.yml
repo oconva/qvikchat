@@ -9,6 +9,13 @@ updates:
       interval: 'daily'
     commit-message:
       prefix: 'Dependency Updates'
+    ignore:
+        # For Eslint, ignore all Dependabot updates for version 9 until supported by peer dependencies (typescript-eslint)
+      - dependency-name: "eslint"
+        versions: ["9.x"]
+       # For d3-dsv, ignore all Dependabot updates for version 3 until supported by peer dependencies (langchain)
+      - dependency-name: "d3-dsv"
+        versions: ["3.x"]
     groups:
       # group dev dependencies together in a single pull request
       dev-dependencies:
