@@ -4,6 +4,7 @@ import {
 } from '../../endpoints/endpoints';
 import {setupGenkit} from '../../genkit/genkit';
 import {getDataRetriever} from '../../rag/data-retrievers/data-retrievers';
+import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
 
 /**
  * Test suite for Chat Endpoint RAG Functionality.
@@ -22,6 +23,7 @@ describe('Test - Endpoint RAG Tests', () => {
   // Set to true to run the test
   const Tests = {
     test_rag_works: true,
+    test_rag_works_providing_docs: true,
   };
 
   // default test timeout
@@ -39,6 +41,62 @@ describe('Test - Endpoint RAG Tests', () => {
           retriever: await getDataRetriever({
             dataType: 'csv',
             filePath: 'src/tests/test-data/inventory-data.csv',
+            generateEmbeddings: true,
+          }),
+        });
+        try {
+          // send test query
+          const response = await runEndpoint(endpoint, {
+            query: 'What is the price of Seagate ST1000DX002?',
+          });
+
+          // check response is valid and does not contain error
+          expect(response).toBeDefined();
+          expect(response).not.toHaveProperty('error');
+
+          // confirm response type
+          if (typeof response === 'string') {
+            // should not be empty
+            expect(response.length).toBeGreaterThan(0);
+            // should contain 68.06
+            expect(response).toContain('68.06');
+          } else {
+            expect(response).toHaveProperty('response');
+            if ('response' in response) {
+              // should not be empty
+              expect(response.response.length).toBeGreaterThan(0);
+              // should contain 68.06
+              expect(response.response).toContain('68.06');
+            } else {
+              throw new Error(
+                `Response field invalid. Response: ${JSON.stringify(response)}`
+              );
+            }
+          }
+        } catch (error) {
+          throw new Error(`Error in test. Error: ${error}`);
+        }
+      },
+      defaultTimeout
+    );
+
+  if (Tests.test_rag_works_providing_docs)
+    test(
+      'Test RAG works when providing docs',
+      async () => {
+        // configure data loader
+        const loader = new CSVLoader('src/tests/test-data/inventory-data.csv');
+        // get documents
+        const docs = await loader.load();
+
+        // define chat endpoint
+        const endpoint = defineChatEndpoint({
+          endpoint: 'test-chat-open-rag-docs',
+          topic: 'store inventory',
+          enableRAG: true,
+          retriever: await getDataRetriever({
+            docs,
+            dataType: 'csv', // need to specify data type when providing docs
             generateEmbeddings: true,
           }),
         });

@@ -40,6 +40,22 @@ export type RetrievalOptions =
   | undefined;
 
 /**
+ * Configurations for providing information about data to the retriever.
+ */
+export type RetrieverConfigDataOptions =
+  | {
+      filePath: string;
+      dataType?: SupportedDataLoaderTypes;
+    }
+  | {
+      docs: Document<Record<string, string>>[];
+      dataType: SupportedDataLoaderTypes;
+    }
+  | {
+      splitDocs: Document<Record<string, unknown>>[];
+    };
+
+/**
  * Represents the configuration for the retriever when generating embeddings.
  * @property {SupportedDataLoaderTypes} dataType - The type of data loader to use.
  * @property {string} filePath - The path to the file containing the data.
@@ -57,10 +73,6 @@ export type RetrievalOptions =
  * @property {boolean} generateEmbeddings - Whether to generate embeddings.
  */
 export type RetrieverConfigGeneratingEmbeddings = {
-  filePath: string;
-  dataType?: SupportedDataLoaderTypes;
-  docs?: Document<Record<string, string>>[];
-  splitDocs?: Document<Record<string, unknown>>[];
   jsonLoaderKeysToInclude?: JSONLoaderKeysToInclude;
   csvLoaderOptions?: CSVLoaderOptions;
   pdfLoaderOptions?: PDFLoaderOptions;
@@ -71,7 +83,7 @@ export type RetrieverConfigGeneratingEmbeddings = {
   vectorStore?: VectorStore;
   embeddingModel?: EmbeddingsInterface;
   generateEmbeddings: true;
-};
+} & RetrieverConfigDataOptions;
 
 /**
  * Represents the configuration for the retriever when not generating embeddings.
@@ -145,6 +157,89 @@ export const defaultChunkingConfig: ChunkingConfig = {
 };
 
 /**
+ * Method to split the documents based on the data type.
+ * @param config configuration for the retriever
+ * @returns array of documents
+ */
+export const getSplitDocs = async (
+  config: RetrieverConfig
+): Promise<Document<Record<string, unknown>>[]> => {
+  // if splitDocs available, return them
+  if ('splitDocs' in config && config.splitDocs) {
+    return config.splitDocs;
+  }
+
+  // if docs provided
+  if ('docs' in config && config.docs) {
+    // must provide dataType since it can't be inferred from file extension
+    if (!config.dataType)
+      throw new Error('Data type must be provided when docs are provided');
+
+    const {defaultDataSplitterType, defaultSplitterConfig} =
+      getAppropriateDataSplitter(config.dataType);
+
+    // Split the provided documents into chunks using the data splitter
+    return await runDataSplitter({
+      docs: config.docs,
+      dataSplitterType: config.dataSplitterType ?? defaultDataSplitterType,
+      chunkingConfig: config.chunkingConfig ?? defaultChunkingConfig,
+      splitterConfig: config.splitterConfig ?? defaultSplitterConfig,
+    });
+  }
+
+  // if file path provided
+  if ('filePath' in config && config.filePath) {
+    // if generating embeddings, file path must be provided
+    if (config.filePath === '') {
+      throw new Error(
+        'Invalid file path. File path can not be an empty string.'
+      );
+    }
+
+    // store provided data type
+    let dataType: SupportedDataLoaderTypes | undefined = config.dataType;
+
+    // if no data type provided, infer it from the file extension
+    if (!dataType) {
+      // validate the data type of the file
+      const result = validateDataType(config.filePath);
+      // check if the file type is supported
+      if (result.isSupported) {
+        dataType = result.dataType;
+      } else {
+        throw new Error(
+          `Unable to load data. Unsupported file type: ${result.unSupportedDataType}`
+        );
+      }
+    }
+
+    // get documents from the file path using a data loader
+    const docs = await getDocs({
+      dataLoaderType: dataType,
+      path: config.filePath,
+      csvLoaderOptions: config.csvLoaderOptions,
+      jsonLoaderKeysToInclude: config.jsonLoaderKeysToInclude,
+      pdfLoaderOptions: config.pdfLoaderOptions,
+    });
+
+    const {defaultDataSplitterType, defaultSplitterConfig} =
+      getAppropriateDataSplitter(dataType);
+
+    // Split the retrieved documents into chunks using the data splitter
+    return await runDataSplitter({
+      docs,
+      dataSplitterType: config.dataSplitterType ?? defaultDataSplitterType,
+      chunkingConfig: config.chunkingConfig ?? defaultChunkingConfig,
+      splitterConfig: config.splitterConfig ?? defaultSplitterConfig,
+    });
+  }
+
+  throw new Error(
+    'Invalid configuration for the retriever. Must provide docs, splitDocs or file path.'
+  );
+};
+
+/**
  * Method to ingest data, split it into chunks, generate embeddings and store them in a vector store.
  * If not generating embeddings, simply returns a runnable instance to retrieve docs as string.
  * Returns a runnable instance to retrieve docs as string.
@@ -167,44 +262,7 @@ export const getDataRetriever = async (
         .pipe(formatDocumentsAsString);
   }
 
-  // if generating embeddings, file path must be provided
-  if (!config.filePath || config.filePath === '') {
-    throw new Error('Invalid file path. File path must be provided');
-  }
-
-  // if data type not provided, infer the data type from file extension using the file path
-  if (!config.dataType) {
-    const result = validateDataType(config.filePath);
-    // check if the file type is supported
-    if (result.isSupported) {
-      console.log('/n/n------------------');
-      console.log(`Data type: ${result.dataType}`);
-      config.dataType = result.dataType;
-    } else {
-      throw new Error(
-        `Unable to load data. Unsupported file type: ${result.unSupportedDataType}`
-      );
-    }
-  }
-
   try {
-    // Retrieve the documents from the specified file path
-    const docs: Document<Record<string, string>>[] =
-      config.docs ?? (await getDocs(config.dataType, config.filePath));
-
-    const {defaultDataSplitterType, defaultSplitterConfig} =
-      getAppropriateDataSplitter(config.dataType);
-
-    // Split the retrieved documents into chunks using the data splitter
-    const splitDocs: Document<Record<string, unknown>>[] =
-      config.splitDocs ??
-      (await runDataSplitter({
-        docs,
-        dataSplitterType: config.dataSplitterType ?? defaultDataSplitterType,
-        chunkingConfig: config.chunkingConfig ?? defaultChunkingConfig,
-        splitterConfig: config.splitterConfig ?? defaultSplitterConfig,
-      }));
-
     // embedding model - if not provided, use the default Google Generative AI Embeddings model
     const embeddings: EmbeddingsInterface =
       config.embeddingModel ??
@@ -213,6 +271,9 @@ export const getDataRetriever = async (
         model: GOOGLE_GENAI_EMBEDDING_MODELS['text-embedding-004'].name,
         taskType: TaskType.RETRIEVAL_DOCUMENT,
       });
+
+    // get split documents
+    const splitDocs = await getSplitDocs(config);
 
     // create a vector store instance
     const vectorStore: VectorStore =
