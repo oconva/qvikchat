@@ -156,4 +156,4 @@ If you encounter any issues or bugs while using QvikChat, please report them by 
 2. If the issue hasn't been reported, create a new issue and provide a detailed description of the problem.
 3. Include steps to reproduce the issue and any relevant error messages or screenshots.
 
-[Open Issue](https://github.com/pranav-kural/QvikChat/issues)
+[Open Issue](https://github.com/oconva/qvikchat/issues)
