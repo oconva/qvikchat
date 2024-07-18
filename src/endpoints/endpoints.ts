@@ -8,7 +8,12 @@ import {defineFlow, runFlow} from '@genkit-ai/flow';
 import {APIKeyStore} from '../auth/api-key-store';
 import {CacheStore} from '../cache/cache-store';
 import {generateHash, getChatHistoryAsString} from '../utils/utils';
-import {MessageData} from '@genkit-ai/ai/model';
+import {
+  GenerateRequest,
+  GenerationUsage,
+  MessageData,
+  ToolRequestPart,
+} from '@genkit-ai/ai/model';
 import {apiKeyAuthPolicy} from '../auth/api-key-auth-policy';
 import {
   RetrieverConfig,
@@ -82,11 +87,27 @@ type EndpointChatAgentConfig = {
   modelConfig?: ModelConfig;
 };
 
+type ResponseTypeParams =
+  | {
+      responseType?: 'json' | 'text';
+    }
+  | {
+      responseType?: 'media';
+      contentType: string;
+    };
+
+type VerboseDetails = {
+  usage: GenerationUsage;
+  request?: GenerateRequest;
+  tool_requests?: ToolRequestPart[];
+};
+
 export type DefineChatEndpointConfig = {
   endpoint: string;
-  enableChatHistory?: boolean;
   chatAgentConfig?: EndpointChatAgentConfig;
-} & ChatAgentTypeParams &
+  verbose?: boolean;
+} & ResponseTypeParams &
+  ChatAgentTypeParams &
   ChatHistoryParams &
   AuthParams &
   CacheParams &
@@ -96,6 +117,9 @@ export type DefineChatEndpointConfig = {
  * Method to define a chat endpoint using the provided chat agent and endpoint, with support for chat history.
  * @param chatAgentConfig Configurations for the chat agent, like LLM model, system prompt, chat prompt, and tools.
  * @param endpoint Server endpoint to which queries should be sent to run this chat flow.
+ * @param responseType Type of response to return. Can be "json", "text", or "media".
+ * @param contentType If response type is "media", provide the content type of the media response.
+ * @param verbose A flag to indicate whether to return a verbose response or not.
  * @param agentType Type of chat agent to use for this endpoint. Can be "open-ended" or "close-ended".
  * @param topic Topic for the close-ended or RAG chat agent. Required if agentType is "close-ended" or if RAG is enabled.
  * @param enableChatHistory Enable chat history for this endpoint. If chat ID is provided, chat history will be fetched and used to generate response. If no chat ID is provided, a new chat ID will be generated to store chat history, and will be returned in the response.
@@ -121,8 +145,23 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       outputSchema: config.enableChatHistory
         ? z.union([
             z.object({
-              response: z.string(),
+              response:
+                config.responseType === 'text'
+                  ? z.string()
+                  : config.responseType === 'media'
+                    ? z.object({
+                        contentType: z.string(),
+                        url: z.string(),
+                      })
+                    : z.unknown(),
               chatId: z.string().optional(),
+              details: config.verbose
+                ? z.object({
+                    usage: z.unknown(),
+                    request: z.unknown().optional(),
+                    tool_requests: z.array(z.unknown()).optional(),
+                  })
+                : z.undefined(),
             }),
             z.object({
               error: z.string(),
@@ -164,6 +203,11 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
     },
     async ({query, chatId}) => {
       if (query === '') return {response: 'How can I help you today?'};
+
+      // set default response type
+      if (!config.responseType) {
+        config.responseType = 'text';
+      }
 
       // store chat agent
       let chatAgent: ChatAgent;
@@ -257,50 +301,112 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           const cachedQuery = await config.cacheStore.getRecord(queryHash);
 
           // check if cached response is available
-          if (cachedQuery.response) {
+          // also check if response type matches the expected response type
+          if (
+            cachedQuery.response &&
+            cachedQuery.responseType === config.responseType
+          ) {
             // increment cache hits
             config.cacheStore.incrementCacheHits(queryHash);
 
-            // if chat history is enabled
-            if (config.enableChatHistory) {
-              // if chat ID is provided
-              // add the query and response to the chat history for the provided chat ID
-              if (chatId) {
-                const messages: MessageData[] = [
-                  {role: 'user', content: [{text: query}]},
-                  {role: 'model', content: [{text: cachedQuery.response}]},
-                ];
-                // add messages to chat history for the provided chat ID
-                // will throw an error if the provided chat ID is not valid
-                await config.chatHistoryStore.addMessages(chatId, messages);
+            // parse data based on expected response type
+            try {
+              let cachedModelResponse: MessageData;
+              // if expected response type is "text" and cached response type is "text"
+              if (
+                config.responseType === 'text' &&
+                cachedQuery.responseType === 'text'
+              ) {
+                cachedModelResponse = {
+                  role: 'model',
+                  content: [{text: cachedQuery.response}],
+                };
+              }
+              // else if expected response type is "json" and cached response type is "json"
+              else if (
+                config.responseType === 'json' &&
+                cachedQuery.responseType === 'json'
+              ) {
+                cachedModelResponse = {
+                  role: 'model',
+                  content: [{data: JSON.parse(cachedQuery.response)}],
+                };
+              }
+              // else if expected response type is "media" and cached response type is "media"
+              else if (
+                config.responseType === 'media' &&
+                cachedQuery.responseType === 'media'
+              ) {
+                cachedModelResponse = {
+                  role: 'model',
+                  content: [
+                    {
+                      media: {
+                        contentType: cachedQuery.response.contentType,
+                        url: cachedQuery.response.url,
+                      },
+                    },
+                  ],
+                };
+              } else {
+                throw new Error(
+                  `Error parsing cached data. Invalid response type.`
+                );
               }
 
-              // if chat ID is not provided
-              // store the chat history so the conversation can be continued
-              else {
-                // get system prompt text based on agent type
-                const systemPrompt = getSystemPromptText(
-                  config.agentType === 'close-ended'
-                    ? config.enableRAG
-                      ? {agentType: 'rag', topic: config.topic}
-                      : {agentType: 'close-ended', topic: config.topic}
-                    : {agentType: 'open-ended'}
-                );
+              // if chat history is enabled
+              if (config.enableChatHistory) {
+                // if chat ID is provided
+                // add the query and response to the chat history for the provided chat ID
+                if (chatId) {
+                  const messages: MessageData[] = [
+                    {role: 'user', content: [{text: query}]},
+                    cachedModelResponse, // add the cached response
+                  ];
+                  // add messages to chat history for the provided chat ID
+                  // will throw an error if the provided chat ID is not valid
+                  await config.chatHistoryStore.addMessages(chatId, messages);
+                }
+
+                // if chat ID is not provided
                 // store the chat history so the conversation can be continued
-                const messages: MessageData[] = [
-                  {role: 'system', content: [{text: systemPrompt}]},
-                  {role: 'user', content: [{text: query}]},
-                  {role: 'model', content: [{text: cachedQuery.response}]},
-                ];
-                // add messages to chat history and get the chat ID
-                chatId = await config.chatHistoryStore.addChatHistory(messages);
+                else {
+                  // get system prompt text based on agent type
+                  const systemPrompt = getSystemPromptText(
+                    config.agentType === 'close-ended'
+                      ? config.enableRAG
+                        ? {agentType: 'rag', topic: config.topic}
+                        : {agentType: 'close-ended', topic: config.topic}
+                      : {agentType: 'open-ended'}
+                  );
+                  // store the chat history so the conversation can be continued
+                  const messages: MessageData[] = [
+                    {role: 'system', content: [{text: systemPrompt}]},
+                    {role: 'user', content: [{text: query}]},
+                    cachedModelResponse, // add the cached response
+                  ];
+                  // add messages to chat history and get the chat ID
+                  chatId =
+                    await config.chatHistoryStore.addChatHistory(messages);
+                }
               }
+            } catch (error) {
+              throw new Error(`Could not parse cached response. ${error}`);
             }
 
-            // return the cached response with the chat ID
+            // if chat history is enabled, return the response with the chat ID
+            // when using cache and if verbose if set to true, return empty usage details
+            // since no LLM model is used in this case
             return config.enableChatHistory
-              ? {response: cachedQuery.response, chatId}
-              : cachedQuery.response;
+              ? {
+                  response: cachedQuery.response,
+                  chatId,
+                  ...(config.verbose ? {details: {usage: {}}} : {}),
+                }
+              : {
+                  response: cachedQuery.response,
+                  ...(config.verbose ? {details: {usage: {}}} : {}),
+                };
           }
 
           // if response is not available, but query is in cache
@@ -318,9 +424,13 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           // if query is not in cache, add it to cache to track the number of times this query is received
           // sending hash is optional. Sending so hash doesn't have to be recalculated
           // remeber to add the query with context
-          config.cacheStore.addQuery(queryWithContext, queryHash);
+          config.cacheStore.addQuery(
+            queryWithContext,
+            config.responseType,
+            queryHash
+          );
         }
-      }
+      } // end of caching block
 
       try {
         // variable to store context, in case RAG is enabled
@@ -353,8 +463,8 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           context,
         };
 
-        // If chat history is enabled
-        if (config.enableChatHistory) {
+        // If chat history is enabled and response type is not media
+        if (config.enableChatHistory && config.responseType !== 'media') {
           // Prepare history props for generating response
           const historyProps: GenerateResponseHistoryProps = {
             enableChatHistory: config.enableChatHistory,
@@ -371,16 +481,75 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
 
         // If using cache and cache store is provided, and
         // if cacheThreshold reaches 0 for this query, cache the response
+        // Not supported for media response type
         if (config.enableCache && config.cacheStore && cacheThresholdReached) {
-          config.cacheStore.cacheResponse(queryHash, response.res.text());
+          // cache response based on response type
+          if (config.responseType === 'json') {
+            config.cacheStore.cacheResponse(queryHash, {
+              responseType: 'json',
+              response: JSON.stringify(response.res.output()),
+            });
+          }
+          // if media
+          else if (config.responseType === 'media') {
+            const mediaContent = response.res.media();
+            // if we have valid data
+            if (mediaContent?.contentType && mediaContent?.url) {
+              config.cacheStore.cacheResponse(queryHash, {
+                responseType: 'media',
+                response: {
+                  contentType: mediaContent.contentType,
+                  url: mediaContent.url,
+                },
+              });
+            }
+          }
+          // if text
+          else {
+            config.cacheStore.cacheResponse(queryHash, {
+              responseType: 'text',
+              response: response.res.text(),
+            });
+          }
         }
 
+        // return response based on response type
+        let res;
+        if (config.responseType === 'json') {
+          res = response.res.output();
+        } else if (config.responseType === 'media') {
+          const mediaContent = response.res.media();
+          // if we have valid data
+          if (mediaContent?.contentType && mediaContent?.url) {
+            res = {
+              contentType: mediaContent.contentType,
+              url: mediaContent.url,
+            };
+          } else {
+            res = response.res.output();
+          }
+        } else {
+          res = response.res.text();
+        }
+
+        // if verbose flag is set, return verbose details
+        const verboseDetails: VerboseDetails = {
+          usage: response.res.usage,
+          request: response.res.request,
+          tool_requests: response.res.toolRequests(),
+        };
+
+        // if chat history is enabled, return the response with the chat ID
         return config.enableChatHistory
           ? {
-              response: response.res.text(),
+              response: res,
               chatId: response.chatId,
+              ...(config.verbose ? {details: verboseDetails} : {}),
             }
-          : response.res.text();
+          : {
+              response: res,
+              ...(config.verbose ? {details: verboseDetails} : {}),
+            };
       } catch (error) {
         return {
           error: `Error: ${error}`,
