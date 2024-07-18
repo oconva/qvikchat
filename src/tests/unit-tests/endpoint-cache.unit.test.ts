@@ -62,27 +62,34 @@ describe('Test - Endpoint Cache Tests', () => {
           // check response is valid
           expect(response).toBeDefined();
 
-          // confirm response type
-          if (typeof response === 'string') {
-            // should not be empty
-            expect(response.length).toBeGreaterThan(0);
-            // check cache was used
-            const atLeastOneCacheHit = (cache: CacheCollection) => {
-              let flag = false;
-              cache.forEach((val) => {
-                if (val.cacheHits > 0) {
-                  flag = true;
-                }
-              });
-              return flag;
-            };
-            // confirm cache was used
-            expect(atLeastOneCacheHit(cacheStore.cache)).toBeTruthy();
-          } else {
+          // should not contain error
+          if ('error' in response) {
+            throw new Error(
+              `Error in response. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // response should be string when responseType not specified in endpoint config
+          if (typeof response.response !== 'string') {
             throw new Error(
               `Invalid response object. Response: ${JSON.stringify(response)}`
             );
           }
+
+          // should not be empty
+          expect(response.response.length).toBeGreaterThan(0);
+          // check cache was used
+          const atLeastOneCacheHit = (cache: CacheCollection) => {
+            let flag = false;
+            cache.forEach((val) => {
+              if (val.cacheHits > 0) {
+                flag = true;
+              }
+            });
+            return flag;
+          };
+          // confirm cache was used
+          expect(atLeastOneCacheHit(cacheStore.cache)).toBeTruthy();
         } catch (error) {
           throw new Error(`Error in test. Error: ${error}`);
         }

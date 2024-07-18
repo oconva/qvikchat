@@ -43,15 +43,23 @@ describe('Test - Endpoint Chat History Tests', () => {
           chatId: 'test-chat-id',
         });
         expect(response).toBeDefined();
-        // expected return type string
-        if (typeof response === 'string') {
-          // should not be empty
-          expect(response.length).toBeGreaterThan(0);
-        } else {
+
+        // should not contain error
+        if ('error' in response) {
           throw new Error(
-            `Invalid response type. Expected string. Response: ${JSON.stringify(response)}`
+            `Error in response. Response: ${JSON.stringify(response)}`
           );
         }
+
+        // response should be string when responseType not specified in endpoint config
+        if (typeof response.response !== 'string') {
+          throw new Error(
+            `Invalid response object. Response: ${JSON.stringify(response)}`
+          );
+        }
+
+        // should not be empty
+        expect(response.response.length).toBeGreaterThan(0);
       },
       defaultTimeout
     );
@@ -92,6 +100,20 @@ describe('Test - Endpoint Chat History Tests', () => {
 
         if (typeof response !== 'string' && 'chatId' in response) {
           const chatId = response.chatId;
+
+          // should not contain error
+          if ('error' in response) {
+            throw new Error(
+              `Error in response. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // response should be string when responseType not specified in endpoint config
+          if (typeof response.response !== 'string') {
+            throw new Error(
+              `Invalid response object. Response: ${JSON.stringify(response)}`
+            );
+          }
 
           // response should not be empty
           expect(response.response.length).toBeGreaterThan(0);

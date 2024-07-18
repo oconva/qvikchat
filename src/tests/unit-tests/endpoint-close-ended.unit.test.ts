@@ -50,20 +50,22 @@ describe('Test - Close-ended Chat Endpoint Tests', () => {
           query: 'How can you help? In one sentence.',
         });
         expect(response).toBeDefined();
-        if (typeof response === 'string') {
-          // should not be empty
-          expect(response.length).toBeGreaterThan(0);
-        } else {
-          expect(response).toHaveProperty('response');
-          if ('response' in response) {
-            // should not be empty
-            expect(response.response.length).toBeGreaterThan(0);
-          } else {
-            throw new Error(
-              `error in response generation. Response: ${JSON.stringify(response)}`
-            );
-          }
+        // should not contain error
+        if ('error' in response) {
+          throw new Error(
+            `Error in response. Response: ${JSON.stringify(response)}`
+          );
         }
+
+        // response should be string when responseType not specified in endpoint config
+        if (typeof response.response !== 'string') {
+          throw new Error(
+            `Invalid response object. Response: ${JSON.stringify(response)}`
+          );
+        }
+
+        // should not be empty
+        expect(response.response.length).toBeGreaterThan(0);
       },
       defaultTimeout
     );
