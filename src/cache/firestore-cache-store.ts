@@ -4,7 +4,12 @@ import {
   WriteResult,
 } from 'firebase-admin/firestore';
 import {generateHash} from '../utils/utils';
-import {CacheRecord, CacheStore} from './cache-store';
+import {
+  CacheRecord,
+  CacheStore,
+  CacheStoreResponse,
+  CacheStoreResponseTypes,
+} from './cache-store';
 import {app} from 'firebase-admin';
 
 /**
@@ -49,16 +54,25 @@ export class FirestoreCacheStore implements CacheStore {
    * Adds a query to the cache without caching the response.
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
+   * The type of response that the query is being made for is also vital.
+   * For example, queries made specifically for JSON response type should be treated differently than
+   * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to be added.
+   * @param responseType - The response type for the query.
    * @param hash - The hash of the query. If not provided, it will be generated.
    */
-  async addQuery(query: string, hash?: string): Promise<WriteResult> {
+  async addQuery(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    hash?: string
+  ): Promise<WriteResult> {
     // verify query data is valid
     if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
       query, // complete query (may include chat history)
+      responseType, // response type supported by cache store
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
       cacheHits: 0,
     };
@@ -73,7 +87,10 @@ export class FirestoreCacheStore implements CacheStore {
    * @param response - The response to be cached.
    * @returns True if the response was cached successfully, false otherwise.
    */
-  async cacheResponse(hash: string, response: string): Promise<WriteResult> {
+  async cacheResponse(
+    hash: string,
+    response: CacheStoreResponse
+  ): Promise<WriteResult> {
     // verify query data is valid
     if (hash === '' || response === '')
       throw new Error('Invalid hash or response data');
@@ -87,9 +104,15 @@ export class FirestoreCacheStore implements CacheStore {
 
   /**
    * Adds a cache record to the cache.
-   * @param record - The cache record to be added.
+   * @param query - The query to cache.
+   * @param responseType - The response type for the query.
+   * @param response - The response to cache.
    */
-  async addRecord(query: string, response: string): Promise<WriteResult> {
+  async addRecord(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    response: CacheStoreResponse
+  ): Promise<WriteResult> {
     // verify query data is valid
     if (query === '' || response === '')
       throw new Error('Invalid query or response data');
@@ -97,6 +120,7 @@ export class FirestoreCacheStore implements CacheStore {
     // Create a new cache record
     const record: CacheRecord = {
       query, // complete query (may include chat history)
+      responseType, // response type supported by cache store
       response,
       expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
       cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now

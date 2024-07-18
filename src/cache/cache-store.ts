@@ -14,13 +14,31 @@ export type ExpiryDate = Date;
 export type QueryHash = string;
 
 /**
+ * Cache store response types supported by the cache store.
+ */
+export type CacheStoreResponseTypes = 'text' | 'json' | 'media';
+
+/**
+ * Cache store response stored as a string for response type "text" and "JSON", and
+ * for type "media" as an object containing the content type and URL of the response.
+ */
+export type CacheStoreResponse =
+  | string
+  | {
+      contentType: string;
+      url: string;
+    };
+
+/**
  * Cache record contains the data of a processed query, along with the expiry date of the record.
  */
 export type CacheRecord = {
   /** query + chat history */
   query: string;
   /** cached response */
-  response?: string;
+  response?: CacheStoreResponse;
+  /** response type supported by cache store */
+  responseType?: CacheStoreResponseTypes;
   /** expiry date of the cache record */
   expiry?: ExpiryDate;
   /** cache threshold. Query data is cached after this threshold reaches zero. Avoids the need to cache all data for every query. */
@@ -48,10 +66,15 @@ export interface CacheStore {
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
    * @param query - The query to add.
+   * @param responseType - The response type for the query.
    * @param hash - Hash value of the query, if not provided, it will be generated.
    * @returns Returns void.
    */
-  addQuery(query: string, hash?: string): Promise<void> | Promise<WriteResult>;
+  addQuery(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    hash?: string
+  ): Promise<void> | Promise<WriteResult>;
 
   /**
    * Cache the response for a given query hash.
@@ -62,18 +85,23 @@ export interface CacheStore {
    */
   cacheResponse(
     hash: QueryHash,
-    response: string
+    response: CacheStoreResponse
   ): boolean | Promise<WriteResult>;
 
   /**
-   * Add a new cache record with the given query and response.
+   * Add a new cache record with the given query, response type, and response.
    * Automatically sets the expiry date of the record based on cache store configurations.
+   * The type of response that the query is being made for is also vital.
+   * For example, queries made specifically for JSON response type should be treated differently than
+   * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to cache.
+   * @param responseType - The response type for the query.
    * @param response - The response to cache.
    */
   addRecord(
     query: string,
-    response: string
+    responseType: CacheStoreResponseTypes,
+    response: CacheStoreResponse
   ): Promise<void> | Promise<WriteResult>;
 
   /**

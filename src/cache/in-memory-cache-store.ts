@@ -3,6 +3,8 @@ import {
   CacheCollection,
   CacheRecord,
   CacheStore,
+  CacheStoreResponse,
+  CacheStoreResponseTypes,
   QueryHash,
 } from './cache-store';
 
@@ -47,17 +49,26 @@ export class InMemoryCacheStore implements CacheStore {
    * Adds a query to the cache without caching the response.
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
+   * The type of response that the query is being made for is also vital.
+   * For example, queries made specifically for JSON response type should be treated differently than
+   * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to be added.
+   * @param responseType - The response type for the query.
    * @param hash - The hash of the query. If not provided, it will be generated.
    * @throws Error if unable to add the query to the cache.
    */
-  async addQuery(query: string, hash?: string): Promise<void> {
+  async addQuery(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    hash?: string
+  ): Promise<void> {
     // verify query data is valid
     if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
-      query, // complete query (may include chat history)
+      query, // complete query (may include chat history and context)
+      responseType: responseType, // set response type to empty
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
       cacheHits: 0, // set cache hits to 0
     };
@@ -73,7 +84,7 @@ export class InMemoryCacheStore implements CacheStore {
    * @throws Error if unable to cache the response.
    * @returns True if the response was cached successfully, throws an error otherwise.
    */
-  cacheResponse(hash: string, response: string): true {
+  cacheResponse(hash: string, response: CacheStoreResponse): true {
     // verify query data is valid
     if (hash === '' || response === '')
       throw new Error('Invalid hash or response data');
@@ -90,15 +101,22 @@ export class InMemoryCacheStore implements CacheStore {
 
   /**
    * Adds a cache record to the cache.
-   * @param record - The cache record to be added.
+   * @param query - The query to cache.
+   * @param responseType - The response type for the query.
+   * @param response - The response to cache.
    */
-  async addRecord(query: string, response: string): Promise<void> {
+  async addRecord(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    response: CacheStoreResponse
+  ): Promise<void> {
     // verify query data is valid
     if (query === '' || response === '') return;
 
     // Create a new cache record
     const record: CacheRecord = {
-      query, // complete query (may include chat history)
+      query, // complete query (may include chat history and context)
+      responseType,
       response,
       expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
       cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
