@@ -19,14 +19,29 @@ export type QueryHash = string;
 export type CacheStoreResponseTypes = 'text' | 'json' | 'media';
 
 /**
+ * Cache response media type contains the content type and URL of the response.
+ */
+export type CacheResponseMediaType = {
+  contentType: string;
+  url: string;
+};
+
+/**
  * Cache store response stored as a string for response type "text" and "JSON", and
  * for type "media" as an object containing the content type and URL of the response.
  */
-export type CacheStoreResponse =
-  | string
+export type CacheResponseRecord =
   | {
-      contentType: string;
-      url: string;
+      /** response type supported by cache store */
+      responseType?: 'text' | 'json';
+      /** cached response */
+      response?: string;
+    }
+  | {
+      /** response type supported by cache store */
+      responseType?: 'media';
+      /** cached response */
+      response?: CacheResponseMediaType;
     };
 
 /**
@@ -35,17 +50,13 @@ export type CacheStoreResponse =
 export type CacheRecord = {
   /** query + chat history */
   query: string;
-  /** cached response */
-  response?: CacheStoreResponse;
-  /** response type supported by cache store */
-  responseType?: CacheStoreResponseTypes;
   /** expiry date of the cache record */
   expiry?: ExpiryDate;
   /** cache threshold. Query data is cached after this threshold reaches zero. Avoids the need to cache all data for every query. */
   cacheThreshold: number;
   /** record number of cache hits */
   cacheHits: number;
-};
+} & CacheResponseRecord;
 
 /** Cache collection is a map containing all cache records. */
 export type CacheCollection = Map<QueryHash, CacheRecord>;
@@ -80,12 +91,12 @@ export interface CacheStore {
    * Cache the response for a given query hash.
    * Automatically sets the expiry date of the record based on cache store configurations.
    * @param hash - The query hash to cache the response for.
-   * @param response - The response to cache.
+   * @param responseRecord - The response record containing the response type and response.
    * @returns Returns true if the response was cached successfully, false otherwise.
    */
   cacheResponse(
     hash: QueryHash,
-    response: CacheStoreResponse
+    responseRecord: CacheResponseRecord
   ): boolean | Promise<WriteResult>;
 
   /**
@@ -95,13 +106,11 @@ export interface CacheStore {
    * For example, queries made specifically for JSON response type should be treated differently than
    * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to cache.
-   * @param responseType - The response type for the query.
-   * @param response - The response to cache.
+   * @param responseRecord - The response record containing the response type and response.
    */
   addRecord(
     query: string,
-    responseType: CacheStoreResponseTypes,
-    response: CacheStoreResponse
+    responseRecord: CacheResponseRecord
   ): Promise<void> | Promise<WriteResult>;
 
   /**

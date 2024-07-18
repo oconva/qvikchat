@@ -2,8 +2,8 @@ import {generateHash} from '../utils/utils';
 import {
   CacheCollection,
   CacheRecord,
+  CacheResponseRecord,
   CacheStore,
-  CacheStoreResponse,
   CacheStoreResponseTypes,
   QueryHash,
 } from './cache-store';
@@ -80,13 +80,13 @@ export class InMemoryCacheStore implements CacheStore {
   /**
    * Caches the response for a specific query.
    * @param hash - The hash of the query.
-   * @param response - The response to be cached.
+   * @param responseRecord - The response record containing the response type and response.
    * @throws Error if unable to cache the response.
    * @returns True if the response was cached successfully, throws an error otherwise.
    */
-  cacheResponse(hash: string, response: CacheStoreResponse): true {
+  cacheResponse(hash: string, responseRecord: CacheResponseRecord): true {
     // verify query data is valid
-    if (hash === '' || response === '')
+    if (hash === '' || !responseRecord.response)
       throw new Error('Invalid hash or response data');
 
     // Get the record from the cache
@@ -94,7 +94,8 @@ export class InMemoryCacheStore implements CacheStore {
     if (!record) throw new Error('Record not found in cache');
 
     // Cache the response
-    record.response = response;
+    record.responseType = responseRecord.responseType;
+    record.response = responseRecord.response;
     record.expiry = new Date(Date.now() + this.recordExpiryDuration);
     return true;
   }
@@ -107,24 +108,39 @@ export class InMemoryCacheStore implements CacheStore {
    */
   async addRecord(
     query: string,
-    responseType: CacheStoreResponseTypes,
-    response: CacheStoreResponse
+    responseRecord: CacheResponseRecord
   ): Promise<void> {
     // verify query data is valid
-    if (query === '' || response === '') return;
+    if (query === '' || !responseRecord.response) return;
 
-    // Create a new cache record
-    const record: CacheRecord = {
-      query, // complete query (may include chat history and context)
-      responseType,
-      response,
-      expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
-      cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
-      cacheHits: 0, // set cache hits to 0
-    };
+    // Check if the response type is media
+    if (responseRecord.responseType === 'media') {
+      // Create a new cache record
+      const record: CacheRecord = {
+        query, // complete query (may include chat history and context)
+        responseType: responseRecord.responseType,
+        response: responseRecord.response,
+        expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
+        cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+        cacheHits: 0, // set cache hits to 0
+      };
 
-    // Add the record to the cache
-    this.cache.set(generateHash(record.query), record);
+      // Add the record to the cache
+      this.cache.set(generateHash(record.query), record);
+    } else {
+      // Create a new cache record
+      const record: CacheRecord = {
+        query, // complete query (may include chat history and context)
+        responseType: responseRecord.responseType,
+        response: responseRecord.response as string,
+        expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
+        cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+        cacheHits: 0, // set cache hits to 0
+      };
+
+      // Add the record to the cache
+      this.cache.set(generateHash(record.query), record);
+    }
   }
 
   /**
