@@ -142,37 +142,30 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         chatId: z.string().optional(),
         uid: config.enableAuth ? z.string() : z.string().optional(),
       }),
-      outputSchema: config.enableChatHistory
-        ? z.union([
-            z.object({
-              response:
-                config.responseType === 'text'
-                  ? z.string()
-                  : config.responseType === 'media'
-                    ? z.object({
-                        contentType: z.string(),
-                        url: z.string(),
-                      })
-                    : z.unknown(),
-              chatId: z.string().optional(),
-              details: config.verbose
+      outputSchema: z.union([
+        z.object({
+          response:
+            config.responseType === 'text' || config.responseType === undefined
+              ? z.string()
+              : config.responseType === 'media'
                 ? z.object({
-                    usage: z.unknown(),
-                    request: z.unknown().optional(),
-                    tool_requests: z.array(z.unknown()).optional(),
+                    contentType: z.string(),
+                    url: z.string(),
                   })
-                : z.undefined(),
-            }),
-            z.object({
-              error: z.string(),
-            }),
-          ])
-        : z.union([
-            z.string(),
-            z.object({
-              error: z.string(),
-            }),
-          ]),
+                : z.unknown(),
+          chatId: z.string().optional(),
+          details: config.verbose
+            ? z.object({
+                usage: z.unknown(),
+                request: z.unknown().optional(),
+                tool_requests: z.array(z.unknown()).optional(),
+              })
+            : z.undefined(),
+        }),
+        z.object({
+          error: z.string(),
+        }),
+      ]),
       middleware: [
         (req, _, next) => {
           if (config.enableAuth) {
