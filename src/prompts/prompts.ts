@@ -16,9 +16,10 @@ export type PromptOutputSchema = {
 };
 
 export {
-  openEndedSystemPrompt,
-  closeEndedSystemPrompt,
-  ragSystemPrompt,
+  getOpenEndedSystemPrompt,
+  getCloseEndedSystemPrompt,
+  getRagSystemPrompt,
+  getSystemPromptText,
 } from './system-prompts';
 
-export {secureChatPrompt, secureRagChatPrompt} from './chat-prompts';
+export {getSecureChatPrompt, getSecureRAGChatPrompt} from './chat-prompts';
