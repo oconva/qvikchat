@@ -52,7 +52,8 @@ describe('Test - Chat Endpoint Agent Config Tests', () => {
           },
         });
         const response = await runEndpoint(endpoint, {
-          query: 'How can you help? In one sentence.',
+          query:
+            'Answer in one sentence: What is Firebase Firestore? Must contain the word "Firestore" in your response.',
         });
         expect(response).toBeDefined();
 
@@ -72,6 +73,9 @@ describe('Test - Chat Endpoint Agent Config Tests', () => {
 
         // should not be empty
         expect(response.response.length).toBeGreaterThan(0);
+
+        // response should contain the word "Firestore"
+        expect(response.response.toLowerCase()).toContain('firestore');
       },
       defaultTimeout
     );
