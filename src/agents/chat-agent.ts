@@ -8,6 +8,7 @@ import {
   SupportedModels,
 } from '../models/models';
 import {
+  defaultSystemPrompts,
   getOpenEndedSystemPrompt,
   getCloseEndedSystemPrompt,
   getRagSystemPrompt,
@@ -227,11 +228,41 @@ export class ChatAgent implements ChatAgentInterface {
     // get the system prompt based on the agent type
     switch (agentType) {
       case 'open-ended':
-        return getOpenEndedSystemPrompt({outputSchema});
+        // if no output schema or output schema is text, return the default open-ended system prompt
+        if (!outputSchema || outputSchema.format === 'text') {
+          return defaultSystemPrompts.open.text;
+        } else if (outputSchema?.format === 'media') {
+          return defaultSystemPrompts.open.media;
+        } else {
+          // if here, response format is JSON, return the open-ended system prompt with the specified output schema
+          return getOpenEndedSystemPrompt({
+            outputSchema,
+          });
+        }
       case 'close-ended':
-        return getCloseEndedSystemPrompt({outputSchema});
+        // if no output schema or output schema is text, return the default close-ended system prompt
+        if (!outputSchema || outputSchema.format === 'text') {
+          return defaultSystemPrompts.close.text;
+        } else if (outputSchema?.format === 'media') {
+          return defaultSystemPrompts.close.media;
+        } else {
+          // if here, response format is JSON, return the close-ended system prompt with the specified output schema
+          return getCloseEndedSystemPrompt({
+            outputSchema,
+          });
+        }
       case 'rag':
-        return getRagSystemPrompt({outputSchema});
+        // if no output schema or output schema is text, return the default rag system prompt
+        if (!outputSchema || outputSchema.format === 'text') {
+          return defaultSystemPrompts.rag.text;
+        } else if (outputSchema?.format === 'media') {
+          return defaultSystemPrompts.rag.media;
+        } else {
+          // if here, response format is JSON, return the rag system prompt with the specified output schema
+          return getRagSystemPrompt({
+            outputSchema,
+          });
+        }
       default:
         throw new Error('Invalid agent type');
     }
@@ -319,9 +350,7 @@ export class ChatAgent implements ChatAgentInterface {
   static getPromptOutputSchema(
     responseOutputSchema?: OutputSchemaType
   ): PromptOutputSchema {
-    if (!responseOutputSchema) {
-      return {format: 'text'};
-    } else if (responseOutputSchema.responseType === 'text') {
+    if (!responseOutputSchema || responseOutputSchema.responseType === 'text') {
       return {format: 'text'};
     } else if (responseOutputSchema.responseType === 'json') {
       return {
