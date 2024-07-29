@@ -3,17 +3,19 @@ import type {GenerateResponse} from '@genkit-ai/ai';
 import {ChatHistoryStore} from '../history/chat-history-store';
 import {
   ModelConfig,
+  OutputSchemaType,
   SupportedModelNames,
   SupportedModels,
 } from '../models/models';
 import {
-  closeEndedSystemPrompt,
-  openEndedSystemPrompt,
-  ragSystemPrompt,
+  getOpenEndedSystemPrompt,
+  getCloseEndedSystemPrompt,
+  getRagSystemPrompt,
 } from '../prompts/system-prompts';
 import {MessageData} from '@genkit-ai/ai/model';
 import {ToolArgument} from '@genkit-ai/ai/tool';
 import {Dotprompt} from '@genkit-ai/dotprompt';
+import {PromptOutputSchema} from '../prompts/prompts';
 
 /**
  * Represents the type of chat agent.
@@ -44,6 +46,7 @@ export type AgentTypeConfig =
  * @property tools - Tools for the chat agent.
  * @property model - The supported model to use for chat completion.
  * @property modelConfig - The model configuration.
+ * @property responseOutputSchema - The output schema for the response.
  */
 export type ChatAgentConfig = {
   systemPrompt?: Dotprompt;
@@ -51,6 +54,7 @@ export type ChatAgentConfig = {
   tools?: ToolArgument[];
   model?: SupportedModels;
   modelConfig?: ModelConfig;
+  responseOutputSchema?: OutputSchemaType;
 } & AgentTypeConfig;
 
 export type DefaultChatAgentConfigType = {
@@ -67,7 +71,6 @@ export const defaultChatAgentConfig: DefaultChatAgentConfigType = {
 };
 
 /**
-
  * Represents the attributes of the chat agent.
  */
 export interface ChatAgentAttributes {
@@ -77,6 +80,7 @@ export interface ChatAgentAttributes {
   chatPrompt?: Dotprompt;
   tools?: ToolArgument[];
   modelConfig?: ModelConfig;
+  responseOutputSchema?: OutputSchemaType;
 }
 
 /**
@@ -117,6 +121,7 @@ export type GenerateResponseProps = {
   modelConfig?: ModelConfig;
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
+  responseOutputSchema?: OutputSchemaType;
 } & GenerateResponseHistoryProps;
 
 /**
@@ -179,6 +184,7 @@ export class ChatAgent implements ChatAgentInterface {
   tools?: ToolArgument[];
   private modelName: string;
   modelConfig?: ModelConfig;
+  responseOutputSchema?: OutputSchemaType;
 
   /**
    * Creates a new instance of the chat agent.
@@ -194,6 +200,9 @@ export class ChatAgent implements ChatAgentInterface {
    */
   constructor(config: ChatAgentConfig = {}) {
     this.agentType = config.agentType ?? defaultChatAgentConfig.agentType;
+    if ('topic' in config) {
+      this.topic = config.topic;
+    }
     this.systemPrompt = config.systemPrompt;
     this.chatPrompt = config.chatPrompt;
     this.tools = config.tools;
@@ -201,26 +210,28 @@ export class ChatAgent implements ChatAgentInterface {
       ? SupportedModelNames[config.model]
       : SupportedModelNames[defaultChatAgentConfig.model];
     this.modelConfig = config.modelConfig;
-    if ('topic' in config) {
-      this.topic = config.topic;
-    }
+    this.responseOutputSchema = config.responseOutputSchema;
   }
 
   /**
    * Gets the system prompt based on the agent type.
    * @param agentType - The type of agent.
+   * @param outputSchema - The output schema for the system prompt.
    * @returns Returns the system prompt.
    * @throws Throws an error if the agent type is invalid.
    */
-  private static getSystemPrompt(agentType?: ChatAgentType) {
+  private static getSystemPrompt(
+    agentType?: ChatAgentType,
+    outputSchema?: PromptOutputSchema
+  ) {
     // get the system prompt based on the agent type
     switch (agentType) {
       case 'open-ended':
-        return openEndedSystemPrompt;
+        return getOpenEndedSystemPrompt({outputSchema});
       case 'close-ended':
-        return closeEndedSystemPrompt;
+        return getCloseEndedSystemPrompt({outputSchema});
       case 'rag':
-        return ragSystemPrompt;
+        return getRagSystemPrompt({outputSchema});
       default:
         throw new Error('Invalid agent type');
     }
@@ -301,6 +312,33 @@ export class ChatAgent implements ChatAgentInterface {
   }
 
   /**
+   * Method to get prompt output schema based on the response type.
+   * @param responseOutputSchema Response type specified by user
+   * @returns PromptOutputSchema object based on the response type
+   */
+  static getPromptOutputSchema(
+    responseOutputSchema?: OutputSchemaType
+  ): PromptOutputSchema {
+    if (!responseOutputSchema) {
+      return {format: 'text'};
+    } else if (responseOutputSchema.responseType === 'text') {
+      return {format: 'text'};
+    } else if (responseOutputSchema.responseType === 'json') {
+      return {
+        format: 'json',
+        schema: responseOutputSchema.schema,
+        jsonSchema: responseOutputSchema.jsonSchema,
+      };
+    } else if (responseOutputSchema.responseType === 'media') {
+      return {format: 'media'};
+    } else {
+      throw new Error(
+        `Invalid response type ${responseOutputSchema.responseType}`
+      );
+    }
+  }
+
+  /**
    * Generates a response based on the given properties.
    * @param query - The query string.
    * @param context - The context string.
@@ -320,7 +358,12 @@ export class ChatAgent implements ChatAgentInterface {
     const prompt =
       params.systemPrompt ??
       this.systemPrompt ??
-      ChatAgent.getSystemPrompt(this.agentType);
+      ChatAgent.getSystemPrompt(
+        this.agentType,
+        ChatAgent.getPromptOutputSchema(
+          params.responseOutputSchema ?? this.responseOutputSchema // responseOutputSchema provided as argument takes priority
+        )
+      );
     // if not using chat history
     if (!params.enableChatHistory) {
       // return response in specified format

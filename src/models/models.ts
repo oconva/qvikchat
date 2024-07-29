@@ -4,7 +4,15 @@ import {
   geminiPro,
   geminiProVision,
 } from '@genkit-ai/googleai';
-import {gpt35Turbo, gpt4, gpt4o, gpt4Turbo, gpt4Vision} from 'genkitx-openai';
+import {
+  gpt35Turbo,
+  gpt4,
+  gpt4o,
+  gpt4Turbo,
+  gpt4Vision,
+  dallE3,
+} from 'genkitx-openai';
+import {z} from 'zod';
 
 /**
  * Names of supported models.
@@ -19,6 +27,7 @@ export const SupportedModelNames = {
   gpt4Turbo: gpt4Turbo.name,
   gpt4Vision: gpt4Vision.name,
   gpt4: gpt4.name,
+  dallE3: dallE3.name,
 } as const;
 
 export const getSupportedModelNames = () => Object.values(SupportedModelNames);
@@ -54,3 +63,26 @@ export type ModelConfig = {
       }[]
     | undefined;
 };
+
+/**
+ * Output schema for model responses.
+ */
+export const OutputSchema = z.union([
+  z.object({
+    responseType: z.literal('text').optional(),
+  }),
+  z.object({
+    responseType: z.literal('json').optional(),
+    schema: z.any().optional(),
+    jsonSchema: z.any().optional(),
+  }),
+  z.object({
+    responseType: z.literal('media').optional(),
+    contentType: z.string(),
+  }),
+]);
+
+/**
+ * Possible output schemas for model responses.
+ */
+export type OutputSchemaType = z.infer<typeof OutputSchema>;
