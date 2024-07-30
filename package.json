@@ -51,15 +51,9 @@
     },
     "./agents": {
       "types": "./lib/agents/chat-agents.d.ts",
-      "import": {
-        "default": "./lib/agents/chat-agents.js",
-        "types": "./lib/agents/chat-agents.d.ts"
-      },
-      "require": {
-        "default": "./lib/agents/chat-agents.js",
-        "types": "./lib/agents/chat-agents.d.ts"
-      },
-      "default": "./lib/agents/chat-agent.js"
+      "import": "./lib/agents/chat-agents.js",
+      "require": "./lib/agents/chat-agents.js",
+      "default": "./lib/agents/chat-agents.js"
     },
     "./auth": {
       "types": "./lib/auth/api-key-store.d.ts",
@@ -84,12 +78,6 @@
       "import": "./lib/endpoints/endpoints.js",
       "require": "./lib/endpoints/endpoints.js",
       "default": "./lib/endpoints/endpoints.js"
-    },
-    "./genkit": {
-      "types": "./lib/genkit/genkit.d.ts",
-      "import": "./lib/genkit/genkit.js",
-      "require": "./lib/genkit/genkit.js",
-      "default": "./lib/genkit/genkit.js"
     },
     "./history": {
       "types": "./lib/history/chat-history-store.d.ts",

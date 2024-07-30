@@ -1,13 +1,22 @@
+import {CorsOptions} from 'cors';
 import {ConfigOptions, PluginProvider, configureGenkit} from '@genkit-ai/core';
 import {startFlowsServer} from '@genkit-ai/flow';
 import {googleAI} from '@genkit-ai/googleai';
 import {dotprompt} from '@genkit-ai/dotprompt';
 import {firebase} from '@genkit-ai/firebase';
 import {TelemetryConfig} from '@genkit-ai/google-cloud';
-import {GLOBAL_CONFIG, StartServerParamsType} from '../config/config';
-// import {langchain} from 'genkitx-langchain';
 import {openAI} from 'genkitx-openai';
 import {getEnvironmentVariable} from '../utils/utils';
+import {GLOBAL_CONFIG} from '../config/config';
+
+/**
+ * Type for the parameters to start the server
+ */
+export type StartServerParamsType = {
+  port?: number;
+  cors?: CorsOptions;
+  pathPrefix?: string;
+};
 
 /**
  * Configuration for Firebase plugin.
