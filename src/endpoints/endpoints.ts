@@ -23,12 +23,7 @@ import {getDataRetriever} from '../rag/data-retrievers/data-retrievers';
 import {ChatHistoryStore} from '../history/chat-history-store';
 import {Dotprompt} from '@genkit-ai/dotprompt';
 import {ToolArgument} from '@genkit-ai/ai/tool';
-import {
-  ModelConfig,
-  OutputSchema,
-  OutputSchemaType,
-  SupportedModels,
-} from '../models/models';
+import {ModelConfig, OutputSchema, OutputSchemaType} from '../models/models';
 import {getSystemPromptText} from '../prompts/system-prompts';
 
 type ChatHistoryParams =
@@ -84,14 +79,6 @@ type ChatAgentTypeParams =
       topic: string;
     };
 
-type EndpointChatAgentConfig = {
-  systemPrompt?: Dotprompt;
-  chatPrompt?: Dotprompt;
-  tools?: ToolArgument[];
-  model?: SupportedModels;
-  modelConfig?: ModelConfig;
-};
-
 type VerboseDetails = {
   usage: GenerationUsage;
   request?: GenerateRequest;
@@ -100,7 +87,10 @@ type VerboseDetails = {
 
 export type DefineChatEndpointConfig = {
   endpoint: string;
-  chatAgentConfig?: EndpointChatAgentConfig;
+  systemPrompt?: Dotprompt;
+  chatPrompt?: Dotprompt;
+  tools?: ToolArgument[];
+  modelConfig?: ModelConfig;
   verbose?: boolean;
   outputSchema?: OutputSchemaType;
 } & ChatAgentTypeParams &
@@ -142,10 +132,10 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         z.object({
           response:
             !config.outputSchema ||
-            !config.outputSchema.responseType ||
-            config.outputSchema?.responseType === 'text'
+            !config.outputSchema.format ||
+            config.outputSchema?.format === 'text'
               ? z.string()
-              : config.outputSchema.responseType === 'media'
+              : config.outputSchema.format === 'media'
                 ? z.object({
                     contentType: z.string(),
                     url: z.string(),
@@ -196,8 +186,8 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
       if (query === '') return {response: 'How can I help you today?'};
 
       // set default response type
-      if (!config.outputSchema || !config.outputSchema.responseType) {
-        config.outputSchema = {responseType: 'text'};
+      if (!config.outputSchema || !config.outputSchema.format) {
+        config.outputSchema = {format: 'text'};
       }
 
       // set output schema
@@ -206,8 +196,16 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         outputSchema = config.outputSchema;
       }
 
-      // store chat agent
+      // store chat agent (will be initialized based on the provided agent type or RAG)
       let chatAgent: ChatAgent;
+
+      // shared chat agent configurations
+      const sharedChatAgentConfig = {
+        systemPrompt: config.systemPrompt,
+        chatPrompt: config.chatPrompt,
+        tools: config.tools,
+        modelConfig: config.modelConfig,
+      };
 
       // Initialize chat agent based on the provided type
       if (!config.enableRAG) {
@@ -226,12 +224,12 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
                 agentType: 'close-ended',
                 topic: config.topic,
                 responseOutputSchema: outputSchema,
-                ...config.chatAgentConfig,
+                ...sharedChatAgentConfig,
               })
             : new ChatAgent({
                 agentType: 'open-ended',
                 responseOutputSchema: outputSchema,
-                ...config.chatAgentConfig,
+                ...sharedChatAgentConfig,
               });
       }
       // If RAG is enabled
@@ -241,7 +239,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           agentType: 'rag',
           topic: config.topic,
           responseOutputSchema: outputSchema,
-          ...config.chatAgentConfig,
+          ...sharedChatAgentConfig,
         });
       }
 
@@ -304,7 +302,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           // also check if response type matches the expected response type
           if (
             cachedQuery.response &&
-            cachedQuery.responseType === outputSchema.responseType
+            cachedQuery.responseType === outputSchema.format
           ) {
             // increment cache hits
             config.cacheStore.incrementCacheHits(queryHash);
@@ -314,7 +312,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               let cachedModelResponse: MessageData;
               // if expected response type is "text" and cached response type is "text"
               if (
-                outputSchema.responseType === 'text' &&
+                outputSchema.format === 'text' &&
                 cachedQuery.responseType === 'text'
               ) {
                 cachedModelResponse = {
@@ -324,7 +322,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               }
               // else if expected response type is "json" and cached response type is "json"
               else if (
-                outputSchema.responseType === 'json' &&
+                outputSchema.format === 'json' &&
                 cachedQuery.responseType === 'json'
               ) {
                 cachedModelResponse = {
@@ -334,7 +332,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               }
               // else if expected response type is "media" and cached response type is "media"
               else if (
-                outputSchema.responseType === 'media' &&
+                outputSchema.format === 'media' &&
                 cachedQuery.responseType === 'media'
               ) {
                 cachedModelResponse = {
@@ -426,7 +424,7 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
           // remember to add the query with context
           config.cacheStore.addQuery(
             queryWithContext,
-            outputSchema.responseType ?? 'text', // default to text
+            outputSchema.format ?? 'text', // default to text
             queryHash
           );
         }
@@ -485,14 +483,14 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
         // Not supported for media response type
         if (config.enableCache && config.cacheStore && cacheThresholdReached) {
           // cache response based on response type
-          if (outputSchema.responseType === 'json') {
+          if (outputSchema.format === 'json') {
             config.cacheStore.cacheResponse(queryHash, {
               responseType: 'json',
               response: JSON.stringify(response.res.output()),
             });
           }
           // if media
-          else if (outputSchema.responseType === 'media') {
+          else if (outputSchema.format === 'media') {
             const mediaContent = response.res.media();
             // if we have valid data
             if (mediaContent?.contentType && mediaContent?.url) {
@@ -516,9 +514,9 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
 
         // return response based on response type
         let res;
-        if (outputSchema.responseType === 'json') {
+        if (outputSchema.format === 'json') {
           res = response.res.output();
-        } else if (outputSchema.responseType === 'media') {
+        } else if (outputSchema.format === 'media') {
           const mediaContent = response.res.media();
           // if we have valid data
           if (mediaContent?.contentType && mediaContent?.url) {

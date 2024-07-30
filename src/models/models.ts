@@ -12,24 +12,50 @@ import {
   gpt4Vision,
   dallE3,
 } from 'genkitx-openai';
+import {DallE3ConfigSchema} from 'genkitx-openai/lib/dalle';
+import {OpenAiConfigSchema} from 'genkitx-openai/lib/gpt';
 import {z} from 'zod';
 
 /**
- * Names of supported models.
+ * List of supported Gemini models.
  */
-export const SupportedModelNames = {
+export const GeminiModels = {
   gemini10Pro: geminiPro.name,
   gemini15Pro: gemini15Pro.name,
   gemini15Flash: gemini15Flash.name,
   geminiProVision: geminiProVision.name,
+} as const;
+
+/**
+ * List of supported OpenAI models.
+ */
+export const OpenAIModels = {
   gpt35Turbo: gpt35Turbo.name,
   gpt4o: gpt4o.name,
   gpt4Turbo: gpt4Turbo.name,
   gpt4Vision: gpt4Vision.name,
   gpt4: gpt4.name,
+} as const;
+
+/**
+ * List of supported DALL-E models.
+ */
+export const DallEModels = {
   dallE3: dallE3.name,
 } as const;
 
+/**
+ * List of all supported model names.
+ */
+export const SupportedModelNames = {
+  ...GeminiModels,
+  ...OpenAIModels,
+  ...DallEModels,
+};
+
+/**
+ * Get names of all supported models.
+ */
 export const getSupportedModelNames = () => Object.values(SupportedModelNames);
 
 /**
@@ -40,7 +66,7 @@ export type SupportedModels = keyof typeof SupportedModelNames;
 /**
  * Supported configuration options for a model
  */
-export type ModelConfig = {
+export type GeminiModelConfig = {
   version?: string | undefined;
   temperature?: number | undefined;
   maxOutputTokens?: number | undefined;
@@ -65,19 +91,32 @@ export type ModelConfig = {
 };
 
 /**
+ * Configuration options for a model.
+ */
+export type ModelConfig =
+  | ({
+      name: keyof typeof GeminiModels;
+    } & GeminiModelConfig)
+  | ({
+      name: keyof typeof OpenAIModels;
+    } & z.infer<typeof OpenAiConfigSchema>)
+  | ({
+      name: keyof typeof DallEModels;
+    } & z.infer<typeof DallE3ConfigSchema>);
+
+/**
  * Output schema for model responses.
  */
 export const OutputSchema = z.union([
   z.object({
-    responseType: z.literal('text').optional(),
+    format: z.literal('text').optional(),
   }),
   z.object({
-    responseType: z.literal('json').optional(),
-    schema: z.any().optional(),
-    jsonSchema: z.any().optional(),
+    format: z.literal('json').optional(),
+    schema: z.custom<z.ZodTypeAny>().optional(),
   }),
   z.object({
-    responseType: z.literal('media').optional(),
+    format: z.literal('media').optional(),
     contentType: z.string(),
   }),
 ]);
