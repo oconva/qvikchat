@@ -5,7 +5,7 @@ import {dotprompt} from '@genkit-ai/dotprompt';
 import {firebase} from '@genkit-ai/firebase';
 import {TelemetryConfig} from '@genkit-ai/google-cloud';
 import {GLOBAL_CONFIG, StartServerParamsType} from '../config/config';
-import {langchain} from 'genkitx-langchain';
+// import {langchain} from 'genkitx-langchain';
 import {openAI} from 'genkitx-openai';
 import {getEnvironmentVariable} from '../utils/utils';
 
@@ -35,7 +35,7 @@ export type SetupGenkitConfig = {
 /**
  * Required plugins for Genkit setup.
  */
-const requiredPlugins: PluginProvider[] = [dotprompt(), langchain({})];
+const requiredPlugins: PluginProvider[] = [dotprompt()];
 
 /**
  * Function to check if a plugin exists in the list of plugins.

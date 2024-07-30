@@ -1,6 +1,6 @@
 {
   "name": "@oconva/qvikchat",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
@@ -182,7 +182,6 @@
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
     "firebase-admin": "^12.2.0",
-    "genkitx-chromadb": "^0.5.4",
     "genkitx-langchain": "^0.5.4",
     "genkitx-openai": "^0.10.0",
     "langchain": "^0.2.8",
