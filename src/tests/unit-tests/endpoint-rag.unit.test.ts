@@ -2,7 +2,7 @@ import {
   defineChatEndpoint,
   getChatEndpointRunner,
 } from '../../endpoints/endpoints';
-import {setupGenkit} from '../../genkit/genkit';
+import {setupGenkit} from '../../core/core';
 import {getDataRetriever} from '../../rag/data-retrievers/data-retrievers';
 import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
 

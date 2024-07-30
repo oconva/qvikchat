@@ -1,20 +1,11 @@
 import {ConfigOptions} from '@genkit-ai/core';
-import {CorsOptions} from 'cors';
 import {SupportedModels} from '../models/models';
-
-/**
- * Type for the parameters to start the server
- */
-export type StartServerParamsType = {
-  port?: number;
-  cors?: CorsOptions;
-  pathPrefix?: string;
-};
+import {StartServerParamsType} from '../core/core';
 
 /**
  * Type for the cache store configuration
  */
-export type CacheStoreConfig = {
+export type GlobalCacheStoreConfig = {
   /** duration after which each record expires */
   recordExpiryDuration: number;
   /** threshold after which a query is cached, e.g., n=3 means a specific query will be cached if received more than 3 times */
@@ -24,7 +15,7 @@ export type CacheStoreConfig = {
 /**
  * Cache store configuration object
  */
-export const cacheStoreConfig = {
+export const globalCacheStoreConfig = {
   recordExpiryDuration: 1000 * 60 * 60 * 24, // 24 hours
   cacheQueryAfterThreshold: 3, // cache query after 3 requests
 };
@@ -52,7 +43,7 @@ export interface GlobalConfigInterface {
   /** Enable API key authentication */
   enableAPIKeyAuth?: boolean;
   /** Cache store configuration */
-  cacheStoreConfig?: CacheStoreConfig;
+  cacheStoreConfig?: GlobalCacheStoreConfig;
 }
 
 /**
@@ -69,7 +60,7 @@ export const GLOBAL_CONFIG: GlobalConfigInterface = {
     port: 8884,
   },
   enableAPIKeyAuth: true,
-  cacheStoreConfig: cacheStoreConfig,
+  cacheStoreConfig: globalCacheStoreConfig,
 };
 
 /**

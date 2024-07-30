@@ -49,9 +49,6 @@ importers:
       firebase-admin:
         specifier: ^12.2.0
         version: 12.2.0
-      genkitx-chromadb:
-        specifier: ^0.5.4
-        version: 0.5.7(openai@4.52.7)
       genkitx-langchain:
         specifier: ^0.5.4
         version: 0.5.7(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7)
@@ -4560,12 +4557,6 @@ packages:
       }
     engines: {node: '>=14'}
 
-  genkitx-chromadb@0.5.7:
-    resolution:
-      {
-        integrity: sha512-zHEST0GuxHrwx9LwynW/87a8kfoU6Aan162kycdYgao36WpuLXwdvLkMlhes3Mz0YymKfdzZ4G8BPChe7/Ouvg==,
-      }
-
   genkitx-langchain@0.5.7:
     resolution:
       {
@@ -7525,13 +7516,6 @@ packages:
       esbuild:
         optional: true
 
-  ts-md5@1.3.1:
-    resolution:
-      {
-        integrity: sha512-DiwiXfwvcTeZ5wCE0z+2A9EseZsztaiZtGrtSaY5JOD7ekPnR/GoIVD5gXZAlK9Na9Kvpo9Waz5rW64WKAWApg==,
-      }
-    engines: {node: '>=12'}
-
   ts-node@10.9.2:
     resolution:
       {
@@ -10475,6 +10459,7 @@ snapshots:
       openai: 4.52.7
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   ci-info@3.9.0: {}
 
@@ -11086,20 +11071,6 @@ snapshots:
       - encoding
       - supports-color
 
-  genkitx-chromadb@0.5.7(openai@4.52.7):
-    dependencies:
-      '@genkit-ai/ai': 0.5.7
-      '@genkit-ai/core': 0.5.7
-      chromadb: 1.8.1(openai@4.52.7)
-      ts-md5: 1.3.1
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - '@google/generative-ai'
-      - cohere-ai
-      - encoding
-      - openai
-      - supports-color
-
   genkitx-langchain@0.5.7(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7):
     dependencies:
       '@genkit-ai/ai': 0.5.7
@@ -11583,6 +11554,7 @@ snapshots:
       whatwg-fetch: 3.6.20
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   istanbul-lib-coverage@3.2.2: {}
 
@@ -13039,8 +13011,6 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.24.7)
 
-  ts-md5@1.3.1: {}
-
   ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -13150,7 +13120,8 @@ snapshots:
 
   websocket-extensions@0.1.4: {}
 
-  whatwg-fetch@3.6.20: {}
+  whatwg-fetch@3.6.20:
+    optional: true
 
   whatwg-url@5.0.0:
     dependencies:

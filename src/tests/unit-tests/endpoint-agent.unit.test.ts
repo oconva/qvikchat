@@ -3,7 +3,7 @@ import {
   defineChatEndpoint,
   getChatEndpointRunner,
 } from '../../endpoints/endpoints';
-import {setupGenkit} from '../../genkit/genkit';
+import {setupGenkit} from '../../core/core';
 
 /**
  * Test suite for testing chat agent config for a chat endpoint.

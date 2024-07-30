@@ -2,7 +2,7 @@ import {
   defineChatEndpoint,
   getChatEndpointRunner,
 } from '../../endpoints/endpoints';
-import {setupGenkit} from '../../genkit/genkit';
+import {setupGenkit} from '../../core/core';
 import {InMemoryChatHistoryStore} from '../../history/in-memory-chat-history-store';
 
 /**

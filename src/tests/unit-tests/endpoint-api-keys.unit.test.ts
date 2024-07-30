@@ -4,7 +4,7 @@ import {
 } from '../../endpoints/endpoints';
 import {InMemoryAPIKeyStore} from '../../auth/in-memory-api-key-store';
 import {generateAlphaNumericString} from '../../utils/utils';
-import {setupGenkit} from '../../genkit/genkit';
+import {setupGenkit} from '../../core/core';
 
 /**
  * Test suite for Chat Endpoint - API Keys.

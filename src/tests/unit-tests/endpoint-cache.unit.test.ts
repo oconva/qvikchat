@@ -3,7 +3,7 @@ import {
   getChatEndpointRunner,
 } from '../../endpoints/endpoints';
 import {InMemoryCacheStore} from '../../cache/in-memory-cache-store';
-import {setupGenkit} from '../../genkit/genkit';
+import {setupGenkit} from '../../core/core';
 import {CacheCollection} from '../../cache/cache-store';
 
 /**

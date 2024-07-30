@@ -1,6 +1,6 @@
 {
   "name": "@oconva/qvikchat",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/oconva/qvikchat.git"
@@ -51,15 +51,9 @@
     },
     "./agents": {
       "types": "./lib/agents/chat-agents.d.ts",
-      "import": {
-        "default": "./lib/agents/chat-agents.js",
-        "types": "./lib/agents/chat-agents.d.ts"
-      },
-      "require": {
-        "default": "./lib/agents/chat-agents.js",
-        "types": "./lib/agents/chat-agents.d.ts"
-      },
-      "default": "./lib/agents/chat-agent.js"
+      "import": "./lib/agents/chat-agents.js",
+      "require": "./lib/agents/chat-agents.js",
+      "default": "./lib/agents/chat-agents.js"
     },
     "./auth": {
       "types": "./lib/auth/api-key-store.d.ts",
@@ -84,12 +78,6 @@
       "import": "./lib/endpoints/endpoints.js",
       "require": "./lib/endpoints/endpoints.js",
       "default": "./lib/endpoints/endpoints.js"
-    },
-    "./genkit": {
-      "types": "./lib/genkit/genkit.d.ts",
-      "import": "./lib/genkit/genkit.js",
-      "require": "./lib/genkit/genkit.js",
-      "default": "./lib/genkit/genkit.js"
     },
     "./history": {
       "types": "./lib/history/chat-history-store.d.ts",
@@ -182,7 +170,6 @@
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
     "firebase-admin": "^12.2.0",
-    "genkitx-chromadb": "^0.5.4",
     "genkitx-langchain": "^0.5.4",
     "genkitx-openai": "^0.10.0",
     "langchain": "^0.2.8",
