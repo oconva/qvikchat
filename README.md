@@ -8,7 +8,7 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 
 [Get Started](https://qvikchat.pkural.ca/getting-started) | [Documentation](https://qvikchat.pkural.ca)
 
-[![Pre-deploy Workflow - lint, test, build](https://github.com/oconva/qvikchat/actions/workflows/build.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/build.yml) [![CodeQL](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml) [![QvikChat NPM](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml) [![Dependency review](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml)
+[![Pre-deploy Workflow - lint, test, build](https://github.com/oconva/qvikchat/actions/workflows/build.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/build.yml) [![CodeQL](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml) [![Dependency review](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml) [![Publish package to NPM](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml/badge.svg?event=release)](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml) [![npm version](https://badge.fury.io/js/@oconva%2Fqvikchat.svg)](https://badge.fury.io/js/@oconva%2Fqvikchat)
 
 ## QvikChat Chat Endpoint demo
 
@@ -16,97 +16,21 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 
 ## Features
 
-- **Firebase Genkit**: Built using the open source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered apps or services quickly and efficiently.
-- **Deploy to any NodeJS platform**: Deploy your app or service to any NodeJS platform, including Firebase, Google Cloud, AWS, Heroku, etc.
-- **LangChain**: Built using the open source [LangChain framework](https://js.langchain.com/v0.2/docs/introduction/) to help you process data for RAG and information retrieval. Easily extend the framework by using any LangChain supported embedding model, vector store, data loader, and more.
-- **Dotprompt**: Using [Dotprompt](https://firebase.google.com/docs/genkit/dotprompt) for well-structured prompts with all relevant metadata and input-output data validation.
-- **Firebase Firestore**: In-built support for using [Cloud Firestore](https://firebase.google.com/docs/firestore) as chat history store, cache store, and API key store.
-- **Chat agents**: Create chat agents with support for chat history, caching, authentication and information retrieval, in a few lines of code.
-- **API key protected endpoints**: API Key Store to easily manage API keys and ensure that only authorized users can access your app endpoints.
-- **Response Caching**: Cache responses to user queries to improve response times and reduce the number of API calls to LLM.
-- **RAG Agents**: Create chat agents that can use Retrieval Augmented Generation (RAG) to answer user queries by retrieving additional context information (e.g. from a text or JSON file).
-- **RAG Data Loading**: Built-in support for loading text, JSON, PDF, or code files. Easily add new knowledge bases to create new RAG agents.
-- **Focus on Safety, Reliablity and Efficiency**: Every component is built with a focus on ensuring safety, reliability and efficiency. From using prompts that help mitigate LLM hallucination and deter prompt injection attacks, to providing in-built support for enabling authentication for each endpoint, QvikChat is designed to help you build secure, performant and reliable chat apps and services.
+- **Endpoints with Chat History, Authentication, Caching, and RAG**: Built-in architecture to help you build chat endpoints with support for **conversation history**, **authenticated endpoints**, **response caching** for faster response times, and **RAG** for answering queries that require additional context data.
+- **RAG**: Built-in support for loading text, CSV, JSON, PDF, or code files easily, and generating and storing embeddings in a vector store to support information retrieval for context-aware chat endpoints. Add additional data loaders easily through LangChain, for example, to support ingesting data from cloud storage. For all available integrations for data loaders, check [Document loaders | 🦜️🔗 Langchain.](https://js.langchain.com/v0.1/docs/integrations/document_loaders/)
+- **Deploy to any NodeJS platform**: Deploy your app or service to any NodeJS platform, including Firebase, Google Cloud, AWS, Heroku, etc., with ease.
+- **Dotprompt**: Supports [Dotprompt](https://firebase.google.com/docs/genkit/dotprompt) for well-structured prompts with all relevant metadata and input-output data validation.
+- **Firebase Firestore**: In-built support for using [Cloud Firestore](https://firebase.google.com/docs/firestore) as the chat history store, cache store, and API key store.
+- **Firebase Genkit**: Built using the open-source [Firebase Genkit framework](https://firebase.google.com/docs/genkit) to help you build powerful production-ready AI-powered services with the possibility of easily extending the framework's functionalities through Genkit plugins.
+- **LangChain**: Built using the open-source [LangChain framework](https://js.langchain.com/v0.2/docs/introduction/) to help you process data for RAG and information retrieval. Easily extend the framework by using any LangChain-supported embedding model, vector store, data loader, and more.
+- **Focus on Performance, Reliability, and Security**: Every component in QvikChat is built to ensure low latency and scalable performance without compromising on security. From using prompts that help mitigate LLM hallucination and deter prompt injection attacks, to providing in-built support for enabling authentication for each endpoint, QvikChat is designed to help you build secure, performant, and reliable chat apps and services.
 
-## Installation
 
-You can either install QvikChat as a package or use the QvikChat starter template to get started quickly. The QvikChat starter template comes pre-configured with QvikChat, TypeScript, ESLint, Jest and more.
-
-### Install QvikChat as a package
-
-To install QvikChat as a package, run the following command:
-
-```bash copy
-npm install @oconva/qvikchat # or pnpm add @oconva/qvikchat
-```
-
-Please ensure that correctly set up the environment variables. By default, QvikChat uses Google's Gemini API for text generation and embedding models. If you don't yet have a Google Gen AI API key, you can get one from [Gemini API - Get an API Key](https://ai.google.dev/gemini-api/docs/api-key).
-
-`.env` should have:
-
-```bash
-GOOGLE_GENAI_API_KEY=
-```
-
-Before you can deploy your chat endpoints, you need to setup Firebase Genkit, either by using the default configurations or by providing your own configurations, these may include additional Genkit plugins you may want to enable (e.g. to add support for a new language model). When starting out, we recommend using the default configurations.
-
-Create a `index.ts` (or `index.js`) file and add the following code:
-
-```typescript copy
-import {runServer, setupGenkit} from '@oconva/qvikchat/genkit';
-import {defineChatEndpoint} from '@oconva/qvikchat/endpoints';
-
-// Setup Genkit
-setupGenkit();
-
-// Open-ended chat
-defineChatEndpoint({
-  endpoint: 'chat',
-});
-
-// Run server
-runServer();
-```
-
-That's it! Running the above code will run a Expressjs server with your defined chat endpoints accessible through it.
-
-You should be able to access the chat endpoint defined above at the `chat` endpoint. To test from terminal, you can try the below command:
-
-```bash copy
-curl -X POST "http://127.0.0.1:3400/chat" -H "Content-Type: application/json"  -d '{"data": { "query": "Answer in one sentence: What is Firebase Firestore?" } }'
-```
-
-Above example points to `http://127.0.0.1:3400`. You can change this port and host depending on where you are running the server and on which port.
-
-You could also use the [Genkit Developer UI](#genkit-developer-ui) to test the endpoints.
-
-### QvikChat Starter Template
+## QvikChat Starter Template
 
 To get up and running quickly, you can use the QvikChat starter template. The starter template is a pre-configured project with all the necessary configurations and setup to get you started with QvikChat write quality and reliable code. It comes pre-configured with support for TypeScript, ESLint, Prettier, Jest, SWC, and GitHub Actions, so you can get started with developing the next revolutionary chat app right away.
 
 To learn more about the QvikChat starter template, check the [QvikChat Starter Template](https://github.com/oconva/qvikchat-starter-template) repo.
-
-### Genkit Developer UI
-
-You can run the Genkit developer UI to test the endpoints. Testing the endpoints using a graphical interface is probably the easiest way to get started. You can know more about the Genkit Developer UI [here](https://firebase.google.com/docs/genkit/devtools#genkit_developer_ui).
-
-Start the Genkit developer UI:
-
-```bash copy
-npx genkit start
-```
-
-OR, you can install the Genkit CLI globally:
-
-```bash copy
-npm i -g genkit
-```
-
-Then start the Genkit developer UI:
-
-```bash copy
-genkit start
-```
 
 ## Documentation
 
@@ -116,14 +40,16 @@ You can also check [Examples](https://qvikchat.pkural.ca/examples) to see some e
 
 ## Upcoming Changes
 
-QvikChat will always remain a minimalistic and extensible framework allowing developers to get started and build chat apps and services quickly and with ease. However, there is a lot that can be done to improve QvikChat and to help guide users to take the full advantage of QvikChat.
+Below are some of the upcoming changes that the QvikChat project will focus on:
 
-Below are some upcoming changes that are focusing on currently:
-
-- **Support for Multimodal Input/Output**: In the coming version, we aim to provide support for multimodal input and output, for both RAG and non-RAG chat endpoints.
-- **Better Endpoint Usage Metrics**: Our focus will be on adding support for enabling developers and users have access to more detailed endpoint usage statistics and metrics.
+- **Better Observability & Tracing**: Adding support for better observability and tracing to help you monitor and debug your chat services more effectively.
+- **Usage Tracking**: Adding support for tracking usage of the chat service, including tracking the number of requests, response times, token usage, and more.
 - **More examples**: Adding more examples of various use-cases where QvikChat could be used to increase the pace of development and reduce complexity. There will be more examples coming up specifically for RAG and multimodal chat services.
 - **Completely Self-hosted Solution**: We plan on adding more integrations to QvikChat to enable development of completely self-hosted chat services. This includes the use of self-hosted LLM model (through [Ollama](https://ollama.com/)) and self-hosted vector store (through [ChromaDB](https://www.trychroma.com/) / [Milvus](https://milvus.io/)).
+
+Check the [QvikChat Milestones](https://github.com/oconva/qvikchat/milestones) for upcoming changes specific to each feature release.
+
+## Sponsor
 
 If you find value from this project, please consider contributing or sponsoring the project to help maintain and improve it. All contributions and support are greatly appreciated!
 
@@ -131,16 +57,7 @@ If you find value from this project, please consider contributing or sponsoring 
 
 ## Notes
 
-QvikChat is a minimalistic extensible framework. Its meant to give you a **starting point** so you can quickly get started with building your chat app or service using Genkit, eliminating the need for you to deal with setting up the whole project from scratch.
-
-This means that this framework is not exhaustive, and you may add more features, chat agent types, cloud-based database support, etc. as you see fit. Since, it is built on top of Genkit and LangChain, you can easily add more models, chat history stores, vector stores and more.
-
-<blockquote>
-  Note: This is not an official Firebase Genkit or LangChain framework. This is
-  a community-driven project. Firebase Genkit is currently in beta, this means
-  that the public API and framework design may change in backward-incompatible
-  ways. We will do our best to keep this project up-to-date.
-</blockquote>
+QvikChat uses the [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) open-source frameworks under the hood for several functionalities. Its important to note that Firebase Genkit is currently in beta, and the public API and framework design may change in backward-incompatible ways. We will do our best to keep this project up-to-date with the latest changes in Firebase Genkit and LangChain.
   
 ## Contributions
 
