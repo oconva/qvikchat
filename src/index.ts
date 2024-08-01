@@ -7,7 +7,6 @@ import {
   setupGenkit,
   type SetupGenkitConfig,
   type StartServerParamsType,
-  type FirestorePluginParams,
 } from './core/core';
 
 // export core modules
@@ -16,7 +15,6 @@ export {
   setupGenkit,
   type SetupGenkitConfig,
   type StartServerParamsType,
-  type FirestorePluginParams,
 };
 
 /**

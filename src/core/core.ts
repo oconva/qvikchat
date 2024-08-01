@@ -3,8 +3,6 @@ import {ConfigOptions, PluginProvider, configureGenkit} from '@genkit-ai/core';
 import {startFlowsServer} from '@genkit-ai/flow';
 import {googleAI} from '@genkit-ai/googleai';
 import {dotprompt} from '@genkit-ai/dotprompt';
-import {firebase} from '@genkit-ai/firebase';
-import {TelemetryConfig} from '@genkit-ai/google-cloud';
 import {openAI} from 'genkitx-openai';
 import {getEnvironmentVariable} from '../utils/utils';
 import {GLOBAL_CONFIG} from '../config/config';
@@ -19,27 +17,9 @@ export type StartServerParamsType = {
 };
 
 /**
- * Configuration for Firebase plugin.
- */
-export interface FirestorePluginParams {
-  projectId?: string;
-  flowStateStore?: {
-    collection?: string;
-    databaseId?: string;
-  };
-  traceStore?: {
-    collection?: string;
-    databaseId?: string;
-  };
-  telemetryConfig?: TelemetryConfig;
-}
-
-/**
  * Configures Genkit with a set of options. This should be called from `genkit.configig.js`.
  */
-export type SetupGenkitConfig = {
-  firebaseConfig?: FirestorePluginParams;
-} & ConfigOptions;
+export type SetupGenkitConfig = ConfigOptions;
 
 /**
  * Required plugins for Genkit setup.
@@ -91,18 +71,6 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
       requiredPlugins.push(
         openAI({
           apiKey: getEnvironmentVariable('OPENAI_API_KEY'),
-        })
-      );
-    }
-  }
-  // configure firebase if configurations provided
-  if (config.firebaseConfig) {
-    // if firebase already added by user in provided plugins, then don't add it again
-    // will only add if firebase plugin is not already added
-    if (!pluginExists('firebase', requiredPlugins)) {
-      requiredPlugins.push(
-        firebase({
-          ...config.firebaseConfig,
         })
       );
     }
