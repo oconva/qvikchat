@@ -260,11 +260,17 @@ export class InMemoryCacheStore implements CacheStore {
    * Updates the last used time for a cache record.
    * @param hash - The hash of the query.
    */
-  async updateLastUsed(hash: QueryHash): Promise<void> {
+  async updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits: boolean = true
+  ): Promise<void> {
     // Update the last used time for a cache record
     const record = this.cache.get(hash);
     if (record) {
       record.lastUsed = new Date();
+      if (incrementCacheHits) {
+        record.cacheHits = record.cacheHits + 1;
+      }
     }
   }
 }

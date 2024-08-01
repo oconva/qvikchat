@@ -159,18 +159,28 @@ export interface CacheStore {
 
   /**
    * Increment the cache hits every time a cached response is used.
+   *
+   * @param hash - The query hash to increment the cache hits for.
    */
   incrementCacheHits(hash: QueryHash): Promise<void> | Promise<WriteResult>;
 
   /**
    * Update the last accessed time for a cache record.
+   *
+   * @param hash - The query hash to update the last accessed time for.
    */
   updateLastAccessed(hash: QueryHash): Promise<void> | Promise<WriteResult>;
 
   /**
    * Update the last used time for a cache record.
+   * Optionally, accepts a boolean as the second parameter value indicating whether to increment the cache hits for the query hash.
+   *
+   * @param hash - The query hash to update the last used time for.
    */
-  updateLastUsed(hash: QueryHash): Promise<void> | Promise<WriteResult>;
+  updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits?: boolean
+  ): Promise<void> | Promise<WriteResult>;
 }
 
 // export supported cache stores

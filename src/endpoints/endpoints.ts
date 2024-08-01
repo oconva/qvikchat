@@ -313,8 +313,8 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
               // remove the cached response, reset cache threshold, update last accessed time, increment cache hits
               config.cacheStore.resetCache(queryHash);
             } else {
-              // increment cache hits
-              config.cacheStore.incrementCacheHits(queryHash);
+              // update last used time and increment cache hits
+              config.cacheStore.updateLastUsed(queryHash);
 
               // parse data based on expected response type
               try {

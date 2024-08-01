@@ -253,10 +253,15 @@ export class FirestoreCacheStore implements CacheStore {
    * @param hash - The hash of the query.
    * @returns A promise with write operation result.
    */
-  async updateLastUsed(hash: QueryHash): Promise<WriteResult> {
-    // Update the last used time for the cache record
-    return await this.cache.doc(hash).update({
-      lastUsed: new Date(),
-    });
+  async updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits: boolean = true
+  ): Promise<WriteResult> {
+    // values to update
+    const updateValues = incrementCacheHits
+      ? {lastUsed: new Date(), cacheHits: FieldValue.increment(1)}
+      : {lastUsed: new Date()};
+    // Update the last used time for the cache record and optionally increment cache hits
+    return await this.cache.doc(hash).update(updateValues);
   }
 }
