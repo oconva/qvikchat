@@ -65,7 +65,7 @@ export type SupportedModels = keyof typeof SupportedModelNames;
 /**
  * Configuration options for Gemini models.
  */
-type GeminiModelConfig = {
+export type GeminiModelConfig = {
   name: keyof typeof GeminiModels;
   version?: string | undefined;
   temperature?: number | undefined;
@@ -104,7 +104,7 @@ type GeminiModelConfig = {
  * @property {user} - User for sampling.
  * @property {visualDetailLevel} - Visual detail level for sampling.
  */
-const OpenAiConfigSchema = GenerationCommonConfigSchema.extend({
+export const OpenAiConfigSchema = GenerationCommonConfigSchema.extend({
   frequencyPenalty: z.number().min(-2).max(2).optional(),
   logitBias: z.record(z.string(), z.number().min(-100).max(100)).optional(),
   logProbs: z.boolean().optional(),
@@ -118,7 +118,7 @@ const OpenAiConfigSchema = GenerationCommonConfigSchema.extend({
 /**
  * Configuration options for DALL-E models.
  */
-const DallE3ConfigSchema = GenerationCommonConfigSchema.extend({
+export const DallE3ConfigSchema = GenerationCommonConfigSchema.extend({
   size: z.enum(['1024x1024', '1792x1024', '1024x1792']).optional(),
   style: z.enum(['vivid', 'natural']).optional(),
   user: z.string().optional(),
@@ -140,7 +140,7 @@ const DallE3ConfigSchema = GenerationCommonConfigSchema.extend({
  * @property {user} - User for sampling.
  * @property {visualDetailLevel} - Visual detail level for sampling.
  */
-type OpenAIModelConfig = {
+export type OpenAIModelConfig = {
   name: keyof typeof OpenAIModels;
 } & z.infer<typeof OpenAiConfigSchema>;
 
@@ -154,7 +154,7 @@ type OpenAIModelConfig = {
  * @property {quality} - Quality of the output image.
  * @property {response_format} - Format of the response. Can be either 'b64_json' or 'url'.
  */
-type DallEModelConfig = {
+export type DallEModelConfig = {
   name: keyof typeof DallEModels;
 } & z.infer<typeof DallE3ConfigSchema>;
 

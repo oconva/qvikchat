@@ -3,8 +3,8 @@ import {InMemoryChatHistoryStore} from '../../history/in-memory-chat-history-sto
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
-import {setupGenkit} from '../../core/core';
+  setupGenkit,
+} from '../../index';
 
 /**
  * Test suite for Chat Endpoint Basic Functionality.

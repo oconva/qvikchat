@@ -1,5 +1,5 @@
 import {generateHash} from '../utils/utils';
-import {
+import type {
   CacheCollection,
   CacheRecord,
   CacheResponseRecord,
@@ -78,29 +78,6 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
-   * Caches the response for a specific query.
-   * @param hash - The hash of the query.
-   * @param responseRecord - The response record containing the response type and response.
-   * @throws Error if unable to cache the response.
-   * @returns True if the response was cached successfully, throws an error otherwise.
-   */
-  cacheResponse(hash: string, responseRecord: CacheResponseRecord): true {
-    // verify query data is valid
-    if (hash === '' || !responseRecord.response)
-      throw new Error('Invalid hash or response data');
-
-    // Get the record from the cache
-    const record = this.cache.get(hash);
-    if (!record) throw new Error('Record not found in cache');
-
-    // Cache the response
-    record.responseType = responseRecord.responseType;
-    record.response = responseRecord.response;
-    record.expiry = new Date(Date.now() + this.recordExpiryDuration);
-    return true;
-  }
-
-  /**
    * Adds a cache record to the cache.
    * @param query - The query to cache.
    * @param responseType - The response type for the query.
@@ -144,6 +121,58 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
+   * Caches the response for a specific query.
+   * @param hash - The hash of the query.
+   * @param responseRecord - The response record containing the response type and response.
+   * @throws Error if unable to cache the response.
+   * @returns True if the response was cached successfully, throws an error otherwise.
+   */
+  cacheResponse(hash: string, responseRecord: CacheResponseRecord): true {
+    // verify query data is valid
+    if (hash === '' || !responseRecord.response)
+      throw new Error('Invalid hash or response data');
+
+    // Get the record from the cache
+    const record = this.cache.get(hash);
+    if (!record) throw new Error('Record not found in cache');
+
+    // Cache the response
+    record.responseType = responseRecord.responseType;
+    record.response = responseRecord.response;
+    record.expiry = new Date(Date.now() + this.recordExpiryDuration);
+    return true;
+  }
+
+  /**
+   * Method to use when cached response is beyond expiry date.
+   * Performs the following actions:
+   * - clears the response for a given query hash.
+   * - resets the cache threshold for the query hash.
+   * - increments the cache hits for the query hash.
+   * - updates the last accessed time for the query hash.
+   * @param hash - The hash of the query.
+   * @returns True if the response was cleared successfully, false otherwise.
+   */
+  resetCache(hash: string): boolean {
+    // Get the record from the cache
+    const record = this.cache.get(hash);
+    if (!record) return false;
+
+    // Clear the response
+    record.response = undefined;
+    record.responseType = undefined;
+    record.expiry = undefined;
+
+    // Reset the cache threshold
+    record.cacheThreshold = this.cacheQueryAfterThreshold;
+
+    // Increment the cache hits
+    record.cacheHits += 1;
+
+    return true;
+  }
+
+  /**
    * Retrieves a cache record from the cache.
    * @param hash - The hash of the record to be retrieved.
    * @returns The cache record, if found. Otherwise, undefined.
@@ -184,7 +213,7 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
-   * Increments the cache threshold for a specific query.
+   * Decrements the cache threshold for a specific query.
    * @param hash - The hash of the query.
    * @returns The updated cache threshold if the query exists in the cache, -1 otherwise.
    */
@@ -192,7 +221,8 @@ export class InMemoryCacheStore implements CacheStore {
     // Decrement the cache threshold
     const record = this.cache.get(hash);
     if (record) {
-      record.cacheThreshold !== 0 ? record.cacheThreshold-- : 0;
+      record.cacheThreshold =
+        record.cacheThreshold !== 0 ? record.cacheThreshold - 1 : 0;
       return record.cacheThreshold;
     }
     return -1;
@@ -212,5 +242,35 @@ export class InMemoryCacheStore implements CacheStore {
     if (!record) throw new Error('Record not found in cache');
     // else, increment cache hits
     record.cacheHits = record.cacheHits + 1;
+  }
+
+  /**
+   * Updates the last accessed time for a cache record.
+   * @param hash - The hash of the query.
+   */
+  async updateLastAccessed(hash: QueryHash): Promise<void> {
+    // Update the last accessed time for a cache record
+    const record = this.cache.get(hash);
+    if (record) {
+      record.lastAccessed = new Date();
+    }
+  }
+
+  /**
+   * Updates the last used time for a cache record.
+   * @param hash - The hash of the query.
+   */
+  async updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits: boolean = true
+  ): Promise<void> {
+    // Update the last used time for a cache record
+    const record = this.cache.get(hash);
+    if (record) {
+      record.lastUsed = new Date();
+      if (incrementCacheHits) {
+        record.cacheHits = record.cacheHits + 1;
+      }
+    }
   }
 }

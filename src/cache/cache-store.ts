@@ -1,4 +1,4 @@
-import {CollectionReference, WriteResult} from 'firebase-admin/firestore';
+import type {CollectionReference, WriteResult} from 'firebase-admin/firestore';
 
 /**
  * Expiry date is the date and time when the cache record will expire.
@@ -56,6 +56,10 @@ export type CacheRecord = {
   cacheThreshold: number;
   /** record number of cache hits */
   cacheHits: number;
+  /** last accessed (response may not have been used, e.g., if not available or expired) */
+  lastAccessed?: Date;
+  /** last used (cached response) */
+  lastUsed?: Date;
 } & CacheResponseRecord;
 
 /** Cache collection is a map containing all cache records. */
@@ -88,18 +92,6 @@ export interface CacheStore {
   ): Promise<void> | Promise<WriteResult>;
 
   /**
-   * Cache the response for a given query hash.
-   * Automatically sets the expiry date of the record based on cache store configurations.
-   * @param hash - The query hash to cache the response for.
-   * @param responseRecord - The response record containing the response type and response.
-   * @returns Returns true if the response was cached successfully, false otherwise.
-   */
-  cacheResponse(
-    hash: QueryHash,
-    responseRecord: CacheResponseRecord
-  ): boolean | Promise<WriteResult>;
-
-  /**
    * Add a new cache record with the given query, response type, and response.
    * Automatically sets the expiry date of the record based on cache store configurations.
    * The type of response that the query is being made for is also vital.
@@ -112,6 +104,29 @@ export interface CacheStore {
     query: string,
     responseRecord: CacheResponseRecord
   ): Promise<void> | Promise<WriteResult>;
+
+  /**
+   * Cache the response for a given query hash.
+   * Automatically sets the expiry date of the record based on cache store configurations.
+   * @param hash - The query hash to cache the response for.
+   * @param responseRecord - The response record containing the response type and response.
+   * @returns Returns true if the response was cached successfully, false otherwise.
+   */
+  cacheResponse(
+    hash: QueryHash,
+    responseRecord: CacheResponseRecord
+  ): boolean | Promise<WriteResult>;
+
+  /**
+   * Method to use when cached response is beyond expiry date.
+   * Performs the following actions:
+   * - clears the response for a given query hash.
+   * - resets the cache threshold for the query hash.
+   * - increments the cache hits for the query hash.
+   * - updates the last accessed time for the query hash.
+   * @param hash The query hash for which to clear the response.
+   */
+  resetCache(hash: QueryHash): boolean | Promise<WriteResult>;
 
   /**
    * Get a specific cache record.
@@ -144,8 +159,28 @@ export interface CacheStore {
 
   /**
    * Increment the cache hits every time a cached response is used.
+   *
+   * @param hash - The query hash to increment the cache hits for.
    */
   incrementCacheHits(hash: QueryHash): Promise<void> | Promise<WriteResult>;
+
+  /**
+   * Update the last accessed time for a cache record.
+   *
+   * @param hash - The query hash to update the last accessed time for.
+   */
+  updateLastAccessed(hash: QueryHash): Promise<void> | Promise<WriteResult>;
+
+  /**
+   * Update the last used time for a cache record.
+   * Optionally, accepts a boolean as the second parameter value indicating whether to increment the cache hits for the query hash.
+   *
+   * @param hash - The query hash to update the last used time for.
+   */
+  updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits?: boolean
+  ): Promise<void> | Promise<WriteResult>;
 }
 
 // export supported cache stores

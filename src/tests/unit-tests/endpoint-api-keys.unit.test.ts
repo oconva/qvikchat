@@ -1,10 +1,10 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
+  setupGenkit,
+} from '../../index';
 import {InMemoryAPIKeyStore} from '../../auth/in-memory-api-key-store';
 import {generateAlphaNumericString} from '../../utils/utils';
-import {setupGenkit} from '../../core/core';
 
 /**
  * Test suite for Chat Endpoint - API Keys.

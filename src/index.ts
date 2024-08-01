@@ -1,22 +1,23 @@
 import {
   defineChatEndpoint,
+  getChatEndpointRunner,
   type DefineChatEndpointConfig,
-} from './endpoints/endpoints';
-import {
-  runServer,
-  setupGenkit,
-  type SetupGenkitConfig,
-  type StartServerParamsType,
-  type FirestorePluginParams,
 } from './core/core';
+import {setupGenkit, type SetupGenkitConfig} from './core/genkit';
+import {runServer, type StartServerParamsType} from './core/server';
 
 // export core modules
 export {
-  runServer,
+  // genkit
   setupGenkit,
   type SetupGenkitConfig,
+  // server
+  runServer,
   type StartServerParamsType,
-  type FirestorePluginParams,
+  // endpoint
+  defineChatEndpoint,
+  getChatEndpointRunner,
+  type DefineChatEndpointConfig,
 };
 
 /**

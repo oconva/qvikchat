@@ -1,6 +1,6 @@
 import {defineDotprompt} from '@genkit-ai/dotprompt';
 import {z} from 'zod';
-import {PromptOutputSchema} from './prompts';
+import type {PromptOutputSchema} from './prompts';
 
 export const getSecureChatPrompt = ({
   outputSchema,

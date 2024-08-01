@@ -1,8 +1,8 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
-import {setupGenkit} from '../../core/core';
+  setupGenkit,
+} from '../../index';
 
 /**
  * Test suite for Close-ended Chat Endpoint.

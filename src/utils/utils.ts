@@ -1,4 +1,4 @@
-import {MessageData} from '@genkit-ai/ai/model';
+import type {MessageData} from '@genkit-ai/ai/model';
 import * as crypto from 'crypto';
 import {config as dotenvConfig} from 'dotenv';
 import {resolve as pathResolve} from 'path';
@@ -48,7 +48,8 @@ export function getEnvironmentVariable(name: string, envFileName?: string) {
       path: pathResolve(envFileName ?? '.env'),
     });
     return typeof process !== 'undefined' ? process.env?.[name] : undefined;
-  } catch (e) {
-    return undefined;
+  } catch (error) {
+    // return undefined if an error occurs
+    return error ? undefined : undefined;
   }
 }
