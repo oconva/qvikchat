@@ -2,8 +2,8 @@ import {z} from 'zod';
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
-import {setupGenkit} from '../../core/core';
+  setupGenkit,
+} from '../../index';
 
 /**
  * Test suite for testing chat agent config for a chat endpoint.

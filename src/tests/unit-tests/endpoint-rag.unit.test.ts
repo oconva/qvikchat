@@ -1,8 +1,8 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
-import {setupGenkit} from '../../core/core';
+  setupGenkit,
+} from '../../index';
 import {getDataRetriever} from '../../rag/data-retrievers/data-retrievers';
 import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
 

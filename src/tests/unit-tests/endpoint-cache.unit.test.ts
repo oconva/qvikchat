@@ -1,9 +1,9 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
+  setupGenkit,
+} from '../../index';
 import {InMemoryCacheStore} from '../../cache/in-memory-cache-store';
-import {setupGenkit} from '../../core/core';
 import {CacheCollection} from '../../cache/cache-store';
 
 /**

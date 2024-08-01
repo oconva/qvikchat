@@ -73,12 +73,6 @@
       "require": "./lib/config/config.js",
       "default": "./lib/config/config.js"
     },
-    "./endpoints": {
-      "types": "./lib/endpoints/endpoints.d.ts",
-      "import": "./lib/endpoints/endpoints.js",
-      "require": "./lib/endpoints/endpoints.js",
-      "default": "./lib/endpoints/endpoints.js"
-    },
     "./history": {
       "types": "./lib/history/chat-history-store.d.ts",
       "import": "./lib/history/chat-history-store.js",

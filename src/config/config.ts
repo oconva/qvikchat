@@ -1,6 +1,6 @@
 import type {ConfigOptions} from '@genkit-ai/core';
 import type {SupportedModels} from '../models/models';
-import type {StartServerParamsType} from '../core/core';
+import type {StartServerParamsType} from '../core/server';
 
 /**
  * Type for the cache store configuration
