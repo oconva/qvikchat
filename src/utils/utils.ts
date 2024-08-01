@@ -1,4 +1,4 @@
-import {MessageData} from '@genkit-ai/ai/model';
+import type {MessageData} from '@genkit-ai/ai/model';
 import * as crypto from 'crypto';
 import {config as dotenvConfig} from 'dotenv';
 import {resolve as pathResolve} from 'path';

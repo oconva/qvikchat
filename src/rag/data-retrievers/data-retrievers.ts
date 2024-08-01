@@ -1,25 +1,25 @@
 import {MemoryVectorStore} from 'langchain/vectorstores/memory';
 import {GoogleGenerativeAIEmbeddings} from '@langchain/google-genai';
 import {formatDocumentsAsString} from 'langchain/util/document';
-import {Runnable, RunnableConfig} from '@langchain/core/runnables';
-import {EmbeddingsInterface} from '@langchain/core/embeddings';
-import {
+import type {Runnable} from '@langchain/core/runnables';
+import type {EmbeddingsInterface} from '@langchain/core/embeddings';
+import type {
   VectorStore,
   VectorStoreRetrieverInput,
 } from '@langchain/core/vectorstores';
-import {Document} from 'langchain/document';
+import type {Document} from '@langchain/core/documents';
 import {
-  CSVLoaderOptions,
-  JSONLoaderKeysToInclude,
-  PDFLoaderOptions,
-  SupportedDataLoaderTypes,
+  type CSVLoaderOptions,
+  type JSONLoaderKeysToInclude,
+  type PDFLoaderOptions,
+  type SupportedDataLoaderTypes,
   getDocs,
   validateDataType,
 } from '../data-loaders/data-loaders';
 import {
-  ChunkingConfig,
-  DataSplitterConfig,
-  SupportedDataSplitterTypes,
+  type ChunkingConfig,
+  type DataSplitterConfig,
+  type SupportedDataSplitterTypes,
   runDataSplitter,
 } from '../data-splitters/data-splitters';
 import {GOOGLE_GENAI_EMBEDDING_MODELS} from '../data-embeddings/embedding-models';
@@ -28,7 +28,7 @@ import {getEnvironmentVariable} from '../../utils/utils';
 /**
  * Type denoting a retriever that retrieves text data.
  */
-export type TextDataRetriever = Runnable<string, string, RunnableConfig>;
+export type TextDataRetriever = Runnable;
 
 /**
  * Retrieval options for the retriever.
@@ -247,7 +247,7 @@ export const getSplitDocs = async (
  */
 export const getDataRetriever = async (
   config: RetrieverConfig
-): Promise<Runnable<string, string, RunnableConfig>> => {
+): Promise<Runnable> => {
   // if not generating embeddings
   if (!config.generateEmbeddings) {
     // vector store must be provided

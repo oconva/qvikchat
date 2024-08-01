@@ -1,10 +1,10 @@
 import {
-  CollectionReference,
+  type CollectionReference,
   FieldValue,
-  WriteResult,
+  type WriteResult,
 } from 'firebase-admin/firestore';
 import {generateHash} from '../utils/utils';
-import {
+import type {
   CacheRecord,
   CacheResponseRecord,
   CacheStore,

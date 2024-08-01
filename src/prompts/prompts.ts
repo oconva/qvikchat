@@ -1,4 +1,4 @@
-import {JSONSchema} from '@genkit-ai/core/schema';
+import type {JSONSchema} from '@genkit-ai/core/schema';
 import {z} from 'zod';
 
 // export prompts

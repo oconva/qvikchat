@@ -1,5 +1,5 @@
-import {MessageData} from '@genkit-ai/ai/model';
-import {CollectionReference} from 'firebase-admin/firestore';
+import type {MessageData} from '@genkit-ai/ai/model';
+import type {CollectionReference} from 'firebase-admin/firestore';
 
 /**
  * Represents a record of chat history.

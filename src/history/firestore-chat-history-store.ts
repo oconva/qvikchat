@@ -1,7 +1,7 @@
-import {MessageData} from '@genkit-ai/ai/model';
+import type {MessageData} from '@genkit-ai/ai/model';
 import {app} from 'firebase-admin';
-import {CollectionReference, FieldValue} from 'firebase-admin/firestore';
-import {ChatHistoryStore} from './chat-history-store';
+import {type CollectionReference, FieldValue} from 'firebase-admin/firestore';
+import {type ChatHistoryStore} from './chat-history-store';
 
 /**
  * Configuration for the Firebase chat history store.

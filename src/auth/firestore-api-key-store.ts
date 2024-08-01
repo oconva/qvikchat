@@ -1,9 +1,9 @@
 import {
-  CollectionReference,
+  type CollectionReference,
   FieldValue,
-  WriteResult,
+  type WriteResult,
 } from 'firebase-admin/firestore';
-import {
+import type {
   APIKeyStore,
   APIKeyRecord,
   APIKeyStatus,

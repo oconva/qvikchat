@@ -1,11 +1,11 @@
 import {generate} from '@genkit-ai/ai';
 import type {GenerateResponse} from '@genkit-ai/ai';
-import {ChatHistoryStore} from '../history/chat-history-store';
+import type {ChatHistoryStore} from '../history/chat-history-store';
 import {
-  ModelConfig,
-  OutputSchemaType,
+  type ModelConfig,
+  type OutputSchemaType,
   SupportedModelNames,
-  SupportedModels,
+  type SupportedModels,
 } from '../models/models';
 import {
   defaultSystemPrompts,
@@ -13,10 +13,10 @@ import {
   getCloseEndedSystemPrompt,
   getRagSystemPrompt,
 } from '../prompts/system-prompts';
-import {MessageData} from '@genkit-ai/ai/model';
-import {ToolArgument} from '@genkit-ai/ai/tool';
-import {Dotprompt} from '@genkit-ai/dotprompt';
-import {PromptOutputSchema} from '../prompts/prompts';
+import type {MessageData} from '@genkit-ai/ai/model';
+import type {ToolArgument} from '@genkit-ai/ai/tool';
+import type {Dotprompt} from '@genkit-ai/dotprompt';
+import type {PromptOutputSchema} from '../prompts/prompts';
 import {dallE3} from 'genkitx-openai';
 
 /**

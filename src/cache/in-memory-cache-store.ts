@@ -1,5 +1,5 @@
 import {generateHash} from '../utils/utils';
-import {
+import type {
   CacheCollection,
   CacheRecord,
   CacheResponseRecord,

@@ -1,7 +1,7 @@
 import {
   initializeApp,
   app,
-  AppOptions,
+  type AppOptions,
   credential as firebaseCredential,
 } from 'firebase-admin';
 

@@ -2,7 +2,7 @@ import {TextLoader} from 'langchain/document_loaders/fs/text';
 import {JSONLoader} from 'langchain/document_loaders/fs/json';
 import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
 import {PDFLoader} from '@langchain/community/document_loaders/fs/pdf';
-import {Document} from 'langchain/document';
+import type {Document} from '@langchain/core/documents';
 
 /**
  * Supported data loader types.

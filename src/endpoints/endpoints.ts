@@ -1,29 +1,33 @@
 import {z} from 'zod';
 import {
-  ChatAgent,
-  GenerateResponseHistoryProps,
-  GenerateResponseProps,
-} from '../agents/chat-agent';
-import {defineFlow, runFlow} from '@genkit-ai/flow';
-import {APIKeyStore} from '../auth/api-key-store';
-import {CacheStore} from '../cache/cache-store';
-import {generateHash, getChatHistoryAsString} from '../utils/utils';
-import {
   GenerateRequest,
   GenerationUsage,
   MessageData,
   ToolRequestPart,
 } from '@genkit-ai/ai/model';
-import {apiKeyAuthPolicy} from '../auth/api-key-auth-policy';
+import type {Dotprompt} from '@genkit-ai/dotprompt';
+import type {ToolArgument} from '@genkit-ai/ai/tool';
+import {defineFlow, runFlow} from '@genkit-ai/flow';
 import {
+  ChatAgent,
+  type GenerateResponseHistoryProps,
+  type GenerateResponseProps,
+} from '../agents/chat-agent';
+import type {APIKeyStore} from '../auth/api-key-store';
+import type {CacheStore} from '../cache/cache-store';
+import type {ChatHistoryStore} from '../history/chat-history-store';
+import {generateHash, getChatHistoryAsString} from '../utils/utils';
+import {apiKeyAuthPolicy} from '../auth/api-key-auth-policy';
+import type {
   RetrieverConfig,
   TextDataRetriever,
 } from '../rag/data-retrievers/data-retrievers';
 import {getDataRetriever} from '../rag/data-retrievers/data-retrievers';
-import {ChatHistoryStore} from '../history/chat-history-store';
-import {Dotprompt} from '@genkit-ai/dotprompt';
-import {ToolArgument} from '@genkit-ai/ai/tool';
-import {ModelConfig, OutputSchema, OutputSchemaType} from '../models/models';
+import {
+  type ModelConfig,
+  type OutputSchemaType,
+  OutputSchema,
+} from '../models/models';
 import {getSystemPromptText} from '../prompts/system-prompts';
 
 type ChatHistoryParams =

@@ -1,4 +1,4 @@
-import {CollectionReference, WriteResult} from 'firebase-admin/firestore';
+import type {CollectionReference, WriteResult} from 'firebase-admin/firestore';
 
 /**
  * Expiry date is the date and time when the cache record will expire.

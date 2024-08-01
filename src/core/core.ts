@@ -1,5 +1,9 @@
-import {CorsOptions} from 'cors';
-import {ConfigOptions, PluginProvider, configureGenkit} from '@genkit-ai/core';
+import type {CorsOptions} from 'cors';
+import {
+  type ConfigOptions,
+  type PluginProvider,
+  configureGenkit,
+} from '@genkit-ai/core';
 import {startFlowsServer} from '@genkit-ai/flow';
 import {googleAI} from '@genkit-ai/googleai';
 import {dotprompt} from '@genkit-ai/dotprompt';

@@ -1,4 +1,4 @@
-import {APIKeyStore} from './api-key-store';
+import type {APIKeyStore} from './api-key-store';
 
 export type APIKeyAuthPolicyParams = {
   key: string | undefined;
