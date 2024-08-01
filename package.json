@@ -150,10 +150,10 @@
     "eslint-config-prettier": "^9.1.0",
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
-    "ts-jest": "^29.1.5",
+    "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
-    "typescript-eslint": "^7.15.0"
+    "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
     "@genkit-ai/ai": "^0.5.4",

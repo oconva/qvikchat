@@ -308,119 +308,127 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
             cachedQuery.response &&
             cachedQuery.responseType === outputSchema.format
           ) {
-            // increment cache hits
-            config.cacheStore.incrementCacheHits(queryHash);
+            // if record is beyond the expiry date, remove it from the cache
+            if (cachedQuery.expiry && cachedQuery.expiry < new Date()) {
+              // remove the cached response, reset cache threshold, update last accessed time, increment cache hits
+              config.cacheStore.resetCache(queryHash);
+            } else {
+              // increment cache hits
+              config.cacheStore.incrementCacheHits(queryHash);
 
-            // parse data based on expected response type
-            try {
-              let cachedModelResponse: MessageData;
-              // if expected response type is "text" and cached response type is "text"
-              if (
-                outputSchema.format === 'text' &&
-                cachedQuery.responseType === 'text'
-              ) {
-                cachedModelResponse = {
-                  role: 'model',
-                  content: [{text: cachedQuery.response}],
-                };
-              }
-              // else if expected response type is "json" and cached response type is "json"
-              else if (
-                outputSchema.format === 'json' &&
-                cachedQuery.responseType === 'json'
-              ) {
-                cachedModelResponse = {
-                  role: 'model',
-                  content: [{data: JSON.parse(cachedQuery.response)}],
-                };
-              }
-              // else if expected response type is "media" and cached response type is "media"
-              else if (
-                outputSchema.format === 'media' &&
-                cachedQuery.responseType === 'media'
-              ) {
-                cachedModelResponse = {
-                  role: 'model',
-                  content: [
-                    {
-                      media: {
-                        contentType: cachedQuery.response.contentType,
-                        url: cachedQuery.response.url,
+              // parse data based on expected response type
+              try {
+                let cachedModelResponse: MessageData;
+                // if expected response type is "text" and cached response type is "text"
+                if (
+                  outputSchema.format === 'text' &&
+                  cachedQuery.responseType === 'text'
+                ) {
+                  cachedModelResponse = {
+                    role: 'model',
+                    content: [{text: cachedQuery.response}],
+                  };
+                }
+                // else if expected response type is "json" and cached response type is "json"
+                else if (
+                  outputSchema.format === 'json' &&
+                  cachedQuery.responseType === 'json'
+                ) {
+                  cachedModelResponse = {
+                    role: 'model',
+                    content: [{data: JSON.parse(cachedQuery.response)}],
+                  };
+                }
+                // else if expected response type is "media" and cached response type is "media"
+                // also check if content type matches the expected content type
+                else if (
+                  outputSchema.format === 'media' &&
+                  cachedQuery.responseType === 'media' &&
+                  cachedQuery.response.contentType === outputSchema.contentType
+                ) {
+                  cachedModelResponse = {
+                    role: 'model',
+                    content: [
+                      {
+                        media: {
+                          contentType: cachedQuery.response.contentType,
+                          url: cachedQuery.response.url,
+                        },
                       },
-                    },
-                  ],
-                };
-              } else {
-                throw new Error(
-                  `Error parsing cached data. Invalid response type.`
-                );
-              }
-
-              // if chat history is enabled
-              if (config.enableChatHistory) {
-                // if chat ID is provided
-                // add the query and response to the chat history for the provided chat ID
-                if (chatId) {
-                  const messages: MessageData[] = [
-                    {role: 'user', content: [{text: query}]},
-                    cachedModelResponse, // add the cached response
-                  ];
-                  // add messages to chat history for the provided chat ID
-                  // will throw an error if the provided chat ID is not valid
-                  await config.chatHistoryStore.addMessages(chatId, messages);
-                }
-
-                // if chat ID is not provided
-                // store the chat history so the conversation can be continued
-                else {
-                  // get system prompt text based on agent type
-                  const systemPrompt = getSystemPromptText(
-                    config.agentType === 'close-ended'
-                      ? config.enableRAG
-                        ? {agentType: 'rag', topic: config.topic}
-                        : {agentType: 'close-ended', topic: config.topic}
-                      : {agentType: 'open-ended'}
+                    ],
+                  };
+                } else {
+                  throw new Error(
+                    `Error parsing cached data. Invalid response type.`
                   );
+                }
+
+                // if chat history is enabled
+                if (config.enableChatHistory) {
+                  // if chat ID is provided
+                  // add the query and response to the chat history for the provided chat ID
+                  if (chatId) {
+                    const messages: MessageData[] = [
+                      {role: 'user', content: [{text: query}]},
+                      cachedModelResponse, // add the cached response
+                    ];
+                    // add messages to chat history for the provided chat ID
+                    // will throw an error if the provided chat ID is not valid
+                    await config.chatHistoryStore.addMessages(chatId, messages);
+                  }
+
+                  // if chat ID is not provided
                   // store the chat history so the conversation can be continued
-                  const messages: MessageData[] = [
-                    {role: 'system', content: [{text: systemPrompt}]},
-                    {role: 'user', content: [{text: query}]},
-                    cachedModelResponse, // add the cached response
-                  ];
-                  // add messages to chat history and get the chat ID
-                  chatId =
-                    await config.chatHistoryStore.addChatHistory(messages);
+                  else {
+                    // get system prompt text based on agent type
+                    const systemPrompt = getSystemPromptText(
+                      config.agentType === 'close-ended'
+                        ? config.enableRAG
+                          ? {agentType: 'rag', topic: config.topic}
+                          : {agentType: 'close-ended', topic: config.topic}
+                        : {agentType: 'open-ended'}
+                    );
+                    // store the chat history so the conversation can be continued
+                    const messages: MessageData[] = [
+                      {role: 'system', content: [{text: systemPrompt}]},
+                      {role: 'user', content: [{text: query}]},
+                      cachedModelResponse, // add the cached response
+                    ];
+                    // add messages to chat history and get the chat ID
+                    chatId =
+                      await config.chatHistoryStore.addChatHistory(messages);
+                  }
                 }
+              } catch (error) {
+                throw new Error(`Could not parse cached response. ${error}`);
               }
-            } catch (error) {
-              throw new Error(`Could not parse cached response. ${error}`);
+
+              // if chat history is enabled, return the response with the chat ID
+              // when using cache and if verbose if set to true, return empty usage details
+              // since no LLM model is used in this case
+              return config.enableChatHistory
+                ? {
+                    response: cachedQuery.response,
+                    chatId,
+                    ...(config.verbose ? {details: {usage: {}}} : {}),
+                  }
+                : {
+                    response: cachedQuery.response,
+                    ...(config.verbose ? {details: {usage: {}}} : {}),
+                  };
             }
+          } else {
+            // if response is not available, but query is in cache
+            // means the cacheThreshold amount hasn't yet reached 0
+            // decrement cacheThreshold to record another request for this query
+            // if this decrement causes the cacheThreshold to reach 0, the query response will be cached this time
+            config.cacheStore.decrementCacheThreshold(queryHash);
 
-            // if chat history is enabled, return the response with the chat ID
-            // when using cache and if verbose if set to true, return empty usage details
-            // since no LLM model is used in this case
-            return config.enableChatHistory
-              ? {
-                  response: cachedQuery.response,
-                  chatId,
-                  ...(config.verbose ? {details: {usage: {}}} : {}),
-                }
-              : {
-                  response: cachedQuery.response,
-                  ...(config.verbose ? {details: {usage: {}}} : {}),
-                };
-          }
-
-          // if response is not available, but query is in cache
-          // means the cacheThreshold amount hasn't yet reached 0
-          // decrement cacheThreshold to record another request for this query
-          // if this decrement causes the cacheThreshold to reach 0, the query response will be cached this time
-          config.cacheStore.decrementCacheThreshold(queryHash);
-
-          // check if cacheThreshold has reached 0
-          if (cachedQuery.cacheThreshold - 1 === 0) {
-            // if cacheThreshold reaches 0, cache the response
-            cacheThresholdReached = true;
+            // check if cacheThreshold has reached 0
+            if (cachedQuery.cacheThreshold - 1 === 0) {
+              // if cacheThreshold reaches 0, cache the response
+              cacheThresholdReached = true;
+            }
           }
         } catch (error) {
           // if query is not in cache, add it to cache to track the number of times this query is received
@@ -431,6 +439,9 @@ export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
             outputSchema.format ?? 'text', // default to text
             queryHash
           );
+          // not using the error, so eslint-disable
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          error;
         }
       } // end of caching block
 

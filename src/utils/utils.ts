@@ -48,7 +48,8 @@ export function getEnvironmentVariable(name: string, envFileName?: string) {
       path: pathResolve(envFileName ?? '.env'),
     });
     return typeof process !== 'undefined' ? process.env?.[name] : undefined;
-  } catch (e) {
-    return undefined;
+  } catch (error) {
+    // return undefined if an error occurs
+    return error ? undefined : undefined;
   }
 }
