@@ -155,15 +155,15 @@
     "@genkit-ai/dotprompt": "^0.5.4",
     "@genkit-ai/flow": "^0.5.4",
     "@genkit-ai/googleai": "^0.5.4",
-    "@langchain/community": "^0.2.17",
-    "@langchain/core": "^0.2.14",
+    "@langchain/community": "^0.2.22",
+    "@langchain/core": "^0.2.18",
     "@langchain/google-genai": "^0.0.21",
-    "@langchain/openai": "^0.2.1",
+    "@langchain/openai": "^0.2.5",
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
     "firebase-admin": "^12.2.0",
     "genkitx-openai": "^0.10.0",
-    "langchain": "^0.2.8",
+    "langchain": "^0.2.12",
     "zod": "^3.23.8"
   }
 }

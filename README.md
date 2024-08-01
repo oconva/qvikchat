@@ -8,6 +8,8 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 
 [Get Started](https://qvikchat.pkural.ca/getting-started) | [Documentation](https://qvikchat.pkural.ca)
 
+[![Pre-deploy Workflow - lint, test, build](https://github.com/oconva/qvikchat/actions/workflows/build.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/build.yml) [![CodeQL](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/oconva/qvikchat/actions/workflows/codeql.yml) [![QvikChat NPM](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/publish-npm.yml) [![Dependency review](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/oconva/qvikchat/actions/workflows/dependency-review.yml)
+
 ## QvikChat Chat Endpoint demo
 
 ![QvikChat RAG Demo](https://github.com/oconva/qvikchat/assets/17651852/11864142-b75b-4076-87fe-dbd301dbfa75)
