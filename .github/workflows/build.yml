@@ -1,9 +1,5 @@
 name: Pre-deploy Workflow
-on:
-  push:
-    branches: ['main', 'alpha']
-  pull_request:
-    branches: ['main', 'alpha']
+on: workflow_dispatch
 
 jobs:
   build:

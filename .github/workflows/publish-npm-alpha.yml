@@ -1,7 +1,5 @@
 name: Publish alpha release to NPM
-on:
-  push:
-    branches: ['alpha']
+on: workflow_dispatch
 jobs:
   release:
     runs-on: ubuntu-latest
