@@ -1,4 +1,4 @@
-import {CollectionReference, WriteResult} from 'firebase-admin/firestore';
+import type {CollectionReference, WriteResult} from 'firebase-admin/firestore';
 
 /**
  * Represents an API key.

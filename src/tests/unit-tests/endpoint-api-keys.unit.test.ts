@@ -1,10 +1,10 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
+  setupGenkit,
+} from '../../index';
 import {InMemoryAPIKeyStore} from '../../auth/in-memory-api-key-store';
 import {generateAlphaNumericString} from '../../utils/utils';
-import {setupGenkit} from '../../genkit/genkit';
 
 /**
  * Test suite for Chat Endpoint - API Keys.
@@ -108,7 +108,23 @@ describe('Test - Endpoint API Keys Tests', () => {
           );
           // check response is valid and does not contain error
           expect(response).toBeDefined();
-          expect(response).not.toHaveProperty('error');
+
+          // should not contain error
+          if ('error' in response) {
+            throw new Error(
+              `Error in response. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // response should be string when responseType not specified in endpoint config
+          if (typeof response.response !== 'string') {
+            throw new Error(
+              `Invalid response object. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // check response is not empty
+          expect(response.response.length).toBeGreaterThan(0);
         } catch (error) {
           throw new Error(`Error in test. Error: ${error}`);
         }

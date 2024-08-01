@@ -1,8 +1,10 @@
 import {generateHash} from '../utils/utils';
-import {
+import type {
   CacheCollection,
   CacheRecord,
+  CacheResponseRecord,
   CacheStore,
+  CacheStoreResponseTypes,
   QueryHash,
 } from './cache-store';
 
@@ -47,17 +49,26 @@ export class InMemoryCacheStore implements CacheStore {
    * Adds a query to the cache without caching the response.
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
+   * The type of response that the query is being made for is also vital.
+   * For example, queries made specifically for JSON response type should be treated differently than
+   * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to be added.
+   * @param responseType - The response type for the query.
    * @param hash - The hash of the query. If not provided, it will be generated.
    * @throws Error if unable to add the query to the cache.
    */
-  async addQuery(query: string, hash?: string): Promise<void> {
+  async addQuery(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    hash?: string
+  ): Promise<void> {
     // verify query data is valid
     if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
-      query, // complete query (may include chat history)
+      query, // complete query (may include chat history and context)
+      responseType: responseType, // set response type to empty
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
       cacheHits: 0, // set cache hits to 0
     };
@@ -67,15 +78,58 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
+   * Adds a cache record to the cache.
+   * @param query - The query to cache.
+   * @param responseType - The response type for the query.
+   * @param response - The response to cache.
+   */
+  async addRecord(
+    query: string,
+    responseRecord: CacheResponseRecord
+  ): Promise<void> {
+    // verify query data is valid
+    if (query === '' || !responseRecord.response) return;
+
+    // Check if the response type is media
+    if (responseRecord.responseType === 'media') {
+      // Create a new cache record
+      const record: CacheRecord = {
+        query, // complete query (may include chat history and context)
+        responseType: responseRecord.responseType,
+        response: responseRecord.response,
+        expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
+        cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+        cacheHits: 0, // set cache hits to 0
+      };
+
+      // Add the record to the cache
+      this.cache.set(generateHash(record.query), record);
+    } else {
+      // Create a new cache record
+      const record: CacheRecord = {
+        query, // complete query (may include chat history and context)
+        responseType: responseRecord.responseType,
+        response: responseRecord.response as string,
+        expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
+        cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+        cacheHits: 0, // set cache hits to 0
+      };
+
+      // Add the record to the cache
+      this.cache.set(generateHash(record.query), record);
+    }
+  }
+
+  /**
    * Caches the response for a specific query.
    * @param hash - The hash of the query.
-   * @param response - The response to be cached.
+   * @param responseRecord - The response record containing the response type and response.
    * @throws Error if unable to cache the response.
    * @returns True if the response was cached successfully, throws an error otherwise.
    */
-  cacheResponse(hash: string, response: string): true {
+  cacheResponse(hash: string, responseRecord: CacheResponseRecord): true {
     // verify query data is valid
-    if (hash === '' || response === '')
+    if (hash === '' || !responseRecord.response)
       throw new Error('Invalid hash or response data');
 
     // Get the record from the cache
@@ -83,30 +137,39 @@ export class InMemoryCacheStore implements CacheStore {
     if (!record) throw new Error('Record not found in cache');
 
     // Cache the response
-    record.response = response;
+    record.responseType = responseRecord.responseType;
+    record.response = responseRecord.response;
     record.expiry = new Date(Date.now() + this.recordExpiryDuration);
     return true;
   }
 
   /**
-   * Adds a cache record to the cache.
-   * @param record - The cache record to be added.
+   * Method to use when cached response is beyond expiry date.
+   * Performs the following actions:
+   * - clears the response for a given query hash.
+   * - resets the cache threshold for the query hash.
+   * - increments the cache hits for the query hash.
+   * - updates the last accessed time for the query hash.
+   * @param hash - The hash of the query.
+   * @returns True if the response was cleared successfully, false otherwise.
    */
-  async addRecord(query: string, response: string): Promise<void> {
-    // verify query data is valid
-    if (query === '' || response === '') return;
+  resetCache(hash: string): boolean {
+    // Get the record from the cache
+    const record = this.cache.get(hash);
+    if (!record) return false;
 
-    // Create a new cache record
-    const record: CacheRecord = {
-      query, // complete query (may include chat history)
-      response,
-      expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
-      cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
-      cacheHits: 0, // set cache hits to 0
-    };
+    // Clear the response
+    record.response = undefined;
+    record.responseType = undefined;
+    record.expiry = undefined;
 
-    // Add the record to the cache
-    this.cache.set(generateHash(record.query), record);
+    // Reset the cache threshold
+    record.cacheThreshold = this.cacheQueryAfterThreshold;
+
+    // Increment the cache hits
+    record.cacheHits += 1;
+
+    return true;
   }
 
   /**
@@ -150,7 +213,7 @@ export class InMemoryCacheStore implements CacheStore {
   }
 
   /**
-   * Increments the cache threshold for a specific query.
+   * Decrements the cache threshold for a specific query.
    * @param hash - The hash of the query.
    * @returns The updated cache threshold if the query exists in the cache, -1 otherwise.
    */
@@ -158,7 +221,8 @@ export class InMemoryCacheStore implements CacheStore {
     // Decrement the cache threshold
     const record = this.cache.get(hash);
     if (record) {
-      record.cacheThreshold !== 0 ? record.cacheThreshold-- : 0;
+      record.cacheThreshold =
+        record.cacheThreshold !== 0 ? record.cacheThreshold - 1 : 0;
       return record.cacheThreshold;
     }
     return -1;
@@ -178,5 +242,35 @@ export class InMemoryCacheStore implements CacheStore {
     if (!record) throw new Error('Record not found in cache');
     // else, increment cache hits
     record.cacheHits = record.cacheHits + 1;
+  }
+
+  /**
+   * Updates the last accessed time for a cache record.
+   * @param hash - The hash of the query.
+   */
+  async updateLastAccessed(hash: QueryHash): Promise<void> {
+    // Update the last accessed time for a cache record
+    const record = this.cache.get(hash);
+    if (record) {
+      record.lastAccessed = new Date();
+    }
+  }
+
+  /**
+   * Updates the last used time for a cache record.
+   * @param hash - The hash of the query.
+   */
+  async updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits: boolean = true
+  ): Promise<void> {
+    // Update the last used time for a cache record
+    const record = this.cache.get(hash);
+    if (record) {
+      record.lastUsed = new Date();
+      if (incrementCacheHits) {
+        record.cacheHits = record.cacheHits + 1;
+      }
+    }
   }
 }

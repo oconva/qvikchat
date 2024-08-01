@@ -1,9 +1,9 @@
-import {Document} from '@langchain/core/documents';
+import type {Document} from '@langchain/core/documents';
 import {
   CharacterTextSplitter,
   RecursiveCharacterTextSplitter,
-  SupportedTextSplitterLanguage,
-  TextSplitterChunkHeaderOptions,
+  type SupportedTextSplitterLanguage,
+  type TextSplitterChunkHeaderOptions,
 } from 'langchain/text_splitter';
 
 /**

@@ -1,10 +1,16 @@
 import {
-  CollectionReference,
+  type CollectionReference,
   FieldValue,
-  WriteResult,
+  type WriteResult,
 } from 'firebase-admin/firestore';
 import {generateHash} from '../utils/utils';
-import {CacheRecord, CacheStore} from './cache-store';
+import type {
+  CacheRecord,
+  CacheResponseRecord,
+  CacheStore,
+  CacheStoreResponseTypes,
+  QueryHash,
+} from './cache-store';
 import {app} from 'firebase-admin';
 
 /**
@@ -41,24 +47,33 @@ export class FirestoreCacheStore implements CacheStore {
     cacheQueryAfterThreshold,
   }: FirestoreCacheStoreConfig) {
     this.cache = firebaseApp.firestore().collection(collectionName);
-    (this.recordExpiryDuration = recordExpiryDuration ?? 1000 * 60 * 60 * 24), // 24 hours;
-      (this.cacheQueryAfterThreshold = cacheQueryAfterThreshold ?? 3);
+    this.recordExpiryDuration = recordExpiryDuration ?? 1000 * 60 * 60 * 24; // 24 hours;
+    this.cacheQueryAfterThreshold = cacheQueryAfterThreshold ?? 3;
   }
 
   /**
    * Adds a query to the cache without caching the response.
    * Primarily used to set the cache threshold for a query, i.e., to track the number of times this query is received.
    * After the cache threshold is reached, the response will be cached.
+   * The type of response that the query is being made for is also vital.
+   * For example, queries made specifically for JSON response type should be treated differently than
+   * queries being made for TEXT response type, even if the query content is same.
    * @param query - The query to be added.
+   * @param responseType - The response type for the query.
    * @param hash - The hash of the query. If not provided, it will be generated.
    */
-  async addQuery(query: string, hash?: string): Promise<WriteResult> {
+  async addQuery(
+    query: string,
+    responseType: CacheStoreResponseTypes,
+    hash?: string
+  ): Promise<WriteResult> {
     // verify query data is valid
     if (query === '') throw new Error('Invalid query data');
 
     // Create a new cache record
     const record: CacheRecord = {
       query, // complete query (may include chat history)
+      responseType, // response type supported by cache store
       cacheThreshold: this.cacheQueryAfterThreshold, // set cache threshold to the configured value
       cacheHits: 0,
     };
@@ -68,36 +83,40 @@ export class FirestoreCacheStore implements CacheStore {
   }
 
   /**
-   * Caches the response for a specific query.
-   * @param hash - The hash of the query.
-   * @param response - The response to be cached.
-   * @returns True if the response was cached successfully, false otherwise.
-   */
-  async cacheResponse(hash: string, response: string): Promise<WriteResult> {
-    // verify query data is valid
-    if (hash === '' || response === '')
-      throw new Error('Invalid hash or response data');
-
-    // update cache record with response and expiry date
-    return this.cache.doc(hash).update({
-      response,
-      expiry: new Date(Date.now() + this.recordExpiryDuration),
-    });
-  }
-
-  /**
    * Adds a cache record to the cache.
-   * @param record - The cache record to be added.
+   * @param query - The query to cache.
+   * @param responseRecord - The response record containing the response type and response.
    */
-  async addRecord(query: string, response: string): Promise<WriteResult> {
+  async addRecord(
+    query: string,
+    responseRecord: CacheResponseRecord
+  ): Promise<WriteResult> {
     // verify query data is valid
-    if (query === '' || response === '')
+    if (query === '' || !responseRecord.response)
       throw new Error('Invalid query or response data');
 
+    // Check if the response type is media
+    if (responseRecord.responseType === 'media') {
+      // Create a new cache record
+      const record: CacheRecord = {
+        query, // complete query (may include chat history and context)
+        responseType: responseRecord.responseType,
+        response: responseRecord.response,
+        expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
+        cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
+        cacheHits: 0, // set cache hits to 0
+      };
+
+      // Add the record to the cache
+      return this.cache.doc(generateHash(record.query)).set(record);
+    }
+
+    // if response type is text or JSON
     // Create a new cache record
     const record: CacheRecord = {
-      query, // complete query (may include chat history)
-      response,
+      query, // complete query (may include chat history and context)
+      responseType: responseRecord.responseType,
+      response: responseRecord.response as string,
       expiry: new Date(Date.now() + this.recordExpiryDuration), // set expiry date based on cache store configurations
       cacheThreshold: 0, // set cache threshold to 0 since query response is being cached now
       cacheHits: 0, // set cache hits to 0
@@ -105,6 +124,48 @@ export class FirestoreCacheStore implements CacheStore {
 
     // Add the record to the cache
     return this.cache.doc(generateHash(record.query)).set(record);
+  }
+
+  /**
+   * Caches the response for a specific query.
+   * @param hash - The hash of the query.
+   * @param responseRecord - The response record containing the response type and response.
+   * @returns True if the response was cached successfully, false otherwise.
+   */
+  async cacheResponse(
+    hash: string,
+    responseRecord: CacheResponseRecord
+  ): Promise<WriteResult> {
+    // verify query data is valid
+    if (hash === '' || !responseRecord.response)
+      throw new Error('Invalid hash or response data');
+
+    // update cache record with response and expiry date
+    return this.cache.doc(hash).update({
+      responseType: responseRecord.responseType,
+      response: responseRecord.response,
+      expiry: new Date(Date.now() + this.recordExpiryDuration),
+    });
+  }
+
+  /**
+   * Method to use when cached response is beyond expiry date.
+   * Performs the following actions:
+   * - clears the response for a given query hash.
+   * - resets the cache threshold for the query hash.
+   * - increments the cache hits for the query hash.
+   * - updates the last accessed time for the query hash.
+   * @param hash The query hash for which to clear the response.
+   */
+  async resetCache(hash: string): Promise<WriteResult> {
+    // Clear the response for the query hash
+    return this.cache.doc(hash).update({
+      responseType: FieldValue.delete(),
+      response: FieldValue.delete(),
+      expiry: FieldValue.delete(),
+      cacheThreshold: this.cacheQueryAfterThreshold,
+      cacheHits: FieldValue.increment(1),
+    });
   }
 
   /**
@@ -143,7 +204,7 @@ export class FirestoreCacheStore implements CacheStore {
   }
 
   /**
-   * Increments the cache threshold for a specific query.
+   * Decrements the cache threshold for a specific query.
    * @param hash - The hash of the query.
    * @throws Error if the record is not found in the cache.
    * @returns A promise with write operation result.
@@ -173,5 +234,34 @@ export class FirestoreCacheStore implements CacheStore {
     return await this.cache.doc(hash).update({
       cacheHits: FieldValue.increment(1),
     });
+  }
+
+  /**
+   * Updates the last accessed time for a cache record.
+   * @param hash - The hash of the query.
+   * @returns A promise with write operation result.
+   */
+  async updateLastAccessed(hash: QueryHash): Promise<WriteResult> {
+    // Update the last accessed time for the cache record
+    return await this.cache.doc(hash).update({
+      lastAccessed: new Date(),
+    });
+  }
+
+  /**
+   * Updates the last used time for a cache record.
+   * @param hash - The hash of the query.
+   * @returns A promise with write operation result.
+   */
+  async updateLastUsed(
+    hash: QueryHash,
+    incrementCacheHits: boolean = true
+  ): Promise<WriteResult> {
+    // values to update
+    const updateValues = incrementCacheHits
+      ? {lastUsed: new Date(), cacheHits: FieldValue.increment(1)}
+      : {lastUsed: new Date()};
+    // Update the last used time for the cache record and optionally increment cache hits
+    return await this.cache.doc(hash).update(updateValues);
   }
 }

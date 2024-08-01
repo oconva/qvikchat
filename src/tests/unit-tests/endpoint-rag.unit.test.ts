@@ -1,8 +1,8 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-} from '../../endpoints/endpoints';
-import {setupGenkit} from '../../genkit/genkit';
+  setupGenkit,
+} from '../../index';
 import {getDataRetriever} from '../../rag/data-retrievers/data-retrievers';
 import {CSVLoader} from '@langchain/community/document_loaders/fs/csv';
 
@@ -52,27 +52,25 @@ describe('Test - Endpoint RAG Tests', () => {
 
           // check response is valid and does not contain error
           expect(response).toBeDefined();
-          expect(response).not.toHaveProperty('error');
-
-          // confirm response type
-          if (typeof response === 'string') {
-            // should not be empty
-            expect(response.length).toBeGreaterThan(0);
-            // should contain 68.06
-            expect(response).toContain('68.06');
-          } else {
-            expect(response).toHaveProperty('response');
-            if ('response' in response) {
-              // should not be empty
-              expect(response.response.length).toBeGreaterThan(0);
-              // should contain 68.06
-              expect(response.response).toContain('68.06');
-            } else {
-              throw new Error(
-                `Response field invalid. Response: ${JSON.stringify(response)}`
-              );
-            }
+          // should not contain error
+          if ('error' in response) {
+            throw new Error(
+              `Error in response. Response: ${JSON.stringify(response)}`
+            );
           }
+
+          // response should be string when responseType not specified in endpoint config
+          if (typeof response.response !== 'string') {
+            throw new Error(
+              `Invalid response object. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // should not be empty
+          expect(response.response.length).toBeGreaterThan(0);
+
+          // should contain 68.06
+          expect(response.response).toContain('68.06');
         } catch (error) {
           throw new Error(`Error in test. Error: ${error}`);
         }
@@ -108,27 +106,25 @@ describe('Test - Endpoint RAG Tests', () => {
 
           // check response is valid and does not contain error
           expect(response).toBeDefined();
-          expect(response).not.toHaveProperty('error');
-
-          // confirm response type
-          if (typeof response === 'string') {
-            // should not be empty
-            expect(response.length).toBeGreaterThan(0);
-            // should contain 68.06
-            expect(response).toContain('68.06');
-          } else {
-            expect(response).toHaveProperty('response');
-            if ('response' in response) {
-              // should not be empty
-              expect(response.response.length).toBeGreaterThan(0);
-              // should contain 68.06
-              expect(response.response).toContain('68.06');
-            } else {
-              throw new Error(
-                `Response field invalid. Response: ${JSON.stringify(response)}`
-              );
-            }
+          // should not contain error
+          if ('error' in response) {
+            throw new Error(
+              `Error in response. Response: ${JSON.stringify(response)}`
+            );
           }
+
+          // response should be string when responseType not specified in endpoint config
+          if (typeof response.response !== 'string') {
+            throw new Error(
+              `Invalid response object. Response: ${JSON.stringify(response)}`
+            );
+          }
+
+          // should not be empty
+          expect(response.response.length).toBeGreaterThan(0);
+
+          // should contain 68.06
+          expect(response.response).toContain('68.06');
         } catch (error) {
           throw new Error(`Error in test. Error: ${error}`);
         }

@@ -1,41 +1,23 @@
-import {ConfigOptions, PluginProvider, configureGenkit} from '@genkit-ai/core';
-import {startFlowsServer} from '@genkit-ai/flow';
+import {
+  type ConfigOptions,
+  type PluginProvider,
+  configureGenkit,
+} from '@genkit-ai/core';
 import {googleAI} from '@genkit-ai/googleai';
 import {dotprompt} from '@genkit-ai/dotprompt';
-import {firebase} from '@genkit-ai/firebase';
-import {TelemetryConfig} from '@genkit-ai/google-cloud';
-import {GLOBAL_CONFIG, StartServerParamsType} from '../config/config';
-import {langchain} from 'genkitx-langchain';
 import {openAI} from 'genkitx-openai';
 import {getEnvironmentVariable} from '../utils/utils';
-
-/**
- * Configuration for Firebase plugin.
- */
-export interface FirestorePluginParams {
-  projectId?: string;
-  flowStateStore?: {
-    collection?: string;
-    databaseId?: string;
-  };
-  traceStore?: {
-    collection?: string;
-    databaseId?: string;
-  };
-  telemetryConfig?: TelemetryConfig;
-}
+import {GLOBAL_CONFIG} from '../config/config';
 
 /**
  * Configures Genkit with a set of options. This should be called from `genkit.configig.js`.
  */
-export type SetupGenkitConfig = {
-  firebaseConfig?: FirestorePluginParams;
-} & ConfigOptions;
+export type SetupGenkitConfig = ConfigOptions;
 
 /**
  * Required plugins for Genkit setup.
  */
-const requiredPlugins: PluginProvider[] = [dotprompt(), langchain({})];
+const requiredPlugins: PluginProvider[] = [dotprompt()];
 
 /**
  * Function to check if a plugin exists in the list of plugins.
@@ -86,18 +68,6 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
       );
     }
   }
-  // configure firebase if configurations provided
-  if (config.firebaseConfig) {
-    // if firebase already added by user in provided plugins, then don't add it again
-    // will only add if firebase plugin is not already added
-    if (!pluginExists('firebase', requiredPlugins)) {
-      requiredPlugins.push(
-        firebase({
-          ...config.firebaseConfig,
-        })
-      );
-    }
-  }
   // Configure Genkit
   configureGenkit({
     plugins: requiredPlugins,
@@ -107,13 +77,4 @@ export const setupGenkit = (config: SetupGenkitConfig = {}) => {
       GLOBAL_CONFIG.genkitConfig?.enableTracingAndMetrics ??
       true,
   });
-};
-
-/**
- * Method to run the server that will serve the chat endpoints.
- * @param params parameters for running the server
- */
-export const runServer = (params: StartServerParamsType = {}) => {
-  // Start the flows server with global configurations
-  startFlowsServer(params ?? GLOBAL_CONFIG.startServerParams);
 };
