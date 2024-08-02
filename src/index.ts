@@ -1,7 +1,7 @@
 import {
   defineChatEndpoint,
   getChatEndpointRunner,
-  type DefineChatEndpointConfig,
+  type ChatEndpointConfig,
 } from './core/core';
 import {setupGenkit, type SetupGenkitConfig} from './core/genkit';
 import {runServer, type StartServerParamsType} from './core/server';
@@ -17,7 +17,7 @@ export {
   // endpoint
   defineChatEndpoint,
   getChatEndpointRunner,
-  type DefineChatEndpointConfig,
+  type ChatEndpointConfig,
 };
 
 /**
@@ -28,7 +28,7 @@ export {
  * @param serverConfig server configuration to start the server. If not provided, default server configuration will be used.
  */
 export type ConfigureAndRunServerParams = {
-  endpointConfigs: DefineChatEndpointConfig[];
+  endpointConfigs: ChatEndpointConfig[];
   genkitConfig?: SetupGenkitConfig;
   serverConfig?: StartServerParamsType;
 };

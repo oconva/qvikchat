@@ -25,7 +25,6 @@ Develop a self-hosted production-ready AI-powered chat app or service at a rapid
 - **LangChain**: Built using the open-source [LangChain framework](https://js.langchain.com/v0.2/docs/introduction/) to help you process data for RAG and information retrieval. Easily extend the framework by using any LangChain-supported embedding model, vector store, data loader, and more.
 - **Focus on Performance, Reliability, and Security**: Every component in QvikChat is built to ensure low latency and scalable performance without compromising on security. From using prompts that help mitigate LLM hallucination and deter prompt injection attacks, to providing in-built support for enabling authentication for each endpoint, QvikChat is designed to help you build secure, performant, and reliable chat apps and services.
 
-
 ## QvikChat Starter Template
 
 To get up and running quickly, you can use the QvikChat starter template. The starter template is a pre-configured project with all the necessary configurations and setup to get you started with QvikChat write quality and reliable code. It comes pre-configured with support for TypeScript, ESLint, Prettier, Jest, SWC, and GitHub Actions, so you can get started with developing the next revolutionary chat app right away.
@@ -58,7 +57,7 @@ If you find value from this project, please consider contributing or sponsoring 
 ## Notes
 
 QvikChat uses the [Firebase Genkit](https://github.com/firebase/genkit) and [LangChain](https://js.langchain.com/v0.2/docs/introduction/) open-source frameworks under the hood for several functionalities. Its important to note that Firebase Genkit is currently in beta, and the public API and framework design may change in backward-incompatible ways. We will do our best to keep this project up-to-date with the latest changes in Firebase Genkit and LangChain.
-  
+
 ## Contributions
 
 Contributions are welcome! Please refer to the [contribution guidelines](CONTRIBUTING.md) for more information.

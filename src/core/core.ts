@@ -30,6 +30,14 @@ import {
 } from '../models/models';
 import {getSystemPromptText} from '../prompts/system-prompts';
 
+/**
+ * Type definition for the chat history parameters.
+ *
+ * @typedef {Object} ChatHistoryParams - Type parameters for chat history.
+ *
+ * @property {boolean} [enableChatHistory] - Enable chat history for this endpoint. If chat ID is provided, chat history will be fetched and used to generate response. If no chat ID is provided, a new chat ID will be generated to store chat history, and will be returned in the response.
+ * @property {ChatHistoryStore} [chatHistoryStore] - Chat History Store instance to use for this endpoint.
+ */
 type ChatHistoryParams =
   | {
       enableChatHistory: true;
@@ -39,6 +47,14 @@ type ChatHistoryParams =
       enableChatHistory?: false;
     };
 
+/**
+ * Type definition for the authentication parameters.
+ *
+ * @typedef {Object} AuthParams - Type parameters for authentication.
+ *
+ * @property {boolean} [enableAuth] - Enable authentication for this endpoint. Must provide an API Key Store instance if set to true.
+ * @property {APIKeyStore} [apiKeyStore] - API Key Store instance to use for this endpoint.
+ */
 type AuthParams =
   | {
       enableAuth: true;
@@ -48,6 +64,14 @@ type AuthParams =
       enableAuth?: false;
     };
 
+/**
+ * Type definition for the cache parameters.
+ *
+ * @typedef {Object} CacheParams - Type parameters for caching.
+ *
+ * @property {boolean} [enableCache] - Enable caching for this endpoint. Must provide a Cache Store instance if set to true.
+ * @property {CacheStore} [cacheStore] - Cache Store instance to use for this endpoint.
+ */
 type CacheParams =
   | {
       enableCache: true;
@@ -57,6 +81,16 @@ type CacheParams =
       enableCache?: false;
     };
 
+/**
+ *
+ * Type definition for the RAG parameters.
+ *
+ * @typedef {Object} RAGParams - Type parameters for RAG.
+ *
+ * @property {boolean} [enableRAG] - Enable RAG (Retrieval Augmented Generation) functionality for this endpoint. Must provide a retriever method if set to true.
+ * @property {TextDataRetriever} [retriever] - Method to retrieve documents for RAG.
+ * @property {RetrieverConfig} [retrieverConfig] - Configuration for the RAG retriever.
+ */
 type RAGParams =
   | {
       enableRAG: true;
@@ -74,6 +108,14 @@ type RAGParams =
       enableRAG?: false;
     };
 
+/**
+ * Type definition for the chat agent type parameters.
+ *
+ * @typedef {Object} ChatAgentTypeParams - Type parameters for the chat agent.
+ *
+ * @property {string} [agentType] - Type of chat agent to use for this endpoint. Can be "open-ended" or "close-ended".
+ * @property {string} [topic] - Topic for the close-ended or RAG chat agent. Required if agentType is "close-ended" or if RAG is enabled.
+ */
 type ChatAgentTypeParams =
   | {
       agentType?: 'open-ended';
@@ -83,13 +125,46 @@ type ChatAgentTypeParams =
       topic: string;
     };
 
+/**
+ * Type definition for the verbose details.
+ *
+ * @typedef {Object} VerboseDetails - Type definition for the verbose details.
+ *
+ * @property {GenerationUsage} usage - Usage details for the response.
+ * @property {GenerateRequest} [request] - Request details for the response.
+ * @property {ToolRequestPart[]} [tool_requests] - Tool request details for the response.
+ */
 type VerboseDetails = {
   usage: GenerationUsage;
   request?: GenerateRequest;
   tool_requests?: ToolRequestPart[];
 };
 
-export type DefineChatEndpointConfig = {
+/**
+ * Type definition for the chat endpoint configurations.
+ *
+ * @typedef {Object} ChatEndpointConfig - Configuration object for the chat endpoint.
+ *
+ * @property {string} endpoint - Server endpoint to which queries should be sent to run this chat flow.
+ * @property {Dotprompt} [systemPrompt] - System prompt to use for the chat endpoint.
+ * @property {Dotprompt} [chatPrompt] - Chat prompt to use for the chat endpoint.
+ * @property {ToolArgument[]} [tools] - Tools to use for the chat endpoint.
+ * @property {ModelConfig} [modelConfig] - Model configuration to use for the chat endpoint.
+ * @property {boolean} [verbose] - A flag to indicate whether to return a verbose response or not.
+ * @property {OutputSchemaType} [outputSchema] - Output schema for the chat endpoint. Can be "text", "json" or "media". By default, the output format is text.
+ * @property {string} [agentType] - Type of chat agent to use for this endpoint. Can be "open-ended" or "close-ended".
+ * @property {string} [topic] - Topic for the close-ended or RAG chat agent. Required if agentType is "close-ended" or if RAG is enabled.
+ * @property {boolean} [enableChatHistory] - Enable chat history for this endpoint. If chat ID is provided, chat history will be fetched and used to generate response. If no chat ID is provided, a new chat ID will be generated to store chat history, and will be returned in the response.
+ * @property {ChatHistoryStore} [chatHistoryStore] - Chat History Store instance to use for this endpoint.
+ * @property {boolean} [enableAuth] - Enable authentication for this endpoint. Must provide an API Key Store instance if set to true.
+ * @property {APIKeyStore} [apiKeyStore] - API Key Store instance to use for this endpoint.
+ * @property {boolean} [enableCache] - Enable caching for this endpoint. Must provide a Cache Store instance if set to true.
+ * @property {CacheStore} [cacheStore] - Cache Store instance to use for this endpoint.
+ * @property {boolean} [enableRAG] - Enable RAG (Retrieval Augmented Generation) functionality for this endpoint. Must provide a retriever method if set to true.
+ * @property {TextDataRetriever} [retriever] - Method to retrieve documents for RAG.
+ * @property {RetrieverConfig} [retrieverConfig] - Configuration for the RAG retriever.
+ */
+export type ChatEndpointConfig = {
   endpoint: string;
   systemPrompt?: Dotprompt;
   chatPrompt?: Dotprompt;
@@ -105,7 +180,6 @@ export type DefineChatEndpointConfig = {
 
 /**
  * Method to define a chat endpoint using the provided chat agent and endpoint, with support for chat history.
- * @param chatAgentConfig Configurations for the chat agent, like LLM model, system prompt, chat prompt, and tools.
  * @param endpoint Server endpoint to which queries should be sent to run this chat flow.
  * @param outputSchema Output schema for the chat endpoint. Can be "text", "json" or "media". By default, the output format is text.
  * @param verbose A flag to indicate whether to return a verbose response or not.
@@ -122,7 +196,7 @@ export type DefineChatEndpointConfig = {
  * @param retrieverConfig Configuration for the RAG retriever.
  * @returns Object containing the response generated by the chat agent and the chat ID (if available), or an error message.
  */
-export const defineChatEndpoint = (config: DefineChatEndpointConfig) =>
+export const defineChatEndpoint = (config: ChatEndpointConfig) =>
   defineFlow(
     {
       name: config.endpoint,
