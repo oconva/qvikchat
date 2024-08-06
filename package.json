@@ -157,7 +157,7 @@
     "@genkit-ai/googleai": "^0.5.4",
     "@langchain/community": "^0.2.22",
     "@langchain/core": "^0.2.18",
-    "@langchain/google-genai": "^0.0.23",
+    "@langchain/google-genai": "^0.0.24",
     "@langchain/openai": "^0.2.5",
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
