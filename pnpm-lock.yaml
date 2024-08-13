@@ -25,16 +25,16 @@ importers:
         version: 0.5.7
       '@langchain/community':
         specifier: ^0.2.22
-        version: 0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7)
+        version: 0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7)
       '@langchain/core':
         specifier: ^0.2.18
-        version: 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+        version: 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       '@langchain/google-genai':
         specifier: ^0.0.23
         version: 0.0.23(langchain@0.2.12)(openai@4.52.7)(zod@3.23.8)
       '@langchain/openai':
         specifier: ^0.2.5
-        version: 0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))
+        version: 0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))
       d3-dsv:
         specifier: ^2.0.0
         version: 2.0.0
@@ -49,14 +49,14 @@ importers:
         version: 0.10.0(@genkit-ai/ai@0.5.7)(@genkit-ai/core@0.5.7)
       langchain:
         specifier: ^0.2.12
-        version: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+        version: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
       '@eslint/js':
         specifier: ^9.6.0
-        version: 9.7.0
+        version: 9.9.0
       '@swc/cli':
         specifier: ^0.4.0
         version: 0.4.0(@swc/core@1.6.13)
@@ -92,7 +92,7 @@ importers:
         version: 5.5.3
       typescript-eslint:
         specifier: ^8.0.0
-        version: 8.0.1(eslint@8.57.0)(typescript@5.5.3)
+        version: 8.1.0(eslint@8.57.0)(typescript@5.5.3)
 
 packages:
 
@@ -289,8 +289,8 @@ packages:
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@eslint/js@9.7.0':
-    resolution: {integrity: sha512-ChuWDQenef8OSFnvuxv0TCVxEwmu3+hPNKvM9B34qpM0rDRbjL8t5QkQeHHeAfsKQjuH9wS82WeCi1J/owatng==}
+  '@eslint/js@9.9.0':
+    resolution: {integrity: sha512-hhetes6ZHP3BlXLxmd8K2SNgkhNSi+UcecbnwWKwpP7kyi/uC75DJ1lOOBO3xrC4jyojtGE3YxKZPHfk4yrgug==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@fastify/busboy@2.1.1':
@@ -1338,8 +1338,8 @@ packages:
   '@types/yargs@17.0.32':
     resolution: {integrity: sha512-xQ67Yc/laOG5uMfX/093MRlGGCIBzZMarVa+gfNKJxWAIgykYpVGkBdbqEzGDDfCrVUj6Hiff4mTZ5BA6TmAog==}
 
-  '@typescript-eslint/eslint-plugin@8.0.1':
-    resolution: {integrity: sha512-5g3Y7GDFsJAnY4Yhvk8sZtFfV6YNF2caLzjrRPUBzewjPCaj0yokePB4LJSobyCzGMzjZZYFbwuzbfDHlimXbQ==}
+  '@typescript-eslint/eslint-plugin@8.1.0':
+    resolution: {integrity: sha512-LlNBaHFCEBPHyD4pZXb35mzjGkuGKXU5eeCA1SxvHfiRES0E82dOounfVpL4DCqYvJEKab0bZIA0gCRpdLKkCw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       '@typescript-eslint/parser': ^8.0.0 || ^8.0.0-alpha.0
@@ -1349,8 +1349,8 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/parser@8.0.1':
-    resolution: {integrity: sha512-5IgYJ9EO/12pOUwiBKFkpU7rS3IU21mtXzB81TNwq2xEybcmAZrE9qwDtsb5uQd9aVO9o0fdabFyAmKveXyujg==}
+  '@typescript-eslint/parser@8.1.0':
+    resolution: {integrity: sha512-U7iTAtGgJk6DPX9wIWPPOlt1gO57097G06gIcl0N0EEnNw8RGD62c+2/DiP/zL7KrkqnnqF7gtFGR7YgzPllTA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -1359,25 +1359,12 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/scope-manager@8.0.1':
-    resolution: {integrity: sha512-NpixInP5dm7uukMiRyiHjRKkom5RIFA4dfiHvalanD2cF0CLUuQqxfg8PtEUo9yqJI2bBhF+pcSafqnG3UBnRQ==}
+  '@typescript-eslint/scope-manager@8.1.0':
+    resolution: {integrity: sha512-DsuOZQji687sQUjm4N6c9xABJa7fjvfIdjqpSIIVOgaENf2jFXiM9hIBZOL3hb6DHK9Nvd2d7zZnoMLf9e0OtQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/type-utils@8.0.1':
-    resolution: {integrity: sha512-+/UT25MWvXeDX9YaHv1IS6KI1fiuTto43WprE7pgSMswHbn1Jm9GEM4Txp+X74ifOWV8emu2AWcbLhpJAvD5Ng==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@typescript-eslint/types@8.0.1':
-    resolution: {integrity: sha512-PpqTVT3yCA/bIgJ12czBuE3iBlM3g4inRSC5J0QOdQFAn07TYrYEQBBKgXH1lQpglup+Zy6c1fxuwTk4MTNKIw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typescript-eslint/typescript-estree@8.0.1':
-    resolution: {integrity: sha512-8V9hriRvZQXPWU3bbiUV4Epo7EvgM6RTs+sUmxp5G//dBGy402S7Fx0W0QkB2fb4obCF8SInoUzvTYtc3bkb5w==}
+  '@typescript-eslint/type-utils@8.1.0':
+    resolution: {integrity: sha512-oLYvTxljVvsMnldfl6jIKxTaU7ok7km0KDrwOt1RHYu6nxlhN3TIx8k5Q52L6wR33nOwDgM7VwW1fT1qMNfFIA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -1385,14 +1372,27 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/utils@8.0.1':
-    resolution: {integrity: sha512-CBFR0G0sCt0+fzfnKaciu9IBsKvEKYwN9UZ+eeogK1fYHg4Qxk1yf/wLQkLXlq8wbU2dFlgAesxt8Gi76E8RTA==}
+  '@typescript-eslint/types@8.1.0':
+    resolution: {integrity: sha512-q2/Bxa0gMOu/2/AKALI0tCKbG2zppccnRIRCW6BaaTlRVaPKft4oVYPp7WOPpcnsgbr0qROAVCVKCvIQ0tbWog==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/typescript-estree@8.1.0':
+    resolution: {integrity: sha512-NTHhmufocEkMiAord/g++gWKb0Fr34e9AExBRdqgWdVBaKoei2dIyYKD9Q0jBnvfbEA5zaf8plUFMUH6kQ0vGg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@typescript-eslint/utils@8.1.0':
+    resolution: {integrity: sha512-ypRueFNKTIFwqPeJBfeIpxZ895PQhNyH4YID6js0UoBImWYoSjBsahUn9KMiJXh94uOjVBgHD9AmkyPsPnFwJA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@typescript-eslint/visitor-keys@8.0.1':
-    resolution: {integrity: sha512-W5E+o0UfUcK5EgchLZsyVWqARmsM7v54/qEq6PY3YI5arkgmCzHiuk0zKSJJbm71V0xdRna4BGomkCTXz2/LkQ==}
+  '@typescript-eslint/visitor-keys@8.1.0':
+    resolution: {integrity: sha512-ba0lNI19awqZ5ZNKh6wCModMwoZs457StTebQ0q1NP58zSi2F6MOZRXwfKZy+jB78JNJ/WH8GSh2IQNzXX8Nag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@ungap/structured-clone@1.2.0':
@@ -2311,6 +2311,10 @@ packages:
 
   ignore@5.3.1:
     resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
+    engines: {node: '>= 4'}
+
+  ignore@5.3.2:
+    resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
   import-fresh@3.3.0:
@@ -3819,8 +3823,8 @@ packages:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
 
-  typescript-eslint@8.0.1:
-    resolution: {integrity: sha512-V3Y+MdfhawxEjE16dWpb7/IOgeXnLwAEEkS7v8oDqNcR1oYlqWhGH/iHqHdKVdpWme1VPZ0SoywXAkCqawj2eQ==}
+  typescript-eslint@8.1.0:
+    resolution: {integrity: sha512-prB2U3jXPJLpo1iVLN338Lvolh6OrcCZO+9Yv6AR+tvegPPptYCDBIHiEEUdqRi8gAv2bXNKfMUrgAd2ejn/ow==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -4227,7 +4231,7 @@ snapshots:
 
   '@eslint/js@8.57.0': {}
 
-  '@eslint/js@9.7.0': {}
+  '@eslint/js@9.9.0': {}
 
   '@fastify/busboy@2.1.1': {}
 
@@ -4611,16 +4615,16 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
-  '@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7)':
+  '@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7)':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      '@langchain/openai': 0.1.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/openai': 0.1.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
-      langsmith: 0.1.36(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
+      langsmith: 0.1.36(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
@@ -4630,7 +4634,7 @@ snapshots:
       d3-dsv: 2.0.0
       firebase-admin: 12.2.0
       google-auth-library: 9.11.0
-      ignore: 5.3.1
+      ignore: 5.3.2
       jsonwebtoken: 9.0.2
     transitivePeerDependencies:
       - '@gomomento/sdk-web'
@@ -4642,13 +4646,13 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3)':
+  '@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3)
+      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3)
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -4660,13 +4664,13 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)':
+  '@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -4678,13 +4682,13 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)':
+  '@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -4699,16 +4703,16 @@ snapshots:
   '@langchain/google-genai@0.0.23(langchain@0.2.12)(openai@4.52.7)(zod@3.23.8)':
     dependencies:
       '@google/generative-ai': 0.7.1
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       zod-to-json-schema: 3.23.2(zod@3.23.8)
     transitivePeerDependencies:
       - langchain
       - openai
       - zod
 
-  '@langchain/openai@0.0.34(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))':
+  '@langchain/openai@0.0.34(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       js-tiktoken: 1.0.12
       openai: 4.52.7
       zod: 3.23.8
@@ -4717,9 +4721,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.1.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))':
+  '@langchain/openai@0.1.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       js-tiktoken: 1.0.12
       openai: 4.52.7
       zod: 3.23.8
@@ -4728,9 +4732,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))':
+  '@langchain/openai@0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3)
       js-tiktoken: 1.0.12
       openai: 4.52.3
       zod: 3.23.8
@@ -4739,17 +4743,17 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
       - openai
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)':
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -5253,17 +5257,17 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)':
+  '@typescript-eslint/eslint-plugin@8.1.0(@typescript-eslint/parser@8.1.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)':
     dependencies:
       '@eslint-community/regexpp': 4.11.0
-      '@typescript-eslint/parser': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/scope-manager': 8.0.1
-      '@typescript-eslint/type-utils': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/utils': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/visitor-keys': 8.0.1
+      '@typescript-eslint/parser': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/scope-manager': 8.1.0
+      '@typescript-eslint/type-utils': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/utils': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/visitor-keys': 8.1.0
       eslint: 8.57.0
       graphemer: 1.4.0
-      ignore: 5.3.1
+      ignore: 5.3.2
       natural-compare: 1.4.0
       ts-api-utils: 1.3.0(typescript@5.5.3)
     optionalDependencies:
@@ -5271,12 +5275,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.0.1(eslint@8.57.0)(typescript@5.5.3)':
+  '@typescript-eslint/parser@8.1.0(eslint@8.57.0)(typescript@5.5.3)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.0.1
-      '@typescript-eslint/types': 8.0.1
-      '@typescript-eslint/typescript-estree': 8.0.1(typescript@5.5.3)
-      '@typescript-eslint/visitor-keys': 8.0.1
+      '@typescript-eslint/scope-manager': 8.1.0
+      '@typescript-eslint/types': 8.1.0
+      '@typescript-eslint/typescript-estree': 8.1.0(typescript@5.5.3)
+      '@typescript-eslint/visitor-keys': 8.1.0
       debug: 4.3.6
       eslint: 8.57.0
     optionalDependencies:
@@ -5284,15 +5288,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/scope-manager@8.0.1':
+  '@typescript-eslint/scope-manager@8.1.0':
     dependencies:
-      '@typescript-eslint/types': 8.0.1
-      '@typescript-eslint/visitor-keys': 8.0.1
+      '@typescript-eslint/types': 8.1.0
+      '@typescript-eslint/visitor-keys': 8.1.0
 
-  '@typescript-eslint/type-utils@8.0.1(eslint@8.57.0)(typescript@5.5.3)':
+  '@typescript-eslint/type-utils@8.1.0(eslint@8.57.0)(typescript@5.5.3)':
     dependencies:
-      '@typescript-eslint/typescript-estree': 8.0.1(typescript@5.5.3)
-      '@typescript-eslint/utils': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/typescript-estree': 8.1.0(typescript@5.5.3)
+      '@typescript-eslint/utils': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
       debug: 4.3.6
       ts-api-utils: 1.3.0(typescript@5.5.3)
     optionalDependencies:
@@ -5301,12 +5305,12 @@ snapshots:
       - eslint
       - supports-color
 
-  '@typescript-eslint/types@8.0.1': {}
+  '@typescript-eslint/types@8.1.0': {}
 
-  '@typescript-eslint/typescript-estree@8.0.1(typescript@5.5.3)':
+  '@typescript-eslint/typescript-estree@8.1.0(typescript@5.5.3)':
     dependencies:
-      '@typescript-eslint/types': 8.0.1
-      '@typescript-eslint/visitor-keys': 8.0.1
+      '@typescript-eslint/types': 8.1.0
+      '@typescript-eslint/visitor-keys': 8.1.0
       debug: 4.3.6
       globby: 11.1.0
       is-glob: 4.0.3
@@ -5318,20 +5322,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.0.1(eslint@8.57.0)(typescript@5.5.3)':
+  '@typescript-eslint/utils@8.1.0(eslint@8.57.0)(typescript@5.5.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@typescript-eslint/scope-manager': 8.0.1
-      '@typescript-eslint/types': 8.0.1
-      '@typescript-eslint/typescript-estree': 8.0.1(typescript@5.5.3)
+      '@typescript-eslint/scope-manager': 8.1.0
+      '@typescript-eslint/types': 8.1.0
+      '@typescript-eslint/typescript-estree': 8.1.0(typescript@5.5.3)
       eslint: 8.57.0
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  '@typescript-eslint/visitor-keys@8.0.1':
+  '@typescript-eslint/visitor-keys@8.1.0':
     dependencies:
-      '@typescript-eslint/types': 8.0.1
+      '@typescript-eslint/types': 8.1.0
       eslint-visitor-keys: 3.4.3
 
   '@ungap/structured-clone@1.2.0': {}
@@ -6240,7 +6244,7 @@ snapshots:
       array-union: 2.1.0
       dir-glob: 3.0.1
       fast-glob: 3.3.2
-      ignore: 5.3.1
+      ignore: 5.3.2
       merge2: 1.4.1
       slash: 3.0.0
 
@@ -6386,6 +6390,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   ignore@5.3.1: {}
+
+  ignore@5.3.2: {}
 
   import-fresh@3.3.0:
     dependencies:
@@ -6901,17 +6907,17 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7):
+  langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7):
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      '@langchain/openai': 0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/openai': 0.2.5(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.37(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      langsmith: 0.1.37(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -6920,28 +6926,28 @@ snapshots:
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
     optionalDependencies:
-      '@langchain/community': 0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7)
+      '@langchain/community': 0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7)
       '@langchain/google-genai': 0.0.23(langchain@0.2.12)(openai@4.52.7)(zod@3.23.8)
       chromadb: 1.8.1(openai@4.52.7)
       d3-dsv: 2.0.0
       fast-xml-parser: 4.4.0
       handlebars: 4.7.8
-      ignore: 5.3.1
+      ignore: 5.3.2
     transitivePeerDependencies:
       - encoding
       - openai
 
-  langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7):
+  langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7):
     dependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      '@langchain/openai': 0.0.34(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      '@langchain/openai': 0.0.34(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
+      langsmith: 0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -6954,14 +6960,14 @@ snapshots:
       d3-dsv: 2.0.0
       fast-xml-parser: 4.4.0
       handlebars: 4.7.8
-      ignore: 5.3.1
+      ignore: 5.3.2
     transitivePeerDependencies:
       - encoding
       - openai
 
   langchainhub@0.0.11: {}
 
-  langsmith@0.1.36(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7):
+  langsmith@0.1.36(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -6969,11 +6975,11 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       openai: 4.52.7
 
-  langsmith@0.1.37(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7):
+  langsmith@0.1.37(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -6981,11 +6987,11 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       openai: 4.52.7
 
-  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3):
+  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -6994,11 +7000,11 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.3)
-      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.3)
+      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       openai: 4.52.3
 
-  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7):
+  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -7007,11 +7013,11 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      langchain: 0.2.12(@langchain/community@0.2.22(@google-cloud/storage@7.11.2)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(firebase-admin@12.2.0)(google-auth-library@9.11.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.52.7))(@langchain/google-genai@0.0.23)(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       openai: 4.52.7
 
-  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7):
+  langsmith@0.1.40(@langchain/core@0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7))(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -7020,8 +7026,8 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7))(openai@4.52.7)
-      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.52.7)
+      '@langchain/core': 0.2.19(langchain@0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7))(openai@4.52.7)
+      langchain: 0.2.3(chromadb@1.8.1(openai@4.52.7))(d3-dsv@2.0.0)(fast-xml-parser@4.4.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.52.7)
       openai: 4.52.7
 
   leven@3.1.0: {}
@@ -7765,11 +7771,11 @@ snapshots:
       media-typer: 0.3.0
       mime-types: 2.1.35
 
-  typescript-eslint@8.0.1(eslint@8.57.0)(typescript@5.5.3):
+  typescript-eslint@8.1.0(eslint@8.57.0)(typescript@5.5.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.0.1(@typescript-eslint/parser@8.0.1(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/parser': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/utils': 8.0.1(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/eslint-plugin': 8.1.0(@typescript-eslint/parser@8.1.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/parser': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/utils': 8.1.0(eslint@8.57.0)(typescript@5.5.3)
     optionalDependencies:
       typescript: 5.5.3
     transitivePeerDependencies:
