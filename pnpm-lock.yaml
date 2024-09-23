@@ -25,7 +25,7 @@ importers:
         version: 0.5.13(@genkit-ai/ai@0.5.13)(@genkit-ai/core@0.5.13)
       '@langchain/community':
         specifier: ^0.3.1
-        version: 0.3.1(@google-cloud/storage@7.13.0)(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(@langchain/google-genai@0.1.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(zod@3.23.8))(chromadb@1.8.1(openai@4.62.0(zod@3.23.8)))(d3-dsv@2.0.0)(firebase-admin@12.5.0)(google-auth-library@9.14.1)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.62.0(zod@3.23.8))
+        version: 0.3.2(@google-cloud/storage@7.13.0)(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(@langchain/google-genai@0.1.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(zod@3.23.8))(chromadb@1.8.1(openai@4.62.0(zod@3.23.8)))(d3-dsv@2.0.0)(firebase-admin@12.5.0)(google-auth-library@9.14.1)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.62.0(zod@3.23.8))
       '@langchain/core':
         specifier: ^0.3.3
         version: 0.3.3(openai@4.62.0(zod@3.23.8))
@@ -492,8 +492,8 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
-  '@langchain/community@0.3.1':
-    resolution: {integrity: sha512-V6n4kkv3isYoiU2ciLNhcqBT96IwxpMNt5K/KxkzOfGNJIWQcsPzTccuWZXdDOQ40kelCg+S8YKGVy8X4mkgtg==}
+  '@langchain/community@0.3.2':
+    resolution: {integrity: sha512-NoniVM+LUJC3zTPEe1l5cSzr//iDhpKP92Q3LEsV0l168AtrwHxmOvN6MgT0xfM4BouyPlILHX28NSADUC2AXQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@arcjet/redact': ^v1.0.0-alpha.23
@@ -4265,7 +4265,7 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
-  '@langchain/community@0.3.1(@google-cloud/storage@7.13.0)(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(@langchain/google-genai@0.1.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(zod@3.23.8))(chromadb@1.8.1(openai@4.62.0(zod@3.23.8)))(d3-dsv@2.0.0)(firebase-admin@12.5.0)(google-auth-library@9.14.1)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.62.0(zod@3.23.8))':
+  '@langchain/community@0.3.2(@google-cloud/storage@7.13.0)(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(@langchain/google-genai@0.1.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(zod@3.23.8))(chromadb@1.8.1(openai@4.62.0(zod@3.23.8)))(d3-dsv@2.0.0)(firebase-admin@12.5.0)(google-auth-library@9.14.1)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(openai@4.62.0(zod@3.23.8))':
     dependencies:
       '@langchain/core': 0.3.3(openai@4.62.0(zod@3.23.8))
       '@langchain/openai': 0.3.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))
@@ -4274,7 +4274,7 @@ snapshots:
       flat: 5.0.2
       js-yaml: 4.1.0
       langchain: 0.3.2(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(@langchain/google-genai@0.1.0(@langchain/core@0.3.3(openai@4.62.0(zod@3.23.8)))(zod@3.23.8))(handlebars@4.7.8)(openai@4.62.0(zod@3.23.8))
-      langsmith: 0.1.58(openai@4.62.0(zod@3.23.8))
+      langsmith: 0.1.59(openai@4.62.0(zod@3.23.8))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
@@ -5094,7 +5094,7 @@ snapshots:
   bin-version-check@5.1.0:
     dependencies:
       bin-version: 6.0.0
-      semver: 7.6.3
+      semver: 7.6.2
       semver-truncate: 3.0.0
 
   bin-version@6.0.0:
@@ -6979,7 +6979,7 @@ snapshots:
 
   semver-truncate@3.0.0:
     dependencies:
-      semver: 7.6.2
+      semver: 7.6.3
 
   semver@6.3.1: {}
 
