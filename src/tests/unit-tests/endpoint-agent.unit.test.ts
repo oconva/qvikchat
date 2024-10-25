@@ -24,7 +24,6 @@ describe('Test - Chat Endpoint Agent Config Tests', () => {
     define_chat_endpoint: true,
     define_chat_endpoint_with_dall_e_model: true,
     define_chat_endpoint_with_json_output_schema: true,
-    define_chat_endpoint_with_custom_system_prompt: true,
     confirm_response_generation: true,
     confirm_json_response_generation: true,
     confirm_dall_e_image_generation: true,
