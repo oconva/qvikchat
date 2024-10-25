@@ -166,8 +166,10 @@ type VerboseDetails = {
  */
 export type ChatEndpointConfig = {
   endpoint: string;
-  systemPrompt?: Dotprompt;
-  chatPrompt?: Dotprompt;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  systemPrompt?: Dotprompt<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  chatPrompt?: Dotprompt<any>;
   tools?: ToolArgument[];
   modelConfig?: ModelConfig;
   verbose?: boolean;
