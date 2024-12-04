@@ -161,7 +161,7 @@
     "@langchain/openai": "^0.3.0",
     "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
-    "firebase-admin": "^12.7.0",
+    "firebase-admin": "^13.0.1",
     "genkitx-openai": "^0.10.1",
     "langchain": "^0.3.2",
     "zod": "^3.23.8"
